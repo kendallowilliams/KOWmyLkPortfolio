@@ -3,11 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleAPI", "SampleAPI", "{A12ED598-F896-4710-95DB-A5909C1E4114}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleAPI.Web.Tests", "SampleAPI\SampleAPI.Web.Tests\SampleAPI.Web.Tests.csproj", "{5A1E83BA-9AE8-4D1F-9158-937866C51EF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleAPI.Web", "SampleAPI\SampleAPI.Web\SampleAPI.Web.csproj", "{7694DE46-5F58-45A2-BB48-522D0FCE3317}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A1E83BA-9AE8-4D1F-9158-937866C51EF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A1E83BA-9AE8-4D1F-9158-937866C51EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A1E83BA-9AE8-4D1F-9158-937866C51EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A1E83BA-9AE8-4D1F-9158-937866C51EF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7694DE46-5F58-45A2-BB48-522D0FCE3317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7694DE46-5F58-45A2-BB48-522D0FCE3317}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7694DE46-5F58-45A2-BB48-522D0FCE3317}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7694DE46-5F58-45A2-BB48-522D0FCE3317}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5A1E83BA-9AE8-4D1F-9158-937866C51EF8} = {A12ED598-F896-4710-95DB-A5909C1E4114}
+		{7694DE46-5F58-45A2-BB48-522D0FCE3317} = {A12ED598-F896-4710-95DB-A5909C1E4114}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FF901403-F4DD-4AAD-B8AE-CE708ED513B7}
+		SolutionGuid = {7A9F0CCC-CAA6-46B5-8752-56AFB49C4FF0}
 	EndGlobalSection
 EndGlobal
