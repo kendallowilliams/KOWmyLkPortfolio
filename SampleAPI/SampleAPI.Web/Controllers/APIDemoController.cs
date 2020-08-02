@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
@@ -20,9 +21,9 @@ namespace SampleAPI.Web.Controllers
             this.apiDemoViewModel = apiDemoViewModel;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(apiDemoViewModel);
+            return await Task.FromResult(View(apiDemoViewModel));
         }
     }
 }

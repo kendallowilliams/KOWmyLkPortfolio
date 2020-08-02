@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -21,9 +22,9 @@ namespace SampleAPI.Web.Controllers
             this.homeViewModel = homeViewModel;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(homeViewModel);
+            return await Task.FromResult(View(homeViewModel));
         }
     }
 }
