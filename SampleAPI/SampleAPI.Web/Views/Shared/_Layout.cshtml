@@ -12,15 +12,12 @@
     <div class="container d-flex flex-column h-100">
         <header style="flex: 0 0 auto">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">Navbar</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sampleAPINav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="sampleAPINav">
                     <ul class="navbar-nav">
-                        <li class="nav-item @(Model.CurrentPage == Enums.Pages.Home ? "active" : string.Empty)">
-                            <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
-                        </li>
                         <li class="nav-item @(Model.CurrentPage == Enums.Pages.APIProfile ? "active" : string.Empty)">
                             <a class="nav-link" href="@Url.Action("Index", "APIProfile")">API Profiles</a>
                         </li>
