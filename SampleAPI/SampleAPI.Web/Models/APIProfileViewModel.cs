@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SampleAPI.DAL.DbContexts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -13,7 +14,9 @@ namespace SampleAPI.Web.Models
         [ImportingConstructor]
         public APIProfileViewModel() : base(Pages.APIProfile)
         {
-
+            APIProfiles = Enumerable.Empty<APIProfile>();
         }
+
+        public IEnumerable<APIProfile> APIProfiles { get; set; }
     }
 }

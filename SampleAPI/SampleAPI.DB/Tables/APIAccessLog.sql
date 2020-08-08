@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[APIAccessLog]
+(
+	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    [APIProfileServiceId] INT NOT NULL,
+    [CreatedBy] VARCHAR(128) NOT NULL, 
+    [CreatedOn] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    [ModifiedBy] VARCHAR(128) NOT NULL, 
+    [ModifiedOn] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT [FK_APIAccessLog_APIProfileService] FOREIGN KEY ([APIProfileServiceId]) REFERENCES [APIProfileService]([Id])
+)

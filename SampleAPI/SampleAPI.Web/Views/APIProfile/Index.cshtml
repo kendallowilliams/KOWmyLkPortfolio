@@ -1,4 +1,37 @@
-﻿
+﻿@model APIProfileViewModel
+
 @{
-    ViewBag.Title = "";
+    ViewBag.Title = "API Profiles";
 }
+
+<div class="row">
+    <div class="col-3 border-right">
+        <div id="accordion">
+            @foreach (var group in Model.APIProfiles.GroupBy(profile => profile.Name.Substring(0, 1), StringComparer.OrdinalIgnoreCase))
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-@(nameof(APIProfile))-@(group.Key)">@(group.Key.ToUpper())...</button>
+                    </div>
+                    <div id="collapse-@(nameof(APIProfile))-@(group.Key)" class="collapse show" data-parent="#accordion">
+                        <div class="card-body">
+                            @foreach (APIProfile profile in group.OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
+                            {
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-9">
+
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" defer="defer">
+
+    </script>
+} 

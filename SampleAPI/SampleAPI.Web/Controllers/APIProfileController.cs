@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
+using SampleAPI.DAL.Services.Interfaces;
+using SampleAPI.DAL.DbContexts;
 
 namespace SampleAPI.Web.Controllers
 {
@@ -14,16 +16,20 @@ namespace SampleAPI.Web.Controllers
     public class APIProfileController : BaseController
     {
         private readonly APIProfileViewModel apiProfileViewModel;
+        private readonly IDataService dataService;
 
         [ImportingConstructor]
-        public APIProfileController(APIProfileViewModel apiProfileViewModel) 
+        public APIProfileController(APIProfileViewModel apiProfileViewModel, IDataService dataService) 
         {
             this.apiProfileViewModel = apiProfileViewModel;
+            this.dataService = dataService;
         }
 
         public async Task<ActionResult> Index()
         {
-            return await Task.FromResult(View(apiProfileViewModel));
+            apiProfileViewModel.APIProfiles = await dataService.GetList<APIProfile>();
+
+            return View(apiProfileViewModel);
         }
     }
 }
