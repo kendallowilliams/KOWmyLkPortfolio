@@ -1,37 +1,51 @@
 ﻿@model APIProfileViewModel
 
 @{
+    var profileGroups = Model.APIProfiles.GroupBy(profile => profile.Name.Substring(0, 1), StringComparer.OrdinalIgnoreCase);
+    int selectedIndex = profileGroups.Any() ? profileGroups.FirstOrDefault().FirstOrDefault().Id : -1;
+
     ViewBag.Title = "API Profiles";
 }
 
 <div class="row">
-    <div class="col-3 border-right">
+    <div class="col-4 border-right">
+        <h5>API Profiles</h5>
+        <hr />
         <div id="accordion">
-            @foreach (var group in Model.APIProfiles.GroupBy(profile => profile.Name.Substring(0, 1), StringComparer.OrdinalIgnoreCase))
+            @foreach (var group in profileGroups)
             {
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header m-0 p-0">
                         <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-@(nameof(APIProfile))-@(group.Key)">@(group.Key.ToUpper())...</button>
                     </div>
                     <div id="collapse-@(nameof(APIProfile))-@(group.Key)" class="collapse show" data-parent="#accordion">
-                        <div class="card-body">
-                            @foreach (APIProfile profile in group.OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
-                            {
-
-                            }
+                        <div class="card-body m-0 p-0">
+                            <div class="list-group list-group-flush">
+                                @foreach (APIProfile profile in group.OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
+                                {
+                                    <button type="button" class="list-group-item list-group-item-action @(profile.Id == selectedIndex ? "active" : string.Empty)"
+                                            onclick="">@(profile.Name)</button>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             }
         </div>
     </div>
-    <div class="col-9">
-
+    <div class="col-8" id="profileContainer">
     </div>
 </div>
 
 @section scripts {
     <script type="text/javascript" defer="defer">
+        function loadProfile(id) {
+            $('#profileContainer').html('');
+            $("#profileContainer").load('@Url.Action(nameof(APIProfileController.APIProfile), "APIProfile")?id=' + id);
+        }
 
+        $(function () {
+            loadProfile(@(selectedIndex));
+        });
     </script>
 } 

@@ -31,5 +31,12 @@ namespace SampleAPI.Web.Controllers
 
             return View(apiProfileViewModel);
         }
+
+        public async Task<ActionResult> APIProfile(int id)
+        {
+            APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == id);
+
+            return PartialView("~/Views/APIProfile/APIProfile.cshtml", profile);
+        }
     }
 }
