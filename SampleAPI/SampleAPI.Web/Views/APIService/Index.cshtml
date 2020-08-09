@@ -1,4 +1,57 @@
-﻿
+﻿@model APIServiceViewModel
+
 @{
-    ViewBag.Title = "";
+    var serviceGroups = Model.APIServices.GroupBy(service => service.Name.Substring(0, 1), StringComparer.OrdinalIgnoreCase);
+    int firstServiceId = serviceGroups.Any() ? serviceGroups.FirstOrDefault().FirstOrDefault().Id : -1,
+        selectedId = Model.SelectedServiceId.HasValue ? Model.SelectedServiceId.Value : firstServiceId;
+
+    ViewBag.Title = "API Services";
+}
+
+<div class="row" style="flex: 1 1 auto">
+    <div class="col-4 border-right">
+        <h5>API Services</h5>
+        <hr />
+        <div id="accordion">
+            @foreach (var group in serviceGroups)
+            {
+                <div class="card">
+                    <div class="card-header m-0 p-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-@(nameof(APIService))-@(group.Key)">@(group.Key.ToUpper())...</button>
+                    </div>
+                    <div id="collapse-@(nameof(APIService))-@(group.Key)" class="collapse show" data-parent="#accordion">
+                        <div class="card-body m-0 p-0">
+                            <div class="list-group list-group-flush">
+                                @foreach (APIService service in group.OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
+                                {
+                                    <button type="button" class="list-group-item list-group-item-action @(service.Id == selectedId ? "active" : string.Empty)"
+                                            onclick="">
+                                        @(service.Name)
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-8 d-flex flex-column" id="serviceContainer">
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" defer="defer">
+        function loadService(id) {
+            showLoading();
+            $('#serviceContainer').html('');
+            $("#serviceContainer").load('@Url.Action(nameof(APIServiceController.APIService), "APIService")?id=' + id, () => {
+                hideLoading();
+            });
+        }
+
+        $(function () {
+            loadService(@(selectedId));
+        });
+    </script>
 }

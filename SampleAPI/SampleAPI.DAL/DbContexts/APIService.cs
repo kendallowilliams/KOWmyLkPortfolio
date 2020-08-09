@@ -14,6 +14,7 @@ namespace SampleAPI.DAL.DbContexts
         public string Name { get; set; }
         public string Action { get; set; }
         public string Controller { get; set; }
+        public string Description { get; set; }
         public bool Disabled { get; set; }
         public int? DisabledResponseCode { get; set; }
         public string DisabledResponseMessage { get; set; }

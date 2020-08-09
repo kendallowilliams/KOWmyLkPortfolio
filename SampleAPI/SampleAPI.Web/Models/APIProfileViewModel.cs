@@ -18,5 +18,6 @@ namespace SampleAPI.Web.Models
         }
 
         public IEnumerable<APIProfile> APIProfiles { get; set; }
+        public int? SelectedProfileId { get; set; }
     }
 }

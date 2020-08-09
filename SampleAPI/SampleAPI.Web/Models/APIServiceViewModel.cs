@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Net;
 using System.Web;
+using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
 
 namespace SampleAPI.Web.Models
@@ -18,5 +20,15 @@ namespace SampleAPI.Web.Models
         }
 
         public IEnumerable<APIService> APIServices { get; set; }
+        public int? SelectedServiceId { get; set; }
+        public static IEnumerable<SelectListItem> HttpResponseCodes
+        {
+            get => Enum.GetValues(typeof(HttpStatusCode)).Cast<int>()
+                       .Select(value => new SelectListItem
+                       {
+                           Text = $"{value}: {Enum.GetName(typeof(HttpStatusCode), value)}",
+                           Value = value.ToString()
+                       });
+        }
     }
 }

@@ -27,9 +27,10 @@ namespace SampleAPI.Web.Controllers
             this.dataService = dataService;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? id)
         {
             apiProfileViewModel.APIProfiles = await dataService.GetList<APIProfile>();
+            apiProfileViewModel.SelectedProfileId = id;
 
             return View(apiProfileViewModel);
         }
@@ -39,6 +40,17 @@ namespace SampleAPI.Web.Controllers
             APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == id);
 
             return PartialView("~/Views/APIProfile/APIProfile.cshtml", profile);
+        }
+
+        public async Task<ActionResult> UpdateAPIProfile(APIProfile profile)
+        {
+            if (profile != null)
+            {
+                profile.ModifiedBy = Request.UserHostAddress;
+                await dataService.Update(profile);
+            }
+
+            return new RedirectResult(Url.Action("Index", "APIProfile", new { id = profile?.Id }));
         }
 
         public async Task<ActionResult> ActiveServices(int profileId)

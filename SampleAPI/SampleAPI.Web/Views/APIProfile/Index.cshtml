@@ -2,7 +2,8 @@
 
 @{
     var profileGroups = Model.APIProfiles.GroupBy(profile => profile.Name.Substring(0, 1), StringComparer.OrdinalIgnoreCase);
-    int selectedIndex = profileGroups.Any() ? profileGroups.FirstOrDefault().FirstOrDefault().Id : -1;
+    int firstProfileId = profileGroups.Any() ? profileGroups.FirstOrDefault().FirstOrDefault().Id : -1,
+        selectedId = Model.SelectedProfileId.HasValue ? Model.SelectedProfileId.Value : firstProfileId;
 
     ViewBag.Title = "API Profiles";
 }
@@ -23,7 +24,7 @@
                             <div class="list-group list-group-flush">
                                 @foreach (APIProfile profile in group.OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
                                 {
-                                    <button type="button" class="list-group-item list-group-item-action @(profile.Id == selectedIndex ? "active" : string.Empty)"
+                                    <button type="button" class="list-group-item list-group-item-action @(profile.Id == selectedId ? "active" : string.Empty)"
                                             onclick="">@(profile.Name)</button>
                                 }
                             </div>
@@ -93,7 +94,7 @@
         // End Profile Services -----------------------------------------------------------------------------
 
         $(function () {
-            loadProfile(@(selectedIndex));
+            loadProfile(@(selectedId));
         });
     </script>
 } 

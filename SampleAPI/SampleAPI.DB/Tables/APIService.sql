@@ -4,6 +4,7 @@
     [Name] VARCHAR(128) NOT NULL, 
     [Action] VARCHAR(128) NOT NULL, 
     [Controller] VARCHAR(128) NOT NULL, 
+    [Description] VARCHAR(1024) NULL, 
     [Disabled] BIT NOT NULL DEFAULT 0,
     [DisabledResponseCode] INT NULL,
     [DisabledResponseMessage] VARCHAR(1024) NULL,
