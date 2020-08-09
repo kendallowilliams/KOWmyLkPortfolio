@@ -31,5 +31,12 @@ namespace SampleAPI.Web.Controllers
 
             return View(apiServiceViewModel);
         }
+
+        public async Task<ActionResult> APIService(int id)
+        {
+            APIService Service = await dataService.Get<APIService>(item => item.Id == id);
+
+            return PartialView("~/Views/APIService/APIService.cshtml", Service);
+        }
     }
 }

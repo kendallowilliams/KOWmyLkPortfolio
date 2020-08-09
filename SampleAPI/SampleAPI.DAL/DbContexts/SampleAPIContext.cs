@@ -33,8 +33,6 @@ namespace SampleAPI.DAL.DbContexts
         {
             modelBuilder.Entity<APIAccessLog>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(128)
@@ -58,8 +56,6 @@ namespace SampleAPI.DAL.DbContexts
 
             modelBuilder.Entity<APIProfile>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(128)
@@ -90,8 +86,6 @@ namespace SampleAPI.DAL.DbContexts
 
             modelBuilder.Entity<APIProfileService>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(128)
@@ -121,7 +115,15 @@ namespace SampleAPI.DAL.DbContexts
 
             modelBuilder.Entity<APIService>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Action)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Controller)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()

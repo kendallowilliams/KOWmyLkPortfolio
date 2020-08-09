@@ -1,0 +1,24 @@
+﻿@model (int ProfileId, IEnumerable<APIService> InactiveServices)
+
+@{
+
+}
+
+@if (Model.InactiveServices.Any())
+{
+    foreach (APIService service in Model.InactiveServices)
+    {
+        <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+                <label class="input-group-text">@(service.Name)</label>
+            </div>
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-primary" onclick="addProfileService(@(Model.ProfileId), @(service.Id))"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div>No services available...</div>
+}

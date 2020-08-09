@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
 using SampleAPI.DAL.Services.Interfaces;
 using SampleAPI.DAL.DbContexts;
+using System.Threading;
+using Microsoft.Identity.Client;
 
 namespace SampleAPI.Web.Controllers
 {
@@ -37,6 +39,42 @@ namespace SampleAPI.Web.Controllers
             APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == id);
 
             return PartialView("~/Views/APIProfile/APIProfile.cshtml", profile);
+        }
+
+        public async Task<ActionResult> ActiveServices(int profileId)
+        {
+            IEnumerable<APIProfileService> activeProfileServices = await dataService.GetList<APIProfileService>(item => item.APIProfileId == profileId,
+                                                                                                                default,
+                                                                                                                item => item.APIService);
+
+            return PartialView("~/Views/APIProfile/ActiveServices.cshtml", activeProfileServices);
+        }
+
+        public async Task<ActionResult> InactiveServices(int profileId)
+        {
+            IEnumerable<int> activeIds = await dataService.GetList<APIProfileService>(item => item.APIProfileId == profileId)
+                                                          .ContinueWith(task => task.Result.Select(item => item.APIServiceId));
+            IEnumerable<APIService> inactiveServices = await dataService.GetList<APIService>(item => !activeIds.Contains(item.Id));
+
+            return PartialView("~/Views/APIProfile/InactiveServices.cshtml", (profileId, inactiveServices));
+        }
+
+        public async Task AddProfileService(int profileId, int serviceId)
+        {
+            APIProfileService profileService = new APIProfileService()
+            {
+                APIProfileId = profileId,
+                APIServiceId = serviceId,
+                CreatedBy = Request.UserHostAddress,
+                ModifiedBy = Request.UserHostAddress
+            };
+
+            await dataService.Insert(profileService);
+        }
+
+        public async Task RemoveProfileService(int profileServiceId)
+        {
+            await dataService.Delete<APIProfileService>(profileServiceId);
         }
     }
 }

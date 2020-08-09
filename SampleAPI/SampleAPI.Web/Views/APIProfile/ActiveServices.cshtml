@@ -1,0 +1,25 @@
+﻿@model IEnumerable<APIProfileService>
+
+@{
+
+}
+
+@if (Model.Any())
+{
+    foreach (APIProfileService link in Model.OrderBy(item => item.APIService.Name, StringComparer.OrdinalIgnoreCase))
+    {
+        <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+                <label class="input-group-text">@(link.APIService.Name)</label>
+            </div>
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-secondary"><i class="fa fa-cog"></i></button>
+                <button type="button" class="btn btn-outline-danger" onclick="removeProfileService(@($"{link.APIProfileId},{link.Id}"))"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div>No active services...</div>
+}

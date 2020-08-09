@@ -12,20 +12,20 @@
     <div class="container d-flex flex-column h-100">
         <header style="flex: 0 0 auto">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="@Url.Action("Index", "Home")">Navbar</a>
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")" onclick="showLoading()">Navbar</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sampleAPINav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="sampleAPINav">
                     <ul class="navbar-nav">
                         <li class="nav-item @(Model.CurrentPage == Enums.Pages.APIProfile ? "active" : string.Empty)">
-                            <a class="nav-link" href="@Url.Action("Index", "APIProfile")">API Profiles</a>
+                            <a class="nav-link" href="@Url.Action("Index", "APIProfile")" onclick="showLoading()">API Profiles</a>
                         </li>
                         <li class="nav-item @(Model.CurrentPage == Enums.Pages.APIService ? "active" : string.Empty)">
-                            <a class="nav-link" href="@Url.Action("Index", "APIService")">API Services</a>
+                            <a class="nav-link" href="@Url.Action("Index", "APIService")" onclick="showLoading()">API Services</a>
                         </li>
                         <li class="nav-item @(Model.CurrentPage == Enums.Pages.APIDemo ? "active" : string.Empty)">
-                            <a class="nav-link" href="@Url.Action("Index", "APIDemo")">API Demos</a>
+                            <a class="nav-link" href="@Url.Action("Index", "APIDemo")" onclick="showLoading()">API Demos</a>
                         </li>
                     </ul>
                 </div>
@@ -40,6 +40,8 @@
             <p>&copy; @DateTime.Now.Year - Kendall O. Williams</p>
         </footer>
     </div>
+
+    @Html.Partial("~/Views/Shared/Modals/LoadingModal.cshtml")
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

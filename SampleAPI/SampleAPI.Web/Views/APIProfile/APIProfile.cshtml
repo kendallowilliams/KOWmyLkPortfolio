@@ -1,76 +1,117 @@
 ﻿@model APIProfile
 
-@{ 
-    string unique = Guid.NewGuid().ToString("N");
+@{
+    string unique = Guid.NewGuid().ToString("N"),
+           dtFormat = "{0:yyyy-MM-ddTHH:mm:ss}";
 }
 
 <div>
     <h5>Profile: @(Model.Name)</h5>
     <hr />
-    <form>
-        <div class="row mb-3">
-            <div class="col">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                        <label for="txtName@(unique)" class="input-group-text">Name</label>
+    <div class="d-flex flex-column">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab">Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="active-services-tab" data-toggle="tab" href="#active-services" role="tab">Active Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="inactive-services-tab" data-toggle="tab" href="#inactive-services" role="tab">Inactive Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="access-logs-tab" data-toggle="tab" href="#access-logs" role="tab">Access Logs</a>
+            </li>
+        </ul>
+        <div class="tab-content p-1">
+            <hr />
+            <div class="tab-pane fade show active" id="details" role="tabpanel">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <label for="txtName@(unique)" class="input-group-text" style="width: 100px">Name</label>
+                                </div>
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", id = $"txtName{unique}" })
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <label for="txtEmail@(unique)" class="input-group-text" style="width: 100px">Email</label>
+                                </div>
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", id = $"txtEmail{unique}", type = "email" })
+                            </div>
+                        </div>
                     </div>
-                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", id = $"txtName{unique}" })
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <label for="txtDescription@(unique)" class="input-group-text" style="width: 100px">Description</label>
+                                </div>
+                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", id = $"txtDescription{unique}" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" style="width: 100px">Created By</label>
+                                </div>
+                                @Html.TextBoxFor(x => x.CreatedBy, new { @class = "form-control", disabled = "disabled" })
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" style="width: 100px">Created On</label>
+                                </div>
+                                @Html.TextBoxFor(x => x.CreatedOn, dtFormat, new { @class = "form-control", disabled = "disabled", type = "datetime-local" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" style="width: 100px">Modified By</label>
+                                </div>
+                                @Html.TextBoxFor(x => x.ModifiedBy, new { @class = "form-control", disabled = "disabled" })
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" style="width: 100px">Modified On</label>
+                                </div>
+                                @Html.TextBoxFor(x => x.ModifiedOn, dtFormat, new { @class = "form-control", disabled = "disabled", type = "datetime-local" })
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="active-services" role="tabpanel">
+                <div class="row">
+                    <div class="col-4 border-right">
+                        <h6>Manage Active Services</h6>
+                    </div>
+                    <div class="col-8 d-flex flex-row flex-wrap" id="activeServicesContainer">
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                        <label for="txtEmail@(unique)" class="input-group-text">Email</label>
+            <div class="tab-pane fade" id="inactive-services" role="tabpanel">
+                <div class="row">
+                    <div class="col-4 border-right">
+                        <h6>Manage Inactive Services</h6>
                     </div>
-                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", id = $"txtEmail{unique}" })
+                    <div class="col-8 d-flex flex-row flex-wrap" id="inactiveServicesContainer">
+                    </div>
                 </div>
             </div>
+            <div class="tab-pane fade" id="access-logs" role="tabpanel">...</div>
         </div>
-        <div class="row mb-3">
-            <div class="col">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                        <label for="txtDescription@(unique)" class="input-group-text">Description</label>
-                    </div>
-                    @Html.TextAreaFor(x => x.Description, new { @class = "form-control", id = $"txtDescription{unique}" })
-                </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text">Created By</label>
-                    </div>
-                    @Html.TextBoxFor(x => x.CreatedBy, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text">Created On</label>
-                    </div>
-                    @Html.TextBoxFor(x => x.CreatedOn, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text">Modified By</label>
-                    </div>
-                    @Html.TextBoxFor(x => x.ModifiedBy, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text">Modified On</label>
-                    </div>
-                    @Html.TextBoxFor(x => x.ModifiedOn, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
