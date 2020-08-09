@@ -132,6 +132,10 @@ namespace SampleAPI.DAL.DbContexts
 
                 entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.DisabledResponseMessage)
+                    .HasMaxLength(1024)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ModifiedBy)
                     .IsRequired()
                     .HasMaxLength(128)
