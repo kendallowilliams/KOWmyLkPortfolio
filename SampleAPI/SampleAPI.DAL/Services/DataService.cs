@@ -117,5 +117,17 @@ namespace SampleAPI.DAL.Services
 
             return result;
         }
+
+        public async Task<IEnumerable<T>> FromSqlRaw<T>(string sql, CancellationToken token = default(CancellationToken), params object[] parameters) where T : class
+        {
+            IEnumerable<T> entities = Enumerable.Empty<T>();
+
+            using (var db = new SampleAPIContextGeneric<T>())
+            {
+                entities = await db.Entities.FromSqlRaw(sql, parameters).ToListAsync(token);
+            }
+
+            return entities;
+        }
     }
 }
