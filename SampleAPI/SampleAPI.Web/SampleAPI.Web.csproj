@@ -485,6 +485,7 @@
     <Content Include="Views\APIService\APIService.cshtml" />
     <Content Include="Views\APIProfile\ActiveServices.cshtml" />
     <Content Include="Views\APIProfile\InactiveServices.cshtml" />
+    <Content Include="Views\APIService\APIProfiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SampleAPI.BLL\SampleAPI.BLL.csproj">

@@ -128,7 +128,9 @@
                     <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa fa-save"></i></button>
                 </form>
             </div>
-            <div class="tab-pane fade" id="api-profiles" role="tabpanel">...</div>
+            <div class="tab-pane fade" id="api-profiles" role="tabpanel">
+                @Html.Partial("~/Views/APIService/APIProfiles.cshtml", Model.APIProfileService.Select(link => link.APIProfile))
+            </div>
         </div>
     </div>
 </div>

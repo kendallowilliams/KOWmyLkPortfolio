@@ -34,6 +34,31 @@ namespace SampleAPI.DAL.Services
             {
                 IQueryable<T> query = db.Set<T>();
 
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                db.Database.SetCommandTimeout(timeout);
+
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+
+                results = await (expression != null ? query.Where(expression) : query).ToListAsync(token);
+            }
+
+            return results;
+        }
+
+        public async Task<IEnumerable<T>> GetListAlt<T>(Expression<Func<T, bool>> expression = null,
+                                                     CancellationToken token = default,
+                                                     params string[] includes) where T : class, IDataModel
+        {
+            IEnumerable<T> results = Enumerable.Empty<T>();
+
+            using (var db = new SampleAPIContext())
+            {
+                IQueryable<T> query = db.Set<T>();
+
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 db.Database.SetCommandTimeout(timeout);
 
                 foreach (var include in includes)
@@ -74,6 +99,29 @@ namespace SampleAPI.DAL.Services
             {
                 IQueryable<T> query = db.Set<T>();
 
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                db.Database.SetCommandTimeout(timeout);
+
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+
+                result = await (expression != null ? query.Where(expression) : query).FirstOrDefaultAsync(token);
+            }
+
+            return result;
+        }
+
+        public async Task<T> GetAlt<T>(Expression<Func<T, bool>> expression, CancellationToken token, params string[] includes) where T : class, IDataModel
+        {
+            T result = default(T);
+
+            using (var db = new SampleAPIContext())
+            {
+                IQueryable<T> query = db.Set<T>();
+
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 db.Database.SetCommandTimeout(timeout);
 
                 foreach (var include in includes)
@@ -124,6 +172,7 @@ namespace SampleAPI.DAL.Services
 
             using (var db = new SampleAPIContextGeneric<T>())
             {
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 entities = await db.Entities.FromSqlRaw(sql, parameters).ToListAsync(token);
             }
 

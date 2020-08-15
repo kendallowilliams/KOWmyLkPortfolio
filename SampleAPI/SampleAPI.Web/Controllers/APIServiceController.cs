@@ -38,9 +38,9 @@ namespace SampleAPI.Web.Controllers
 
         public async Task<ActionResult> APIService(int id)
         {
-            APIService Service = await dataService.Get<APIService>(item => item.Id == id);
+            APIService service = await dataService.GetAlt<APIService>(item => item.Id == id, default, "APIProfileService.APIProfile");
 
-            return PartialView("~/Views/APIService/APIService.cshtml", Service);
+            return PartialView("~/Views/APIService/APIService.cshtml", service);
         }
 
         public async Task<ActionResult> UpdateAPIService(APIService service)
