@@ -1,0 +1,13 @@
+﻿@model APIService
+
+@{ 
+    IEnumerable<ServiceDefinedField> serviceDefinedFields =
+        !string.IsNullOrWhiteSpace(Model.ServiceDefinedFields) ?
+            JsonConvert.DeserializeObject<IEnumerable<ServiceDefinedField>>(Model.ServiceDefinedFields) :
+            Enumerable.Empty<ServiceDefinedField>();
+}
+
+@foreach(var field in serviceDefinedFields)
+{
+
+}
