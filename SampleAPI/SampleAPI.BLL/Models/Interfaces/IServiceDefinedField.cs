@@ -8,5 +8,9 @@ namespace SampleAPI.BLL.Interfaces
         string Name { get; set; }
         APIServiceDataTypes Type { get; set; }
         string Value { get; set; }
+        int? GetIntValue();
+        bool? GetBooleanValue();
+        DateTime? GetDateTimeValue();
+        string GetStringValue();
     }
 }
