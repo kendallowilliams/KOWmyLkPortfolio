@@ -8,9 +8,10 @@ using System.Web;
 using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
 using SampleAPI.DAL.Services.Interfaces;
-using SampleAPI.DAL.DbContexts;
-using DbContexts = SampleAPI.DAL.DbContexts;
 using System.Reflection;
+using SampleAPI.BLL.Models;
+using Newtonsoft.Json;
+using SampleAPI.DAL.Models;
 
 namespace SampleAPI.Web.Controllers
 {
@@ -51,6 +52,16 @@ namespace SampleAPI.Web.Controllers
             }
 
             return new RedirectResult(Url.Action("Index", "APIService", new { id = service?.Id }));
+        }
+
+        public async Task<HttpStatusCodeResult> UpdateAPIServiceDefinedFields(int serviceId, IEnumerable<ServiceDefinedField> fields)
+        {
+            HttpStatusCodeResult result = default;
+            APIService service = await dataService.Get<APIService>(item => item.Id == serviceId);
+
+            service.ServiceDefinedFields = JsonConvert.SerializeObject(fields);
+
+            return result;
         }
     }
 }

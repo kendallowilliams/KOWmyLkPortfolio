@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleAPI.DAL.Models
+namespace SampleAPI.DAL.Models.Interfaces
 {
     public interface IDataModel
     {

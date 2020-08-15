@@ -1,5 +1,4 @@
 ﻿using SampleAPI.DAL.DbContexts;
-using SampleAPI.DAL.Models;
 using SampleAPI.DAL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using Microsoft.EntityFrameworkCore;
+using SampleAPI.DAL.Models.Interfaces;
 
 namespace SampleAPI.DAL.Services
 {

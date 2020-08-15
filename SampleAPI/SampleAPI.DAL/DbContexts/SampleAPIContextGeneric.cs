@@ -10,6 +10,10 @@ namespace SampleAPI.DAL.DbContexts
         {
         }
 
+        public SampleAPIContextGeneric(DbContextOptions<SampleAPIContext> options) : base(options)
+        {
+        }
+
         public DbSet<T> Entities { get; set; }
     }
 }

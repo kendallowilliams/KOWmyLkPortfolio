@@ -487,6 +487,10 @@
     <Content Include="Views\APIProfile\InactiveServices.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SampleAPI.BLL\SampleAPI.BLL.csproj">
+      <Project>{fe52c717-a0b4-4141-bc72-ea0662e8be97}</Project>
+      <Name>SampleAPI.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SampleAPI.DAL\SampleAPI.DAL.csproj">
       <Project>{258cf0ab-4f8a-4d57-8165-2ed9d232e779}</Project>
       <Name>SampleAPI.DAL</Name>

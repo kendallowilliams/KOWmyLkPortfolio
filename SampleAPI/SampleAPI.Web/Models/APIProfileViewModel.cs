@@ -1,4 +1,4 @@
-﻿using SampleAPI.DAL.DbContexts;
+﻿using SampleAPI.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;

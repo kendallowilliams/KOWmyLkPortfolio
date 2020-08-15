@@ -8,9 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
 using SampleAPI.DAL.Services.Interfaces;
-using SampleAPI.DAL.DbContexts;
-using System.Threading;
-using Microsoft.Identity.Client;
+using SampleAPI.DAL.Models;
 
 namespace SampleAPI.Web.Controllers
 {

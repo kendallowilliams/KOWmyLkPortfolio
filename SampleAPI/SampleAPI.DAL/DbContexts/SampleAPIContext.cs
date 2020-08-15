@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using SampleAPI.DAL.Models;
 
 namespace SampleAPI.DAL.DbContexts
 {
@@ -151,6 +152,8 @@ namespace SampleAPI.DAL.DbContexts
                     .IsRequired()
                     .HasMaxLength(128)
                     .IsUnicode(false);
+
+                entity.Property(e => e.ServiceDefinedFields).IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

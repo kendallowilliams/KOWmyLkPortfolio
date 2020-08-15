@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SampleAPI.DAL.DbContexts
+namespace SampleAPI.DAL.Models
 {
     public partial class APIAccessLog
     {
