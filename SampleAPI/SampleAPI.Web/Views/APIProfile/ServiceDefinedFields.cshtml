@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ServiceDefinedField>
 
 @{
-
+    string nowDate = DateTime.Now.Date.ToString("yyyy-MM-ddTHH:mm:ss");
 }
 
 <div class="d-flex flex-column" style="flex: 1 1 auto">
     @foreach (ServiceDefinedField field in Model)
     {
-        <div class="input-group input-group-sm m-1">
+        <div class="input-group input-group-sm m-1" data-display-name="@(field.Name)">
             <div class="input-group-prepend">
                 <span class="input-group-text" style="min-width: 150px">@(field.Name)</span>
             </div>
@@ -19,18 +19,18 @@
             {
                 case SampleAPI.DAL.Enums.APIServiceDataTypes.BOOLEAN:
                     <select class="custom-select" onchange="$(this).prev().val(this.value)">
-                        <option value="TRUE">True</option>
-                        <option value="FALSE">False</option>
+                        <option value="TRUE" @(bool.TryParse(field.Value, out bool trueResult) && trueResult ? "selected" : string.Empty)>True</option>
+                        <option value="FALSE" @(bool.TryParse(field.Value, out bool falseResult) && !falseResult ? "selected" : string.Empty)>False</option>
                     </select>
                     break;
                 case SampleAPI.DAL.Enums.APIServiceDataTypes.DATETIME:
-                    <input type="datetime-local" class="form-control" value="@(DateTime.Now.Date.ToString("yyyy-MM-ddTHH:mm:ss"))" onchange="$(this).prev().val(this.value)" />
+                    <input type="datetime-local" class="form-control" value="@(field.Value ?? nowDate)" onchange="$(this).prev().val(this.value)" />
                     break;
                 case SampleAPI.DAL.Enums.APIServiceDataTypes.INT:
-                    <input type="number" class="form-control" onchange="$(this).prev().val(this.value)" />
+                    <input type="number" class="form-control" value="@(field.Value)" onchange="$(this).prev().val(this.value)" />
                     break;
                 case SampleAPI.DAL.Enums.APIServiceDataTypes.STRING:
-                    <input type="text" class="form-control" onchange="$(this).prev().val(this.value)" />
+                    <input type="text" class="form-control" value="@(field.Value)" onchange="$(this).prev().val(this.value)" />
                     break;
                 default:
                     break;

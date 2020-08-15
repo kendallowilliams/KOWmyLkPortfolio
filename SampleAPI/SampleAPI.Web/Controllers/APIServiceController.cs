@@ -58,6 +58,7 @@ namespace SampleAPI.Web.Controllers
         {
             APIService service = await dataService.Get<APIService>(item => item.Id == serviceId);
 
+            if (fields == null) /*then*/ fields = Enumerable.Empty<ServiceDefinedField>();
             service.ServiceDefinedFields = JsonConvert.SerializeObject(fields);
             service.ModifiedBy = Request.UserHostAddress;
             await dataService.Update(service);

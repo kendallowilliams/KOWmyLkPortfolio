@@ -39,16 +39,16 @@
             </div>
             @foreach (var field in serviceDefinedFields.OrderBy(item => item.Name))
             {
-        <div class="input-group input-group-sm w-auto m-1" data-display-name="@(field.Name) [@(field.Type)]">
-            <div class="input-group-prepend">
-                <span class="input-group-text">@(field.Name) [@(field.Type)]</span>
-            </div>
-            @Html.Hidden(nameof(ServiceDefinedField.Name), field.Name)
-            @Html.Hidden(nameof(ServiceDefinedField.Type), JsonConvert.SerializeObject(field.Type))
-            <div class="input-group-append">
-                <button type="button" class="btn btn-outline-danger" onclick="removeServiceDefinedField(this, @(Model.Id))"><i class="fa fa-trash"></i></button>
-            </div>
-        </div>
+                <div class="input-group input-group-sm w-auto m-1" data-display-name="@(field.Name) [@(field.Type)]">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">@(field.Name) [@(field.Type)]</span>
+                    </div>
+                    @Html.Hidden(nameof(ServiceDefinedField.Name), field.Name)
+                    @Html.Hidden(nameof(ServiceDefinedField.Type), JsonConvert.SerializeObject(field.Type))
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-danger" onclick="removeServiceDefinedField(this, @(Model.Id))"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
             }
         </div>
     </div>

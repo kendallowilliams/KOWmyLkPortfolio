@@ -13,8 +13,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-sm btn-primary" data-button="save" data-item-id="-1">Save</button>
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -23,11 +23,31 @@
 <script type="text/javascript" defer="defer">
     $('#serviceDefinedFieldsModal').on('show.bs.modal', (e) => {
         const $container = $('[data-modal-container="@(nameof(ServiceDefinedField))"]'),
-            $btn = $(e.relatedTarget);
+            $btn = $(e.relatedTarget),
+            $modal = $(e.target),
+            profileServiceId = $btn.attr('data-item-id');
 
+        $modal.find('[data-button="save"]').attr('data-item-id', profileServiceId);
         showLoading();
         $container.html('');
-        $container.load('@Url.Action(nameof(APIProfileController.ServiceDefinedFields), "APIProfile")', { profileServiceId: $btn.attr('data-item-id') }, () => {
+        $container.load('@Url.Action(nameof(APIProfileController.ServiceDefinedFields), "APIProfile")', { profileServiceId: profileServiceId }, () => {
+            hideLoading();
+        });
+    });
+
+    $('[data-button="save"]').on('click', e => {
+        const $container = $('[data-modal-container="@(nameof(ServiceDefinedField))"]'),
+            $fields = $container.find('[data-display-name]'),
+            fields = $fields.map((index, field) => ({
+                    Name: $(field).find('[name="@(nameof(ServiceDefinedField.Name))"]').val(),
+                    Type: $(field).find('[name="@(nameof(ServiceDefinedField.Type))"]').val(),
+                    Value: $(field).find('[name="@(nameof(ServiceDefinedField.Value))"]').val()
+            })).toArray(),
+            profileServiceId = $(e.target).attr('data-item-id');
+
+        $('#serviceDefinedFieldsModal').modal('hide');
+        showLoading();
+        $.post('@Url.Action(nameof(APIProfileController.UpdateAPIServiceDefinedFields), "APIProfile")', { profileServiceId: profileServiceId, fields: fields }, e => {
             hideLoading();
         });
     });

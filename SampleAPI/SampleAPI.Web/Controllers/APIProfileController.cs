@@ -109,5 +109,15 @@ namespace SampleAPI.Web.Controllers
 
             return PartialView("~/Views/APIProfile/ServiceDefinedFields.cshtml", serviceFields);
         }
+
+        public async Task UpdateAPIServiceDefinedFields(int profileServiceId, IEnumerable<ServiceDefinedField> fields)
+        {
+            APIProfileService service = await dataService.Get<APIProfileService>(item => item.Id == profileServiceId);
+
+            if (fields == null) /*then*/ fields = Enumerable.Empty<ServiceDefinedField>();
+            service.ServiceDefinedFields = JsonConvert.SerializeObject(fields);
+            service.ModifiedBy = Request.UserHostAddress;
+            await dataService.Update(service);
+        }
     }
 }
