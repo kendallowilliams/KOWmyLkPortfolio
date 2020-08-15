@@ -1,19 +1,22 @@
 ﻿@model IEnumerable<APIProfileService>
 
 @{
-
 }
 
 @if (Model.Any())
 {
     foreach (APIProfileService link in Model.OrderBy(item => item.APIService.Name, StringComparer.OrdinalIgnoreCase))
     {
+        IEnumerable<object> fields = !string.IsNullOrWhiteSpace(link.APIService.ServiceDefinedFields) ?
+            JsonConvert.DeserializeObject <IEnumerable<object>>(link.APIService.ServiceDefinedFields) :
+            Enumerable.Empty<object>();
+
         <div class="input-group input-group-sm">
             <div class="input-group-prepend">
                 <label class="input-group-text">@(link.APIService.Name)</label>
             </div>
             <div class="input-group-append">
-                @if (!string.IsNullOrWhiteSpace(link.APIService.ServiceDefinedFields))
+                @if (fields.Any())
                 {
                     <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#serviceDefinedFieldsModal" data-item-id="@(link.Id)"><i class="fa fa-cog"></i></button>
                 }

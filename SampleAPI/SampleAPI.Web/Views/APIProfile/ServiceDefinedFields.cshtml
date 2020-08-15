@@ -19,8 +19,9 @@
             {
                 case SampleAPI.DAL.Enums.APIServiceDataTypes.BOOLEAN:
                     <select class="custom-select" onchange="$(this).prev().val(this.value)">
+                        <option @(!bool.TryParse(field.Value, out bool noResult) ? "selected" : string.Empty)></option>
                         <option value="TRUE" @(bool.TryParse(field.Value, out bool trueResult) && trueResult ? "selected" : string.Empty)>True</option>
-                        <option value="FALSE" @(bool.TryParse(field.Value, out bool falseResult) && !falseResult ? "selected" : string.Empty)>False</option>
+                        <option value="FALSE" @(bool.TryParse(field.Value, out bool falseResult) && !trueResult ? "selected" : string.Empty)>False</option>
                     </select>
                     break;
                 case SampleAPI.DAL.Enums.APIServiceDataTypes.DATETIME:
