@@ -487,6 +487,8 @@
     <Content Include="Views\APIProfile\InactiveServices.cshtml" />
     <Content Include="Views\APIService\APIProfiles.cshtml" />
     <Content Include="Views\APIService\ServiceDefinedFields.cshtml" />
+    <Content Include="Views\APIProfile\Modals\ServiceDefinedFieldsModal.cshtml" />
+    <Content Include="Views\APIProfile\ServiceDefinedFields.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SampleAPI.BLL\SampleAPI.BLL.csproj">

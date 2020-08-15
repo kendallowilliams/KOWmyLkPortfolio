@@ -3,6 +3,7 @@
 	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY, 
     [APIProfileId] INT NOT NULL, 
     [APIServiceId] INT NOT NULL, 
+    [ServiceDefinedFields] VARCHAR(MAX) NULL,
     [CreatedBy] VARCHAR(128) NOT NULL, 
     [CreatedOn] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP, 
     [ModifiedBy] VARCHAR(128) NOT NULL, 

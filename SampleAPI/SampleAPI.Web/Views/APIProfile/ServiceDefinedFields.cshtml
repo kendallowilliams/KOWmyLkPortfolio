@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ServiceDefinedField>
+
+@{
+
+}
+
+<div class="d-flex flex-column" style="flex: 1 1 auto">
+    @foreach (ServiceDefinedField field in Model)
+    {
+        <div class="input-group input-group-sm m-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="min-width: 150px">@(field.Name)</span>
+            </div>
+            @Html.Hidden(nameof(field.Name), field.Name)
+            @Html.Hidden(nameof(field.Type), field.Type)
+            @Html.Hidden(nameof(field.Value), field.Value)
+
+            @switch (field.Type)
+            {
+                case SampleAPI.DAL.Enums.APIServiceDataTypes.BOOLEAN:
+                    <select class="custom-select" onchange="$(this).prev().val(this.value)">
+                        <option value="TRUE">True</option>
+                        <option value="FALSE">False</option>
+                    </select>
+                    break;
+                case SampleAPI.DAL.Enums.APIServiceDataTypes.DATETIME:
+                    <input type="datetime-local" class="form-control" onchange="$(this).prev().val(this.value)" />
+                    break;
+                case SampleAPI.DAL.Enums.APIServiceDataTypes.INT:
+                    <input type="number" class="form-control" onchange="$(this).prev().val(this.value)" />
+                    break;
+                case SampleAPI.DAL.Enums.APIServiceDataTypes.STRING:
+                    <input type="text" class="form-control" onchange="$(this).prev().val(this.value)" />
+                    break;
+                default:
+                    break;
+            }
+        </div>
+    }
+</div>

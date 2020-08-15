@@ -101,6 +101,8 @@ namespace SampleAPI.DAL.DbContexts
 
                 entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.ServiceDefinedFields).IsUnicode(false);
+
                 entity.HasOne(d => d.APIProfile)
                     .WithMany(p => p.APIProfileService)
                     .HasForeignKey(d => d.APIProfileId)
