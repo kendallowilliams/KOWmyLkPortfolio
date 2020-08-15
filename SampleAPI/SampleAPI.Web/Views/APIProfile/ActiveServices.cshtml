@@ -13,7 +13,10 @@
                 <label class="input-group-text">@(link.APIService.Name)</label>
             </div>
             <div class="input-group-append">
-                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#serviceDefinedFieldsModal" data-item-id="@(link.Id)"><i class="fa fa-cog"></i></button>
+                @if (!string.IsNullOrWhiteSpace(link.APIService.ServiceDefinedFields))
+                {
+                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#serviceDefinedFieldsModal" data-item-id="@(link.Id)"><i class="fa fa-cog"></i></button>
+                }
                 <button type="button" class="btn btn-outline-danger" onclick="removeProfileService(@($"{link.APIProfileId},{link.Id}"))"><i class="fa fa-trash"></i></button>
             </div>
         </div>
