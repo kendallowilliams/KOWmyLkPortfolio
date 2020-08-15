@@ -22,7 +22,7 @@ namespace SampleAPI.Web.Controllers
         private readonly IDataService dataService;
 
         [ImportingConstructor]
-        public APIServiceController(APIServiceViewModel apiServiceViewModel, IDataService dataService) 
+        public APIServiceController(APIServiceViewModel apiServiceViewModel, IDataService dataService) : base()
         {
             this.apiServiceViewModel = apiServiceViewModel;
             this.dataService = dataService;

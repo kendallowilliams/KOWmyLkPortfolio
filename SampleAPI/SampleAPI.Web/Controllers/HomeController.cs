@@ -17,7 +17,7 @@ namespace SampleAPI.Web.Controllers
         private readonly HomeViewModel homeViewModel;
 
         [ImportingConstructor]
-        public HomeController(HomeViewModel homeViewModel)
+        public HomeController(HomeViewModel homeViewModel) : base()
         {
             this.homeViewModel = homeViewModel;
         }

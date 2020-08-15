@@ -16,7 +16,7 @@ namespace SampleAPI.Web.Controllers
         private readonly APIDemoViewModel apiDemoViewModel;
 
         [ImportingConstructor]
-        public APIDemoController(APIDemoViewModel apiDemoViewModel) 
+        public APIDemoController(APIDemoViewModel apiDemoViewModel) : base()
         {
             this.apiDemoViewModel = apiDemoViewModel;
         }
