@@ -50,6 +50,57 @@
             });
         }
 
+        // Service Definied Fields ------------------------------------------------------------------------------------------------
+
+        function addServiceDefinedField(btn, serviceId) {
+            const $btn = $(btn),
+                $input = $(btn.parentNode.parentNode).find('input'),
+                $select = $(btn.parentNode.parentNode).find('select'),
+                $option = $($select.prop('options')).filter((index, option) => option.selected),
+                $newField = $('[data-template="@(nameof(ServiceDefinedField))"]').clone(),
+                displayName = $input.val() + ' [' + $option.text() + ']',
+                $container = $('[data-container="@(nameof(ServiceDefinedField))"]'),
+                fieldNames = $container.find('[data-display-name]')
+                    .map((index, field) => $(field).attr('data-display-name'))
+                    .toArray()
+                    .concat(displayName)
+                    .sort();
+
+            $newField.removeAttr('data-template').removeClass('d-none').attr('data-display-name', displayName);
+            $newField.find('[name="@(nameof(ServiceDefinedField.Name))"]').val($input.val());
+            $newField.find('[name="@(nameof(ServiceDefinedField.Type))"]').val($option.val());
+            $newField.find('span').text(displayName);
+            $container.append($newField);
+            $(fieldNames).each((index, name) => {
+                const $item = $container.find('[data-display-name="' + name + '"]');
+
+                $container.append($item);
+            });
+            updateServiceDefinedFields(serviceId);
+        }
+
+        function removeServiceDefinedField(btn, serviceId) {
+            const $btn = $(btn),
+                $field = $(btn.parentNode.parentNode),
+                $container = $('[data-container="@(nameof(ServiceDefinedField))"]');
+
+            $field.remove();
+            updateServiceDefinedFields(serviceId);
+        }
+
+        function updateServiceDefinedFields(serviceId) {
+            const $container = $('[data-container="@(nameof(ServiceDefinedField))"]'),
+                $fields = $container.find('[data-display-name]'),
+                fields = $fields.map((index, field) => ({
+                    Name: $(field).find('[name="@(nameof(ServiceDefinedField.Name))"]').val(),
+                    Type: $(field).find('[name="@(nameof(ServiceDefinedField.Type))"]').val()
+                })).toArray();
+
+            $.post('@Url.Action(nameof(APIServiceController.UpdateAPIServiceDefinedFields), "APIService")', { serviceId: serviceId, fields: fields });
+        }
+
+        // END Service Definied Fields --------------------------------------------------------------------------------------------
+
         $(function () {
             loadService(@(selectedId));
         });

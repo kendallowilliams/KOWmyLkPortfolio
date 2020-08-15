@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static SampleAPI.DAL.Enums;
 
 namespace SampleAPI.BLL.Models
 {
@@ -9,7 +10,7 @@ namespace SampleAPI.BLL.Models
     {
         public string Name { get; set; }
 
-        public Type Type { get; set; }
+        public APIServiceDataTypes Type { get; set; }
 
         public string Value { get; set; }
     }

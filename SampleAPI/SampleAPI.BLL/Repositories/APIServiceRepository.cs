@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using static SampleAPI.DAL.Enums;
 
 namespace SampleAPI.BLL.Repositories
 {
     public class APIServiceRepository
     {
-        public static IEnumerable<Type> GetAPIServiceDataTypes()
+        public static IEnumerable<APIServiceDataTypes> GetAPIServiceDataTypes()
         {
-            yield return typeof(bool);
-            yield return typeof(int);
-            yield return typeof(string);
+            return Enum.GetNames(typeof(APIServiceDataTypes))
+                       .Select(name => (APIServiceDataTypes)Enum.Parse(typeof(APIServiceDataTypes), name));
         }
     }
 }

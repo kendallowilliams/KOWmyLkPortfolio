@@ -54,14 +54,13 @@ namespace SampleAPI.Web.Controllers
             return new RedirectResult(Url.Action("Index", "APIService", new { id = service?.Id }));
         }
 
-        public async Task<HttpStatusCodeResult> UpdateAPIServiceDefinedFields(int serviceId, IEnumerable<ServiceDefinedField> fields)
+        public async Task UpdateAPIServiceDefinedFields(int serviceId, IEnumerable<ServiceDefinedField> fields)
         {
-            HttpStatusCodeResult result = default;
             APIService service = await dataService.Get<APIService>(item => item.Id == serviceId);
 
             service.ServiceDefinedFields = JsonConvert.SerializeObject(fields);
-
-            return result;
+            service.ModifiedBy = Request.UserHostAddress;
+            await dataService.Update(service);
         }
     }
 }
