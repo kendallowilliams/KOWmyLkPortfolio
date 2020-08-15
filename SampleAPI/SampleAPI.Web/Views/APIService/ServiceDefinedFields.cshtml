@@ -5,9 +5,39 @@
         !string.IsNullOrWhiteSpace(Model.ServiceDefinedFields) ?
             JsonConvert.DeserializeObject<IEnumerable<ServiceDefinedField>>(Model.ServiceDefinedFields) :
             Enumerable.Empty<ServiceDefinedField>();
+    IEnumerable<SelectListItem> types = APIServiceRepository.GetAPIServiceDataTypes()
+                                                            .Select(item => new SelectListItem() 
+                                                            { 
+                                                                Text = item.Name, 
+                                                                Value = JsonConvert.SerializeObject(item) 
+                                                            });
 }
 
-@foreach(var field in serviceDefinedFields)
-{
-
-}
+<div class="row">
+    <div class="col-4 border-right">
+        <h6>Manage Defined Fields</h6>
+    </div>
+    <div class="col-8">
+        <div class="input-group input-group-sm">
+            <input class="form-control" type="text" placeholder="Enter the name of the new field..." />
+            @Html.DropDownList(nameof(types), types, new { @class = "form-control w-auto", style = "flex: 0 0 auto" })
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-primary"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+        <hr />
+        @foreach (var field in serviceDefinedFields.OrderBy(item => item.Name))
+        {
+            <div class="input-group input-group-sm">
+                @Html.Hidden(nameof(ServiceDefinedField.Name), field.Name)
+                @Html.Hidden(nameof(ServiceDefinedField.Type), JsonConvert.SerializeObject(field.Type))
+                <div class="input-group-prepend">
+                    <span class="input-group-text">@(field.Name) [@(field.Type.Name)]</span>
+                </div>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
