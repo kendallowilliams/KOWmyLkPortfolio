@@ -119,5 +119,13 @@ namespace SampleAPI.Web.Controllers
             service.ModifiedBy = Request.UserHostAddress;
             await dataService.Update(service);
         }
+
+        public async Task<ActionResult> APIAccessLogs(int profileId, int days)
+        {
+            DateTime pastDate = DateTime.Now.Date.AddDays(-days);
+            IEnumerable<APIAccessLog> logs = await dataService.GetList<APIAccessLog>(item => item.APIProfileService.APIProfileId == profileId && item.CreatedOn >= pastDate);
+
+            return PartialView("~/Views/APIProfile/APIAccessLogs.cshtml", (profileId, logs));
+        }
     }
 }

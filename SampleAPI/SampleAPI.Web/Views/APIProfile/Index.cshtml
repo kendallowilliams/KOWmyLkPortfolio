@@ -46,6 +46,7 @@
             $("#profileContainer").load('@Url.Action(nameof(APIProfileController.APIProfile), "APIProfile")?id=' + id, () => {
                 hideLoading();
                 loadServices(id);
+                loadAccessLogs(id, @(APIProfileViewModel.LogDays.First()));
             });
         }
 
@@ -92,6 +93,21 @@
         }
 
         // End Profile Services -----------------------------------------------------------------------------
+
+        // Access Logs --------------------------------------------------------------------------------------
+
+        function loadAccessLogs(profileId, days) {
+            const $container = $('#access-logs'),
+                data = 'profileId=' + profileId + '&days=' + days;
+
+            showLoading();
+            $container.html('');
+            $container.load('@Url.Action(nameof(APIProfileController.APIAccessLogs), "APIProfile")?' + data, () => {
+                hideLoading();
+            });
+        }
+
+        // End Access Logs ----------------------------------------------------------------------------------
 
         $(function () {
             loadProfile(@(selectedId));

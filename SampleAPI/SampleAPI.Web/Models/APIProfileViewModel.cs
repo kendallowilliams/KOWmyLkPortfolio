@@ -19,5 +19,6 @@ namespace SampleAPI.Web.Models
 
         public IEnumerable<APIProfile> APIProfiles { get; set; }
         public int? SelectedProfileId { get; set; }
+        public static IEnumerable<int> LogDays { get => new List<int>() { 10, 30, 60, 90 }; }
     }
 }
