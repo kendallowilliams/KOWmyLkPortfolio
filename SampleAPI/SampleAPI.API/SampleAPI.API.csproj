@@ -87,6 +87,9 @@
   <ItemGroup>
     <Compile Include="App_Start\MefConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\APILogAttribute.cs" />
+    <Compile Include="Attributes\AuthenticationAttribute.cs" />
+    <Compile Include="Attributes\AuthorizationAttribute.cs" />
     <Compile Include="DependencyResolvers\MefDependencyResolver.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
