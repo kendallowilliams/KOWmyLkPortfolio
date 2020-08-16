@@ -19,9 +19,15 @@
     </div>
     <div class="col-8">
         <div class="input-group input-group-sm">
-            <input class="form-control" type="text" placeholder="Enter the name of the new field..." required="required"
-                   pattern="[A-z0-9_-]{3,}" />
-            @Html.DropDownList("ServiceDataTypes", types, string.Empty, new { @class = "form-control w-auto", style = "flex: 0 0 auto", required = "required" })
+            <input class="form-control" type="text" placeholder="Enter unique name for new field..." required="required"
+                   pattern="[A-z0-9_-]{3,}" data-toggle="popover" data-placement="top" data-content="A-z,0-9,-,_ allowed; min 3 characters; unique" data-trigger="manual" />
+            @Html.DropDownList("ServiceDataTypes", types, "Select data type...", new { @class = "form-control w-auto",
+                                                                              style = "flex: 0 0 auto",
+                                                                              required = "required",
+                                                                              data_toggle = "popover",
+                                                                              data_placement = "top",
+                                                                              data_trigger = "manual",
+                                                                              data_content = "Data type is required" })
             <div class="input-group-append">
                 <button type="button" class="btn btn-outline-primary" onclick="addServiceDefinedField(this, @(Model.Id))"><i class="fa fa-plus"></i></button>
             </div>

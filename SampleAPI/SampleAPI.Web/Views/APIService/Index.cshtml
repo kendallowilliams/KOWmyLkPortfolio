@@ -69,8 +69,8 @@
                 inputValid = $input.map((index, input) => input.checkValidity()).get(0),
                 selectValid = $select.map((index, select) => select.checkValidity()).get(0);
 
-            $input.removeClass('is-invalid');
-            $select.removeClass('is-invalid');
+            $input.removeClass('is-invalid').popover('dispose');
+            $select.removeClass('is-invalid').popover('dispose');
             if (inputValid && selectValid && !fieldExists) {
                 $newField.removeAttr('data-template').removeClass('d-none').attr('data-display-name', displayName);
                 $newField.find('[name="@(nameof(ServiceDefinedField.Name))"]').val($input.val());
@@ -83,14 +83,11 @@
                     $container.append($item);
                 });
                 updateServiceDefinedFields(serviceId);
+                $input.val('');
+                $select.val('');
             } else {
-                if (!inputValid) {
-                    $input.addClass('is-invalid');
-                } else if (!selectValid) {
-                    $select.addClass('is-invalid');
-                } else if (fieldExists) {
-
-                }
+                if (!inputValid || fieldExists) /*then*/ $input.addClass('is-invalid').popover('show');
+                if (!selectValid) /*then*/ $select.addClass('is-invalid').popover('show');
             }
         }
 

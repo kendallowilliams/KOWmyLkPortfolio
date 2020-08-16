@@ -10,7 +10,7 @@ namespace SampleAPI.Web
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/lib/jquery/jquery.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/lib/bootstrap/dist/js/bootstrap.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/font-awesome").Include("~/lib/font-awesome/js/all.min.js"));
 
