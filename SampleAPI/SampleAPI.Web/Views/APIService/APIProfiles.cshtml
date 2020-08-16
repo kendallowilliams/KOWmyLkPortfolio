@@ -1,9 +1,21 @@
 ﻿@model IEnumerable<APIProfile>
 
-@{ 
+@{
 
 }
 
-@foreach(APIProfile profile in Model)
-{
-}
+<div class="row">
+    <div class="col-4 border-right">
+        <h6>Connected Profiles</h6>
+    </div>
+    <div class="col-8">
+        <div class="d-flex flex-row flex-wrap">
+            @foreach (APIProfile profile in Model)
+            {
+                <div class="input-group input-group-sm w-auto m-1">
+                    <a class="btn btn-sm btn-outline-primary" href="@(Url.Action("Index", "APIProfile", new { id = profile.Id}))">@(profile.Name)</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
