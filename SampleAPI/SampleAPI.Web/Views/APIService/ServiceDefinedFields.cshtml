@@ -19,8 +19,9 @@
     </div>
     <div class="col-8">
         <div class="input-group input-group-sm">
-            <input class="form-control" type="text" placeholder="Enter the name of the new field..." required="required" min-length="3" />
-            @Html.DropDownList("ServiceDataTypes", types, string.Empty, new { @class = "form-control w-auto", style = "flex: 0 0 auto" })
+            <input class="form-control" type="text" placeholder="Enter the name of the new field..." required="required"
+                   pattern="[A-z0-9_-]{3,}" />
+            @Html.DropDownList("ServiceDataTypes", types, string.Empty, new { @class = "form-control w-auto", style = "flex: 0 0 auto", required = "required" })
             <div class="input-group-append">
                 <button type="button" class="btn btn-outline-primary" onclick="addServiceDefinedField(this, @(Model.Id))"><i class="fa fa-plus"></i></button>
             </div>

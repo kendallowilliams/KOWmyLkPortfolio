@@ -25,7 +25,7 @@
                     </select>
                     break;
                 case SampleAPI.DAL.Enums.APIServiceDataTypes.DATETIME:
-                    <input type="datetime-local" class="form-control" value="@(field.Value ?? nowDate)" onchange="$(this).prev().val(this.value)" />
+                    <input type="datetime-local" class="form-control" value="@(field.Value)" onchange="$(this).prev().val(this.value)" />
                     break;
                 case SampleAPI.DAL.Enums.APIServiceDataTypes.INT:
                     <input type="number" class="form-control" value="@(field.Value)" onchange="$(this).prev().val(this.value)" />

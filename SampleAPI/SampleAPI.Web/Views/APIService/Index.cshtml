@@ -62,21 +62,36 @@
                 $container = $('[data-container="@(nameof(ServiceDefinedField))"]'),
                 fieldNames = $container.find('[data-display-name]')
                     .map((index, field) => $(field).attr('data-display-name'))
-                    .toArray()
-                    .concat(displayName)
-                    .sort();
+                    .toArray(),
+                lcFieldNames = fieldNames.map(item => item.toLowerCase()),
+                fieldExists = lcFieldNames.includes(displayName.toLowerCase()),
+                lcSortedFieldNames = lcFieldNames.concat(displayName.toLowerCase()).sort(),
+                inputValid = $input.map((index, input) => input.checkValidity()).get(0),
+                selectValid = $select.map((index, select) => select.checkValidity()).get(0);
 
-            $newField.removeAttr('data-template').removeClass('d-none').attr('data-display-name', displayName);
-            $newField.find('[name="@(nameof(ServiceDefinedField.Name))"]').val($input.val());
-            $newField.find('[name="@(nameof(ServiceDefinedField.Type))"]').val($option.val());
-            $newField.find('span').text(displayName);
-            $container.append($newField);
-            $(fieldNames).each((index, name) => {
-                const $item = $container.find('[data-display-name="' + name + '"]');
+            $input.removeClass('is-invalid');
+            $select.removeClass('is-invalid');
+            if (inputValid && selectValid && !fieldExists) {
+                $newField.removeAttr('data-template').removeClass('d-none').attr('data-display-name', displayName);
+                $newField.find('[name="@(nameof(ServiceDefinedField.Name))"]').val($input.val());
+                $newField.find('[name="@(nameof(ServiceDefinedField.Type))"]').val($option.val());
+                $newField.find('span').text(displayName);
+                $container.append($newField);
+                $(lcSortedFieldNames).each((index, name) => {
+                    const $item = $container.find('[data-display-name]').filter((index, item) => $(item).attr('data-display-name').toLowerCase() === name);
 
-                $container.append($item);
-            });
-            updateServiceDefinedFields(serviceId);
+                    $container.append($item);
+                });
+                updateServiceDefinedFields(serviceId);
+            } else {
+                if (!inputValid) {
+                    $input.addClass('is-invalid');
+                } else if (!selectValid) {
+                    $select.addClass('is-invalid');
+                } else if (fieldExists) {
+
+                }
+            }
         }
 
         function removeServiceDefinedField(btn, serviceId) {
