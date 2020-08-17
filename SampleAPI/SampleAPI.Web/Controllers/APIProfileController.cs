@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
 using SampleAPI.DAL.Services.Interfaces;
 using SampleAPI.DAL.Models;
-using SampleAPI.BLL.Models;
 using Newtonsoft.Json;
 
 namespace SampleAPI.Web.Controllers
@@ -92,12 +91,8 @@ namespace SampleAPI.Web.Controllers
         public async Task<ActionResult> ServiceDefinedFields(int profileServiceId)
         {
             APIProfileService link = await dataService.Get<APIProfileService>(item => item.Id == profileServiceId, default, item => item.APIService);
-            IEnumerable<ServiceDefinedField> existingFields = !string.IsNullOrWhiteSpace(link.ServiceDefinedFields) ?
-                JsonConvert.DeserializeObject<IEnumerable<ServiceDefinedField>>(link.ServiceDefinedFields) :
-                Enumerable.Empty<ServiceDefinedField>(),
-                                             serviceFields = !string.IsNullOrWhiteSpace(link.APIService.ServiceDefinedFields) ?
-                JsonConvert.DeserializeObject<IEnumerable<ServiceDefinedField>>(link.APIService.ServiceDefinedFields) :
-                Enumerable.Empty<ServiceDefinedField>();
+            IEnumerable<ServiceDefinedField> existingFields = link.GetServiceDefinedFields(),
+                                             serviceFields = link.APIService.GetServiceDefinedFields();
 
             foreach(ServiceDefinedField field in serviceFields)
             {

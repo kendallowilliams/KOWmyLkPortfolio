@@ -8,4 +8,8 @@
     <ProjectReference Include="..\SampleAPI.DAL\SampleAPI.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Interfaces\" />
+  </ItemGroup>
+
 </Project>

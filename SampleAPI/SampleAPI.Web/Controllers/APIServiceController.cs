@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
 using SampleAPI.DAL.Services.Interfaces;
 using System.Reflection;
-using SampleAPI.BLL.Models;
 using Newtonsoft.Json;
 using SampleAPI.DAL.Models;
 

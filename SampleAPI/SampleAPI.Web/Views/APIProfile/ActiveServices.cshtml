@@ -7,9 +7,7 @@
 {
     foreach (APIProfileService link in Model.OrderBy(item => item.APIService.Name, StringComparer.OrdinalIgnoreCase))
     {
-        IEnumerable<object> fields = !string.IsNullOrWhiteSpace(link.APIService.ServiceDefinedFields) ?
-            JsonConvert.DeserializeObject <IEnumerable<object>>(link.APIService.ServiceDefinedFields) :
-            Enumerable.Empty<object>();
+        IEnumerable<object> fields = link.APIService.GetServiceDefinedFields();
 
         <div class="input-group input-group-sm">
             <div class="input-group-prepend">

@@ -1,7 +1,7 @@
 ﻿using System;
 using static SampleAPI.DAL.Enums;
 
-namespace SampleAPI.BLL.Interfaces
+namespace SampleAPI.DAL.Models.Interfaces
 {
     public interface IServiceDefinedField
     {

@@ -1,10 +1,10 @@
-﻿using SampleAPI.BLL.Interfaces;
+﻿using SampleAPI.DAL.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using static SampleAPI.DAL.Enums;
 
-namespace SampleAPI.BLL.Models
+namespace SampleAPI.DAL.Models
 {
     public class ServiceDefinedField : IServiceDefinedField
     {

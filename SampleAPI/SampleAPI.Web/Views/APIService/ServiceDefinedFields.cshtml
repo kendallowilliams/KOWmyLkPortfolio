@@ -1,9 +1,7 @@
 ﻿@model APIService
 
 @{
-    IEnumerable<ServiceDefinedField> serviceDefinedFields = !string.IsNullOrWhiteSpace(Model.ServiceDefinedFields) ?
-            JsonConvert.DeserializeObject<IEnumerable<ServiceDefinedField>>(Model.ServiceDefinedFields) :
-            Enumerable.Empty<ServiceDefinedField>();
+    IEnumerable<ServiceDefinedField> serviceDefinedFields = Model.GetServiceDefinedFields();
     IEnumerable<SelectListItem> types = APIServiceRepository.GetAPIServiceDataTypes()
                                                             .Select(item => new SelectListItem()
                                                             {
