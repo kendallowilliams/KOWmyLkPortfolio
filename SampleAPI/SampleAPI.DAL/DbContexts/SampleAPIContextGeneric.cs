@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SampleAPI.DAL.DbContexts
 {
-    public partial class SampleAPIContextGeneric<T> : SampleAPIContext where T: class
+    public class SampleAPIContextGeneric<T> : SampleAPIContext where T: class
     {
         public SampleAPIContextGeneric() : base()
         {
@@ -15,5 +15,10 @@ namespace SampleAPI.DAL.DbContexts
         }
 
         public DbSet<T> Entities { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
