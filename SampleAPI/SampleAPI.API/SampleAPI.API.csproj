@@ -89,6 +89,8 @@
     <Compile Include="Attributes\APILogAttribute.cs" />
     <Compile Include="Attributes\AuthenticationAttribute.cs" />
     <Compile Include="Attributes\AuthorizationAttribute.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\SampleAPIController.cs" />
     <Compile Include="DependencyResolvers\MefDependencyResolver.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -106,7 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
