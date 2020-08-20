@@ -57,6 +57,7 @@ namespace SampleAPI.API.DependencyResolvers
 
         public void Dispose()
         {
+            _container?.Dispose();
         }
     }
 }
