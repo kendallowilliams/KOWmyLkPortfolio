@@ -10,7 +10,7 @@ using System.Web.UI;
 
 namespace SampleAPI.API.Controllers
 {
-    [Export("SampleAPI"), PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class SampleAPIController : BaseController
     {
         [ImportingConstructor]
@@ -19,7 +19,7 @@ namespace SampleAPI.API.Controllers
 
         }
 
-        public async Task<IEnumerable<string>> AsyncTest(int numberOfTasks)
+        public async Task<IEnumerable<string>> AsyncTest([FromBody] int numberOfTasks)
         {
             IEnumerable<string> results = Enumerable.Empty<string>();
             Random rand = new Random(DateTime.Now.Millisecond);

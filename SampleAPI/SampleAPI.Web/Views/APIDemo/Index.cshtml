@@ -27,7 +27,8 @@
                 taskCount = $input.val();
 
             showLoading();
-            $.post('@Url.Action(nameof(APIDemoController.AsyncTest), "APIDemo")', { numberOfTasks: taskCount }, () => {
+            $.post('@Url.Action(nameof(APIDemoController.AsyncTest), "APIDemo")', { numberOfTasks: taskCount }, data => {
+                $('#txtAsyncTestResults').text(data);
                 hideLoading();
             });
         }
