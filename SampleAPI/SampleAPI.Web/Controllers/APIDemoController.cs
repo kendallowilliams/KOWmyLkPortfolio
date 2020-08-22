@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -24,6 +25,30 @@ namespace SampleAPI.Web.Controllers
         public async Task<ActionResult> Index()
         {
             return await Task.FromResult(View(apiDemoViewModel));
+        }
+
+        public async Task<JsonResult> AsyncTest(int numberOfTasks)
+        {
+            HttpResponseMessage message = default;
+            JsonResult result = default;
+            IEnumerable<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("numberOfTasks", numberOfTasks.ToString())
+            };
+            FormUrlEncodedContent content = new FormUrlEncodedContent(parameters);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = apiUri;
+                message = await client.PostAsync("SampleAPI/AsyncTest", content);
+
+                if (message.IsSuccessStatusCode)
+                {
+                    result = Json(await message.Content.ReadAsStringAsync());
+                }
+            }
+
+            return result;
         }
     }
 }

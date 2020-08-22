@@ -1,0 +1,23 @@
+﻿@model APIDemoViewModel
+
+@{
+
+}
+
+<div class="row">
+    <div class="col-4 border-right">
+        <div>Async Test</div>
+        <hr />
+        <div class="input-group input-group-sm" style="width: 100px">
+            <input class="form-control" type="number" min="5" max="10" value="5" />
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-secondary" onclick="runAsyncTest(this)"><i class="fa fa-upload"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="input-group">
+            <textarea class="form-control" id="txtAsyncTestResults"></textarea>
+        </div>
+    </div>
+</div>
