@@ -19,12 +19,12 @@ namespace SampleAPI.API.Controllers
 
         }
 
-        public async Task<IEnumerable<string>> AsyncTest(int numberOfTasks)
+        public async Task<IEnumerable<string>> AsyncTest()
         {
             IEnumerable<string> results = Enumerable.Empty<string>();
             Random rand = new Random(DateTime.Now.Millisecond);
 
-            var tasks = Enumerable.Range(0, numberOfTasks)
+            var tasks = Enumerable.Range(0, 10)
                                   .Select(index => new { Index = index, Start = DateTime.Now, Delay = rand.Next() % 5 })
                                   .Select(item => Task.Delay(item.Delay * 1000).ContinueWith(_ => new
                                   {

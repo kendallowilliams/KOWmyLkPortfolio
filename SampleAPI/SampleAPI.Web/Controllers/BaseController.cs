@@ -10,12 +10,9 @@ namespace SampleAPI.Web.Controllers
 {
     public abstract class BaseController : Controller, IBaseController
     {
-        protected readonly Uri apiUri;
-
         public BaseController()
         {
             APIAddress = WebConfigurationManager.AppSettings[nameof(APIAddress)];
-            apiUri = new Uri(WebConfigurationManager.AppSettings["APIAddress"]);
         }
 
         public string APIAddress { get; private set; }

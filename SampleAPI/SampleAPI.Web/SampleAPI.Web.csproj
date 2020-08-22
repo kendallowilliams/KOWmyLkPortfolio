@@ -494,11 +494,10 @@
     <Content Include="Views\APIProfile\Modals\ServiceDefinedFieldsModal.cshtml" />
     <Content Include="Views\APIProfile\ServiceDefinedFields.cshtml" />
     <Content Include="Views\APIProfile\APIAccessLogs.cshtml" />
-    <Content Include="Views\APIDemo\SampleAPI.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SampleAPI.BLL\SampleAPI.BLL.csproj">
-      <Project>{19fe9c6d-9bd2-4b9b-98ed-73e7a9cc7d08}</Project>
+      <Project>{fe52c717-a0b4-4141-bc72-ea0662e8be97}</Project>
       <Name>SampleAPI.BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\SampleAPI.DAL\SampleAPI.DAL.csproj">
