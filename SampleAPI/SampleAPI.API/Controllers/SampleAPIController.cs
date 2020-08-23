@@ -19,7 +19,7 @@ namespace SampleAPI.API.Controllers
 
         }
 
-        public async Task<IEnumerable<string>> AsyncTest([FromBody] int numberOfTasks)
+        public async Task<IEnumerable<string>> AsyncTest(int numberOfTasks)
         {
             IEnumerable<string> results = Enumerable.Empty<string>();
             Random rand = new Random(DateTime.Now.Millisecond);

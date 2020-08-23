@@ -8,7 +8,7 @@
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="sample-api-tab" data-toggle="tab"
-               href="#sample-api" role="tab">Async Test</a>
+               href="#sample-api" role="tab">Sample API</a>
         </li>
     </ul>
     <div class="tab-content p-1">
@@ -28,7 +28,7 @@
 
             showLoading();
             $.post('@Url.Action(nameof(APIDemoController.AsyncTest), "APIDemo")', { numberOfTasks: taskCount }, data => {
-                $('#txtAsyncTestResults').text(data);
+                $('#txtAsyncTestResults').prop('rows', taskCount).text(data);
                 hideLoading();
             });
         }

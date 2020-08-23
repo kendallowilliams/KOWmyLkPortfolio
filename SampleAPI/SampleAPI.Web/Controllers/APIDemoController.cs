@@ -1,11 +1,11 @@
-﻿using SampleAPI.Web.Models;
+﻿using Newtonsoft.Json;
+using SampleAPI.BLL.Services.Interfaces;
+using SampleAPI.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
 
@@ -15,11 +15,13 @@ namespace SampleAPI.Web.Controllers
     public class APIDemoController : BaseController
     {
         private readonly APIDemoViewModel apiDemoViewModel;
+        private readonly IHttpClientService httpClientService;
 
         [ImportingConstructor]
-        public APIDemoController(APIDemoViewModel apiDemoViewModel) : base()
+        public APIDemoController(APIDemoViewModel apiDemoViewModel, IHttpClientService httpClientService) : base()
         {
             this.apiDemoViewModel = apiDemoViewModel;
+            this.httpClientService = httpClientService;
         }
 
         public async Task<ActionResult> Index()
@@ -27,28 +29,12 @@ namespace SampleAPI.Web.Controllers
             return await Task.FromResult(View(apiDemoViewModel));
         }
 
-        public async Task<JsonResult> AsyncTest(int numberOfTasks)
+        public async Task<string> AsyncTest(int numberOfTasks)
         {
-            HttpResponseMessage message = default;
-            JsonResult result = default;
-            IEnumerable<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>()
-            {
-                new KeyValuePair<string, string>("numberOfTasks", numberOfTasks.ToString())
-            };
-            FormUrlEncodedContent content = new FormUrlEncodedContent(parameters);
+            Uri path = new Uri(apiUri, $"SampleAPI/AsyncTest?numberOfTasks={numberOfTasks}");
+            IEnumerable<string> results = await httpClientService.Post<IEnumerable<string>>(path);
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = apiUri;
-                message = await client.PostAsync("SampleAPI/AsyncTest", content);
-
-                if (message.IsSuccessStatusCode)
-                {
-                    result = Json(await message.Content.ReadAsStringAsync());
-                }
-            }
-
-            return result;
+            return string.Join(Environment.NewLine, results);
         }
     }
 }
