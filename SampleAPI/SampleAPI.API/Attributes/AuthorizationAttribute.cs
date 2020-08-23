@@ -31,8 +31,8 @@ namespace SampleAPI.API.Attributes
 
             using (var db = new SampleAPIContext())
             {
-                link = db.APIProfileService.FirstOrDefault(item => item.APIService.Controller.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
-                                                                    item.APIService.Action.Equals(action, StringComparison.OrdinalIgnoreCase) &&
+                link = db.APIProfileService.FirstOrDefault(item => item.APIService.Controller.Equals(controller) &&
+                                                                    item.APIService.Action.Equals(action) &&
                                                                     item.APIProfileId == safeProfileId);
 
                 if (link == null)

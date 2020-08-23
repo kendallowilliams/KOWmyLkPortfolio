@@ -31,7 +31,7 @@ namespace SampleAPI.API.Attributes
             {
                 using (var db = new SampleAPIContext())
                 {
-                    profile = db.APIProfile.FirstOrDefault(item => item.UserName.Equals(authentication.UserName, StringComparison.OrdinalIgnoreCase) &&
+                    profile = db.APIProfile.FirstOrDefault(item => item.UserName.Equals(authentication.UserName) &&
                                                                    item.Password.Equals(authentication.Password));
 
                     if (profile == null)
