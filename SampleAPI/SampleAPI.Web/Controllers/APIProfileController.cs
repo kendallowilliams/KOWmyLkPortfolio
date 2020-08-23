@@ -34,16 +34,19 @@ namespace SampleAPI.Web.Controllers
             return View(apiProfileViewModel);
         }
 
-        public async Task AddAPIProfile(APIProfile profile)
+        public async Task<int> AddAPIProfile(APIProfile profile)
         {
             IEnumerable<APIProfile> profiles = await dataService.GetList<APIProfile>(item => item.Name.Equals(profile.Name) ||
-                                                                                             item.UserName.Equals(profile.UserName));
+                                                                                             item.UserName.Equals(profile.UserName) ||
+                                                                                             item.Id == profile.Id);
 
             if (!profiles.Any())
             {
                 profile.CreatedBy = profile.ModifiedBy = Request.UserHostAddress;
                 await dataService.Insert(profile);
             }
+
+            return profile.Id;
         }
 
         public async Task DeleteAPIProfile(int profileId)
