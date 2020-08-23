@@ -34,6 +34,28 @@ namespace SampleAPI.Web.Controllers
             return View(apiProfileViewModel);
         }
 
+        public async Task AddAPIProfile(APIProfile profile)
+        {
+            IEnumerable<APIProfile> profiles = await dataService.GetList<APIProfile>(item => item.Name.Equals(profile.Name) ||
+                                                                                             item.UserName.Equals(profile.UserName));
+
+            if (!profiles.Any())
+            {
+                profile.CreatedBy = profile.ModifiedBy = Request.UserHostAddress;
+                await dataService.Insert(profile);
+            }
+        }
+
+        public async Task DeleteAPIProfile(int profileId)
+        {
+            APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == profileId);
+
+            if (profile != null)
+            {
+                await dataService.Delete<APIProfile>(profile.Id);
+            }
+        }
+
         public async Task<ActionResult> APIProfile(int id)
         {
             APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == id);

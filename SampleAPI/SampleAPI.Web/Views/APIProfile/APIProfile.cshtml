@@ -29,14 +29,14 @@
                 <hr />
                 <div class="tab-pane fade show active" id="details" role="tabpanel">
                     <form action="@Url.Action(nameof(APIProfileController.UpdateAPIProfile), "APIProfile")" method="post">
-                        @Html.HiddenFor(x => x.Id)
+                        @Html.HiddenFor(x => x.Id, new { id = $"txtId{unique}" })
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
                                         <label for="txtName@(unique)" class="input-group-text" style="width: 100px">Name</label>
                                     </div>
-                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", id = $"txtName{unique}" })
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", id = $"txtName{unique}", @readonly = "readonly" })
                                 </div>
                             </div>
                             <div class="col">
@@ -45,6 +45,24 @@
                                         <label for="txtEmail@(unique)" class="input-group-text" style="width: 100px">Email</label>
                                     </div>
                                     @Html.TextBoxFor(x => x.Email, new { @class = "form-control", id = $"txtEmail{unique}", type = "email" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label for="txtUserName@(unique)" class="input-group-text" style="width: 100px">UserName</label>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", id = $"txtUserName{unique}", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label for="txtPassword@(unique)" class="input-group-text" style="width: 100px">Password</label>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.Password, new { @class = "form-control", id = $"txtPassword{unique}", type = "password" })
                                 </div>
                             </div>
                         </div>
@@ -95,6 +113,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa fa-save"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteAPIProfile(@(Model.Id))"><i class="fa fa-trash"></i></button>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="active-services" role="tabpanel">

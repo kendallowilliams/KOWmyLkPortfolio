@@ -35,6 +35,27 @@ namespace SampleAPI.Web.Controllers
             return View(apiServiceViewModel);
         }
 
+        public async Task AddAPIService(APIService service)
+        {
+            APIService existingService = await dataService.Get<APIService>(item => item.Name.Equals(service.Name));
+
+            if (existingService == null)
+            {
+                service.CreatedBy = service.ModifiedBy = Request.UserHostAddress;
+                await dataService.Insert(service);
+            }
+        }
+
+        public async Task DeleteAPIService(int serviceId)
+        {
+            APIService service = await dataService.Get<APIService>(item => item.Id == serviceId);
+
+            if (service != null)
+            {
+                await dataService.Delete<APIService>(service.Id);
+            }
+        }
+
         public async Task<ActionResult> APIService(int id)
         {
             APIService service = await dataService.GetAlt<APIService>(item => item.Id == id, default, "APIProfileService.APIProfile");

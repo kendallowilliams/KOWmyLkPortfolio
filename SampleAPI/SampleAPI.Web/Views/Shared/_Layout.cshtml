@@ -41,11 +41,13 @@
         </footer>
     </div>
 
-    @Html.Partial("~/Views/Shared/Modals/LoadingModal.cshtml")
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/font-awesome")
     @RenderSection("scripts", required: false)
+
+    @Html.Partial("~/Views/APIService/Modals/AddAPIServiceModal.cshtml", new APIService())
+    @Html.Partial("~/Views/APIProfile/Modals/AddAPIProfileModal.cshtml", new APIProfile())
+    @Html.Partial("~/Views/Shared/Modals/LoadingModal.cshtml")
 </body>
 </html>

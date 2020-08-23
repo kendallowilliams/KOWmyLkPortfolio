@@ -10,7 +10,10 @@
 
 <div class="row" style="flex: 1 1 auto">
     <div class="col-3 border-right">
-        <h5>API Profiles</h5>
+        <div class="d-flex flex-row">
+            <h5 style="flex: 1 1 auto">API Profiles</h5>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-target="#addAPIProfileModal" data-toggle="modal"><i class="fa fa-plus"></i></button>
+        </div>
         <hr />
         <div id="accordion">
             @foreach (var group in profileGroups)
@@ -25,7 +28,9 @@
                                 @foreach (APIProfile profile in group.OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
                                 {
                                     <button type="button" class="list-group-item list-group-item-action py-0 @(profile.Id == selectedId ? "active" : string.Empty)"
-                                            onclick="">@(profile.Name)</button>
+                                            onclick="">
+                                        @(profile.Name)
+                                    </button>
                                 }
                             </div>
                         </div>
@@ -48,6 +53,15 @@
                 loadServices(id);
                 loadAccessLogs(id, @(APIProfileViewModel.LogDays.First()));
             });
+        }
+
+        function deleteAPIProfile(id) {
+            if (window.confirm('Please confirm you want to delete this profile...')) {
+                showLoading();
+                $.post('@(Url.Action(nameof(APIProfileController.DeleteAPIProfile), "APIProfile"))', { profileId: id }, () => {
+                    window.location = '@(Url.Action(nameof(APIProfileController.Index), "APIProfile"))';
+                });
+            }
         }
 
         // Profile Services ---------------------------------------------------------------------------------

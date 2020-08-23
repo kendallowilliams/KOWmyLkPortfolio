@@ -10,7 +10,10 @@
 
 <div class="row" style="flex: 1 1 auto">
     <div class="col-3 border-right">
-        <h5>API Services</h5>
+        <div class="d-flex flex-row">
+            <h5 style="flex: 1 1 auto">API Services</h5>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-target="#addAPIServiceModal" data-toggle="modal"><i class="fa fa-plus"></i></button>
+        </div>
         <hr />
         <div id="accordion">
             @foreach (var group in serviceGroups)
@@ -48,6 +51,15 @@
             $("#serviceContainer").load('@Url.Action(nameof(APIServiceController.APIService), "APIService")?id=' + id, () => {
                 hideLoading();
             });
+        }
+
+        function deleteAPIService(id) {
+            if (window.confirm('Please confirm you want to delete this service...')) {
+                showLoading();
+                $.post('@(Url.Action(nameof(APIServiceController.DeleteAPIService), "APIService"))', { serviceId: id }, () => {
+                    window.location = '@(Url.Action(nameof(APIServiceController.Index), "APIService"))';
+                });
+            }
         }
 
         // Service Definied Fields ------------------------------------------------------------------------------------------------

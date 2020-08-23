@@ -26,14 +26,14 @@
                 <hr />
                 <div class="tab-pane fade show active" id="details" role="tabpanel">
                     <form action="@Url.Action(nameof(APIServiceController.UpdateAPIService), "APIService")" method="post">
-                        @Html.HiddenFor(x => x.Id)
+                        @Html.HiddenFor(x => x.Id, new { id = $"txtId{unique}"})
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
                                         <label for="txtName@(unique)" class="input-group-text" style="width: 100px">Name</label>
                                     </div>
-                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", id = $"txtName{unique}" })
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", id = $"txtName{unique}", @readonly = "readonly" })
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                                     <div class="input-group-prepend">
                                         <label class="input-group-text" style="width: 100px">Action</label>
                                     </div>
-                                    @Html.TextBoxFor(x => x.Action, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.Action, new { @class = "form-control", id = $"txtAction{unique}" })
                                 </div>
                             </div>
                             <div class="col">
@@ -51,7 +51,7 @@
                                     <div class="input-group-prepend">
                                         <label class="input-group-text" style="width: 100px">Controller</label>
                                     </div>
-                                    @Html.TextBoxFor(x => x.Controller, dtFormat, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.Controller, new { @class = "form-control", id = $"txtController{unique}" })
                                 </div>
                             </div>
                         </div>
@@ -130,6 +130,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa fa-save"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteAPIService(@(Model.Id))"><i class="fa fa-trash"></i></button>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="api-service-defined-fields" role="tabpanel">

@@ -7,5 +7,5 @@
     [CreatedOn] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP, 
     [ModifiedBy] VARCHAR(128) NOT NULL, 
     [ModifiedOn] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT [FK_APIAccessLog_APIProfileService] FOREIGN KEY ([APIProfileServiceId]) REFERENCES [APIProfileService]([Id])
+    CONSTRAINT [FK_APIAccessLog_APIProfileService] FOREIGN KEY ([APIProfileServiceId]) REFERENCES [APIProfileService]([Id]) ON DELETE CASCADE
 )
