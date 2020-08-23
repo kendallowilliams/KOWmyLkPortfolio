@@ -3,24 +3,36 @@
 @{
 
 }
-
-<div class="row">
-    <div class="col-4 border-right">
-        <div>Async Test</div>
-        <hr />
-        <div class="input-group input-group-sm" style="width: 175px">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Task Count</span>
-            </div>
-            <input class="form-control" type="number" min="5" max="10" value="5" />
-            <div class="input-group-append">
-                <button type="button" class="btn btn-outline-secondary" onclick="runAsyncTest(this)"><i class="fa fa-upload"></i></button>
-            </div>
+<div class="row h-100">
+    <div class="col-3 border-right">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+            <a class="nav-link active" id="v-pills-async-test-tab" data-toggle="pill" href="#v-pills-async-test" role="tab">Async Test</a>
         </div>
     </div>
-    <div class="col-8">
-        <div class="input-group">
-            <textarea class="form-control" id="txtAsyncTestResults" style="resize: none" readonly="readonly"></textarea>
+    <div class="col-9">
+        <div class="tab-content" id="v-pills-async-test">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <div class="row">
+                    <div class="col-4 border-right">
+                        <div>Async Test</div>
+                        <hr />
+                        <div class="input-group input-group-sm" style="width: 175px">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Task Count</span>
+                            </div>
+                            <input class="form-control" type="number" min="5" max="10" value="5" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-secondary" onclick="runAsyncTest(this)"><i class="fa fa-upload"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <textarea class="form-control" id="txtAsyncTestResults" style="resize: none" readonly="readonly"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
