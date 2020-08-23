@@ -9,6 +9,8 @@ namespace SampleAPI.API.Attributes
 {
     public class APILogAttribute : ActionFilterAttribute
     {
+        public APILogAttribute() : base() { }
+
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             base.OnActionExecuting(actionContext);

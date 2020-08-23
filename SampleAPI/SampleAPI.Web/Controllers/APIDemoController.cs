@@ -32,7 +32,8 @@ namespace SampleAPI.Web.Controllers
         public async Task<string> AsyncTest(int numberOfTasks)
         {
             Uri path = new Uri(apiUri, $"SampleAPI/AsyncTest?numberOfTasks={numberOfTasks}");
-            IEnumerable<string> results = await httpClientService.Post<IEnumerable<string>>(path);
+            IEnumerable<string> results = await httpClientService.Post<IEnumerable<string>>(path, "", "") ?? 
+                                          Enumerable.Empty<string>();
 
             return string.Join(Environment.NewLine, results);
         }

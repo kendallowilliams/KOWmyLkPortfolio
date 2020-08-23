@@ -41,6 +41,11 @@ namespace SampleAPI.DAL.DbContexts
 
                 entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.IPAddress)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ModifiedBy)
                     .IsRequired()
                     .HasMaxLength(128)
@@ -80,6 +85,16 @@ namespace SampleAPI.DAL.DbContexts
                 entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserName)
                     .IsRequired()
                     .HasMaxLength(128)
                     .IsUnicode(false);
