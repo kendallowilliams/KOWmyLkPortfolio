@@ -77,19 +77,27 @@
         }
 
         function loadActiveServices(profileId) {
-            showLoading();
-            $('#activeServicesContainer').html('');
-            $('#activeServicesContainer').load('@Url.Action(nameof(APIProfileController.ActiveServices), "APIProfile")?profileId=' + profileId, () => {
-                hideLoading();
-            });
+            const $container = $('#activeServicesContainer');
+
+            if ($container.length > 0) {
+                showLoading();
+                $container.html('');
+                $container.load('@Url.Action(nameof(APIProfileController.ActiveServices), "APIProfile")?profileId=' + profileId, () => {
+                    hideLoading();
+                });
+            }
         }
 
         function loadInactiveServices(profileId) {
-            showLoading();
-            $('#inactiveServicesContainer').html('');
-            $('#inactiveServicesContainer').load('@Url.Action(nameof(APIProfileController.InactiveServices), "APIProfile")?profileId=' + profileId, () => {
-                hideLoading();
-            });
+            const $container = $('#inactiveServicesContainer');
+
+            if ($container.length > 0) {
+                showLoading();
+                $container.html('');
+                $container.load('@Url.Action(nameof(APIProfileController.InactiveServices), "APIProfile")?profileId=' + profileId, () => {
+                    hideLoading();
+                });
+            }
         }
 
         // End Profile Services -----------------------------------------------------------------------------
@@ -100,11 +108,13 @@
             const $container = $('#access-logs'),
                 data = 'profileId=' + profileId + '&days=' + days;
 
-            showLoading();
-            $container.html('');
-            $container.load('@Url.Action(nameof(APIProfileController.APIAccessLogs), "APIProfile")?' + data, () => {
-                hideLoading();
-            });
+            if ($container.length > 0) {
+                showLoading();
+                $container.html('');
+                $container.load('@Url.Action(nameof(APIProfileController.APIAccessLogs), "APIProfile")?' + data, () => {
+                    hideLoading();
+                });
+            }
         }
 
         // End Access Logs ----------------------------------------------------------------------------------

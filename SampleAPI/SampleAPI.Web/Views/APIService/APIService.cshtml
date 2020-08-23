@@ -5,138 +5,144 @@
            dtFormat = "{0:yyyy-MM-ddTHH:mm:ss}";
 }
 
-
-<div>
-    <h5>Profile: @(Model.Name)</h5>
-    <hr />
-    <div class="d-flex flex-column">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab">Details</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="api-service-defined-fields-tab" data-toggle="tab" href="#api-service-defined-fields" role="tab">Service Defined Fields</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="api-profiles-tab" data-toggle="tab" href="#api-profiles" role="tab">API Profiles</a>
-            </li>
-        </ul>
-        <div class="tab-content p-1">
-            <hr />
-            <div class="tab-pane fade show active" id="details" role="tabpanel">
-                <form action="@Url.Action(nameof(APIServiceController.UpdateAPIService), "APIService")" method="post">
-                    @Html.HiddenFor(x => x.Id)
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label for="txtName@(unique)" class="input-group-text" style="width: 100px">Name</label>
+@if (Model != null)
+{
+    <div>
+        <h5>Profile: @(Model.Name)</h5>
+        <hr />
+        <div class="d-flex flex-column">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab">Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="api-service-defined-fields-tab" data-toggle="tab" href="#api-service-defined-fields" role="tab">Service Defined Fields</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="api-profiles-tab" data-toggle="tab" href="#api-profiles" role="tab">API Profiles</a>
+                </li>
+            </ul>
+            <div class="tab-content p-1">
+                <hr />
+                <div class="tab-pane fade show active" id="details" role="tabpanel">
+                    <form action="@Url.Action(nameof(APIServiceController.UpdateAPIService), "APIService")" method="post">
+                        @Html.HiddenFor(x => x.Id)
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label for="txtName@(unique)" class="input-group-text" style="width: 100px">Name</label>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", id = $"txtName{unique}" })
                                 </div>
-                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", id = $"txtName{unique}" })
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 100px">Action</label>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" style="width: 100px">Action</label>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.Action, new { @class = "form-control" })
                                 </div>
-                                @Html.TextBoxFor(x => x.Action, new { @class = "form-control" })
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 100px">Controller</label>
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" style="width: 100px">Controller</label>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.Controller, dtFormat, new { @class = "form-control" })
                                 </div>
-                                @Html.TextBoxFor(x => x.Controller, dtFormat, new { @class = "form-control" })
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label for="txtDescription@(unique)" class="input-group-text" style="width: 100px">Description</label>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label for="txtDescription@(unique)" class="input-group-text" style="width: 100px">Description</label>
+                                    </div>
+                                    @Html.TextAreaFor(x => x.Description, new { @class = "form-control", id = $"txtDescription{unique}" })
                                 </div>
-                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", id = $"txtDescription{unique}" })
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="form-check">
-                                @Html.CheckBoxFor(x => x.Disabled, new { @class = "form-check-input", type = "checkbox" })
-                                @Html.LabelFor(x => x.Disabled, new { @class = "form-check-label" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 200px">Disabled HTTP Code</label>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(x => x.Disabled, new { @class = "form-check-input", type = "checkbox" })
+                                    @Html.LabelFor(x => x.Disabled, new { @class = "form-check-label" })
                                 </div>
-                                @Html.DropDownListFor(x => x.DisabledResponseCode, APIServiceViewModel.HttpResponseCodes, new { @class = "form-control" })
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 200px">Disabled HTTP Message</label>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" style="width: 200px">Disabled HTTP Code</label>
+                                    </div>
+                                    @Html.DropDownListFor(x => x.DisabledResponseCode, APIServiceViewModel.HttpResponseCodes, new { @class = "form-control" })
                                 </div>
-                                @Html.TextAreaFor(x => x.DisabledResponseMessage, new { @class = "form-control" })
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 100px">Created By</label>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" style="width: 200px">Disabled HTTP Message</label>
+                                    </div>
+                                    @Html.TextAreaFor(x => x.DisabledResponseMessage, new { @class = "form-control" })
                                 </div>
-                                @Html.TextBoxFor(x => x.CreatedBy, new { @class = "form-control", @readonly = "readonly" })
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 100px">Created On</label>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" style="width: 100px">Created By</label>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.CreatedBy, new { @class = "form-control", @readonly = "readonly" })
                                 </div>
-                                @Html.TextBoxFor(x => x.CreatedOn, dtFormat, new { @class = "form-control", @readonly = "readonly", type = "datetime-local" })
                             </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 100px">Modified By</label>
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" style="width: 100px">Created On</label>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.CreatedOn, dtFormat, new { @class = "form-control", @readonly = "readonly", type = "datetime-local" })
                                 </div>
-                                @Html.TextBoxFor(x => x.ModifiedBy, new { @class = "form-control", @readonly = "readonly" })
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 100px">Modified On</label>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" style="width: 100px">Modified By</label>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.ModifiedBy, new { @class = "form-control", @readonly = "readonly" })
                                 </div>
-                                @Html.TextBoxFor(x => x.ModifiedOn, dtFormat, new { @class = "form-control", @readonly = "readonly", type = "datetime-local" })
+                            </div>
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" style="width: 100px">Modified On</label>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.ModifiedOn, dtFormat, new { @class = "form-control", @readonly = "readonly", type = "datetime-local" })
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa fa-save"></i></button>
-                </form>
-            </div>
-            <div class="tab-pane fade" id="api-service-defined-fields" role="tabpanel">
-                @Html.Partial("~/Views/APIService/ServiceDefinedFields.cshtml", Model)
-            </div>
-            <div class="tab-pane fade" id="api-profiles" role="tabpanel">
-                @Html.Partial("~/Views/APIService/APIProfiles.cshtml", Model.APIProfileService.Select(link => link.APIProfile))
+                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa fa-save"></i></button>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="api-service-defined-fields" role="tabpanel">
+                    @Html.Partial("~/Views/APIService/ServiceDefinedFields.cshtml", Model)
+                </div>
+                <div class="tab-pane fade" id="api-profiles" role="tabpanel">
+                    @Html.Partial("~/Views/APIService/APIProfiles.cshtml", Model.APIProfileService.Select(link => link.APIProfile))
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <div>No API profiles found</div>
+}

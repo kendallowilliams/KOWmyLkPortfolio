@@ -40,7 +40,7 @@ namespace SampleAPI.API.Attributes
                     }
                     else
                     {
-                        request.Headers.Add("APIProfileId", profile.Id.ToString());
+                        request.Headers.Add(nameof(APIProfileService.APIProfileId), profile.Id.ToString());
                     }
                 }
             }
