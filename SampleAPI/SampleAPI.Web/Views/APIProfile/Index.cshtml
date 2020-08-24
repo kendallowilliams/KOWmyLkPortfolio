@@ -28,7 +28,7 @@
                                 @foreach (APIProfile profile in group.OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
                                 {
                                     <button type="button" class="list-group-item list-group-item-action py-0 @(profile.Id == selectedId ? "active" : string.Empty)"
-                                            onclick="">
+                                            onclick="loadProfile(@(profile.Id))">
                                         @(profile.Name)
                                     </button>
                                 }
