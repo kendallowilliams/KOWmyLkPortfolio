@@ -81,18 +81,29 @@
             },
             error = (xhr, status, error) => {
                 alert('Status: ' + status + ', Error: ' + error);
-            };
+            },
+            $fields = $form.find('input, textarea');
 
-        showLoading();
-        $.ajax({
-            url: '@Url.Action(nameof(APIProfileController.AddAPIProfile), "APIProfile")',
-            data: formData,
-            processData: false,
-            contentType: false,
-            method: 'POST',
-            success: success,
-            error: error
+        $field.each((index, item) => {
+            if (item.checkValidity()) {
+                $(item).removeClass('is-invalid');
+            } else {
+                $(item).addClass('is-invalid');
+            }
         });
+
+        if (!$fields.hasClass('is-invalid')) {
+            showLoading();
+            $.ajax({
+                url: '@Url.Action(nameof(APIProfileController.AddAPIProfile), "APIProfile")',
+                data: formData,
+                processData: false,
+                contentType: false,
+                method: 'POST',
+                success: success,
+                error: error
+            });
+        }
     }
 
     $('#addAPIProfileModal').on('show.bs.modal', e => {
