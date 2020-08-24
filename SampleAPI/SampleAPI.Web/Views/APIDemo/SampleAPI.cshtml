@@ -1,8 +1,22 @@
 ﻿@model APIDemoViewModel
 
 @{
-
+    var linkGroups = Model.APIProfileServices.GroupBy(item => item.APIService.Name);
+    var asyncTestLinks = linkGroups.FirstOrDefault(group => "AsyncTest".Equals(group?.Key, StringComparison.OrdinalIgnoreCase))?
+                                   .Select(item => new
+                                   {
+                                       item.APIProfile.Name,
+                                       item.APIProfile.Id,
+                                       NumberOfTasks = item.GetServiceDefinedFields()
+                                                           .FirstOrDefault(field => "NumberOfTasks".Equals(field.Name, StringComparison.OrdinalIgnoreCase)).GetIntValue()
+                                   })
+                                   .Select(item => new SelectListItem()
+                                   {
+                                       Text = $"{item.Name} [Task Count: {item.NumberOfTasks}]",
+                                       Value = item.Id.ToString()
+                                   }) ?? Enumerable.Empty<SelectListItem>();
 }
+
 <div class="row h-100">
     <div class="col-3 border-right">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
@@ -16,11 +30,11 @@
                     <div class="col-4 border-right">
                         <div>Async Test</div>
                         <hr />
-                        <div class="input-group input-group-sm" style="width: 175px">
+                        <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Task Count</span>
+                                <span class="input-group-text">API Profile</span>
                             </div>
-                            <input class="form-control" type="number" min="5" max="10" value="5" />
+                            @Html.DropDownList(nameof(APIProfileService), asyncTestLinks, new { @class = "form-control", id = $"ddl{nameof(APIProfileService)}_AsyncTestProfile" })
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-outline-secondary" onclick="runAsyncTest(this)"><i class="fa fa-upload"></i></button>
                             </div>
@@ -28,7 +42,7 @@
                     </div>
                     <div class="col-8">
                         <div class="input-group">
-                            <textarea class="form-control" id="txtAsyncTestResults" style="resize: none" readonly="readonly"></textarea>
+                            <textarea class="form-control" id="txtAsyncTestResults" readonly="readonly"></textarea>
                         </div>
                     </div>
                 </div>

@@ -23,12 +23,12 @@
     <script type="text/javascript" defer="defer">
         function runAsyncTest(btn) {
             const $btn = $(btn),
-                $input = $(btn.parentNode.parentNode).find('input'),
-                taskCount = $input.val();
+                $ddl = $('#ddl@(nameof(APIProfileService))_AsyncTestProfile'),
+                profileId = $ddl.val();
 
             showLoading();
-            $.post('@Url.Action(nameof(APIDemoController.AsyncTest), "APIDemo")', { numberOfTasks: taskCount }, data => {
-                $('#txtAsyncTestResults').prop('rows', taskCount).text(data);
+            $.post('@Url.Action(nameof(APIDemoController.AsyncTest), "APIDemo")', { profileId: profileId }, data => {
+                $('#txtAsyncTestResults').text(data);
                 hideLoading();
             });
         }

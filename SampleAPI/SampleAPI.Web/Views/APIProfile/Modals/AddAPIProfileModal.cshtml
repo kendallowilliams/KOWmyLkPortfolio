@@ -84,7 +84,7 @@
             },
             $fields = $form.find('input, textarea');
 
-        $field.each((index, item) => {
+        $fields.each((index, item) => {
             if (item.checkValidity()) {
                 $(item).removeClass('is-invalid');
             } else {
