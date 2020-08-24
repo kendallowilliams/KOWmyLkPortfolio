@@ -21,7 +21,13 @@
                                 <div class="input-group-prepend">
                                     <label for="txtName@(unique)" class="input-group-text" style="width: 100px">Name</label>
                                 </div>
-                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", id = $"txtName{unique}" })
+                                @Html.TextBoxFor(x => x.Name, new
+                                {
+                                    @class = "form-control",
+                                    id = $"txtName{unique}",
+                                    placeholder = "Enter a unique name...",
+                                    required = "required"
+                                })
                             </div>
                         </div>
                     </div>
@@ -31,7 +37,13 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" style="width: 100px" for="txtAction@(unique)">Action</label>
                                 </div>
-                                @Html.TextBoxFor(x => x.Action, new { @class = "form-control", id = $"txtAction{unique}" })
+                                @Html.TextBoxFor(x => x.Action, new
+                                {
+                                    @class = "form-control",
+                                    id = $"txtAction{unique}",
+                                    placeholder = "Enter action name...",
+                                    required = "required"
+                                })
                             </div>
                         </div>
                         <div class="col">
@@ -39,7 +51,12 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" style="width: 100px" for="txtController@(unique)">Controller</label>
                                 </div>
-                                @Html.TextBoxFor(x => x.Controller, new { @class = "form-control", id = $"txtController{unique}" })
+                                @Html.TextBoxFor(x => x.Controller, new
+                                {
+                                    @class = "form-control",
+                                    id = $"txtController{unique}",
+                                    placeholder = "Enter controller name..."
+                                })
                             </div>
                         </div>
                     </div>
@@ -49,7 +66,13 @@
                                 <div class="input-group-prepend">
                                     <label for="txtDescription@(unique)" class="input-group-text" style="width: 100px">Description</label>
                                 </div>
-                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", id = $"txtDescription{unique}" })
+                                @Html.TextAreaFor(x => x.Description, new
+                                {
+                                    @class = "form-control",
+                                    id = $"txtDescription{unique}",
+                                    placeholder = "Enter a description...",
+                                    required = "required"
+                                })
                             </div>
                         </div>
                     </div>
