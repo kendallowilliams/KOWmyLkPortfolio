@@ -107,6 +107,10 @@
     }
 
     $('#addAPIProfileModal').on('show.bs.modal', e => {
-        $('#form@(unique)').trigger('reset');
+        const $form = $('#form@(unique)'),
+            $fields = $form.find('input, textarea');
+
+        $fields.removeClass('is-invalid');
+        $form.trigger('reset');
     });
 </script>
