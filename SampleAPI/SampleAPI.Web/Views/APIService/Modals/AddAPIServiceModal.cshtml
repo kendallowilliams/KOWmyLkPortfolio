@@ -29,7 +29,7 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 100px">Action</label>
+                                    <label class="input-group-text" style="width: 100px" for="txtAction@(unique)">Action</label>
                                 </div>
                                 @Html.TextBoxFor(x => x.Action, new { @class = "form-control", id = $"txtAction{unique}" })
                             </div>
@@ -37,7 +37,7 @@
                         <div class="col">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" style="width: 100px">Controller</label>
+                                    <label class="input-group-text" style="width: 100px" for="txtController@(unique)">Controller</label>
                                 </div>
                                 @Html.TextBoxFor(x => x.Controller, new { @class = "form-control", id = $"txtController{unique}" })
                             </div>
