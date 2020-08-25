@@ -32,10 +32,10 @@ namespace SampleAPI.API.Controllers
             APIProfileService link = await dataService.Get<APIProfileService>(item => item.Id == linkId);
             IEnumerable<ServiceDefinedField> fields = link.GetServiceDefinedFields();
             int numberOfTasks = fields.FirstOrDefault(item => item.Name.Equals("NumberOfTasks", StringComparison.OrdinalIgnoreCase))?.GetIntValue() ?? 0,
-                maxDelay = 6; // up to five seconds
+                maxDelay = 5;
 
             var tasks = Enumerable.Range(0, numberOfTasks)
-                                  .Select(index => new { Index = index, Start = DateTime.Now, Delay = rand.Next() % maxDelay })
+                                  .Select(index => new { Index = index, Start = DateTime.Now, Delay = (rand.Next() % maxDelay) + 1 /* 1 to maxDelay */ })
                                   .Select(item => Task.Delay(item.Delay * 1000).ContinueWith(_ => new
                                   {
                                     item.Index,
