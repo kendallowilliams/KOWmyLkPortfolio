@@ -81,6 +81,7 @@
             },
             error = (xhr, status, error) => {
                 alert('Status: ' + status + ', Error: ' + error);
+                hideLoading();
             },
             $fields = $form.find('input, textarea');
 
