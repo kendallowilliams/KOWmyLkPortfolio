@@ -178,5 +178,31 @@ namespace SampleAPI.DAL.Services
 
             return entities;
         }
+
+        public async Task<int> Count<T>(Expression<Func<T, bool>> expression, CancellationToken token = default(CancellationToken)) where T : class
+        {
+            int count = 0;
+
+            using (var db = new SampleAPIContext())
+            {
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                count = await db.Set<T>().CountAsync(expression, token);
+            }
+
+            return count;
+        }
+
+        public async Task<bool> Exists<T>(Expression<Func<T, bool>> expression, CancellationToken token = default(CancellationToken)) where T : class
+        {
+            bool exists;
+
+            using (var db = new SampleAPIContext())
+            {
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                exists = await db.Set<T>().CountAsync(expression, token) > 0;
+            }
+
+            return exists;
+        }
     }
 }

@@ -19,5 +19,7 @@ namespace SampleAPI.DAL.Services.Interfaces
         Task<int> Insert<T>(T entity, CancellationToken token = default(CancellationToken)) where T : class, IDataModel;
         Task<int> Delete<T>(object id, CancellationToken token = default(CancellationToken)) where T : class, IDataModel;
         Task<IEnumerable<T>> FromSqlRaw<T>(string sql, CancellationToken token = default(CancellationToken), params object[] parameters) where T : class;
+        Task<int> Count<T>(Expression<Func<T, bool>> expression, CancellationToken token = default(CancellationToken)) where T : class;
+        Task<bool> Exists<T>(Expression<Func<T, bool>> expression, CancellationToken token = default(CancellationToken)) where T : class;
     }
 }
