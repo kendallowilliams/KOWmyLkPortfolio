@@ -24,11 +24,13 @@
         function runAsyncTest(btn) {
             const $btn = $(btn),
                 $ddl = $('#ddl@(nameof(APIProfileService))_AsyncTestProfile'),
-                profileId = $ddl.val();
+                values = $ddl.val().split(":"),
+                profileId = values[0],
+                numberOfTasks = values[1];
 
             showLoading();
             $.post('@Url.Action(nameof(APIDemoController.AsyncTest), "APIDemo")', { profileId: profileId }, data => {
-                $('#txtAsyncTestResults').text(data);
+                $('#txtAsyncTestResults').text(data).prop('rows', numberOfTasks);
                 hideLoading();
             });
         }

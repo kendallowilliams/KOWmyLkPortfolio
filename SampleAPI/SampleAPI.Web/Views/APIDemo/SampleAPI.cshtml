@@ -2,18 +2,17 @@
 
 @{
     var linkGroups = Model.APIProfileServices.GroupBy(item => item.APIService.Name);
-    var asyncTestLinks = linkGroups.FirstOrDefault(group => "AsyncTest".Equals(group?.Key, StringComparison.OrdinalIgnoreCase))?
+    var asyncTestLinks = linkGroups.FirstOrDefault(group => "AsyncTest".Equals(group.Key, StringComparison.OrdinalIgnoreCase))?
                                    .Select(item => new
                                    {
                                        item.APIProfile.Name,
                                        item.APIProfile.Id,
-                                       NumberOfTasks = item.GetServiceDefinedFields()
-                                                           .FirstOrDefault(field => "NumberOfTasks".Equals(field.Name, StringComparison.OrdinalIgnoreCase)).GetIntValue()
+                                       NumberOfTasks = item.GetServiceDefinedFields().GetField("NumberOfTasks").GetIntValue()
                                    })
                                    .Select(item => new SelectListItem()
                                    {
                                        Text = $"{item.Name} [Task Count: {item.NumberOfTasks}]",
-                                       Value = item.Id.ToString()
+                                       Value = $"{item.Id}:{item.NumberOfTasks}"
                                    }) ?? Enumerable.Empty<SelectListItem>();
 }
 
