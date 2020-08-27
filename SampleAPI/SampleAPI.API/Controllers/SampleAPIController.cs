@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.UI;
+using SampleAPI.DAL.Extensions;
 
 namespace SampleAPI.API.Controllers
 {
@@ -31,7 +32,7 @@ namespace SampleAPI.API.Controllers
             int.TryParse(profileServiceIds?.FirstOrDefault(), out int linkId);
             APIProfileService link = await dataService.Get<APIProfileService>(item => item.Id == linkId);
             IEnumerable<ServiceDefinedField> fields = link.GetServiceDefinedFields();
-            int numberOfTasks = fields.FirstOrDefault(item => item.Name.Equals("NumberOfTasks", StringComparison.OrdinalIgnoreCase))?.GetIntValue() ?? 0,
+            int numberOfTasks = fields.GetField("NumberOfTasks")?.GetIntValue() ?? 0,
                 maxDelay = 5;
 
             var tasks = Enumerable.Range(0, numberOfTasks)

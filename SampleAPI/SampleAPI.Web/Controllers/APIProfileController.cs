@@ -10,6 +10,7 @@ using static SampleAPI.Web.Enums;
 using SampleAPI.DAL.Services.Interfaces;
 using SampleAPI.DAL.Models;
 using Newtonsoft.Json;
+using SampleAPI.DAL.Extensions;
 
 namespace SampleAPI.Web.Controllers
 {
@@ -121,8 +122,7 @@ namespace SampleAPI.Web.Controllers
 
             foreach(ServiceDefinedField field in serviceFields)
             {
-                ServiceDefinedField existingField = existingFields.FirstOrDefault(item => item.Name.Equals(field.Name, StringComparison.OrdinalIgnoreCase) &&
-                                                                                          item.Type == field.Type);
+                ServiceDefinedField existingField = existingFields.GetField(field.Name, field.Type);
 
                 if (existingField != null) /*then*/ field.Value = existingField.Value;
             }
