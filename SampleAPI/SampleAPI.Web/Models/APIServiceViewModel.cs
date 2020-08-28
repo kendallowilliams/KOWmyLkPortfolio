@@ -23,7 +23,9 @@ namespace SampleAPI.Web.Models
         public int? SelectedServiceId { get; set; }
         public static IEnumerable<SelectListItem> HttpResponseCodes
         {
-            get => Enum.GetValues(typeof(HttpStatusCode)).Cast<int>()
+            get => Enum.GetValues(typeof(HttpStatusCode))
+                       .Cast<int>()
+                       .Where(code => code >= (int)HttpStatusCode.BadRequest)
                        .Select(value => new SelectListItem
                        {
                            Text = $"{value}: {Enum.GetName(typeof(HttpStatusCode), value)}",

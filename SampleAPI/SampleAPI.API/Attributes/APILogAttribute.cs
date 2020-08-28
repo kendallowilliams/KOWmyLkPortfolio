@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SampleAPI.DAL.DbContexts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +15,11 @@ namespace SampleAPI.API.Attributes
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+            using (var db = new SampleAPIContext())
+            {
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            }
+
             base.OnActionExecuting(actionContext);
         }
     }

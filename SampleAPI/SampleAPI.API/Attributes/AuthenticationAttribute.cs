@@ -1,4 +1,5 @@
-﻿using SampleAPI.BLL.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SampleAPI.BLL.Models;
 using SampleAPI.DAL.DbContexts;
 using SampleAPI.DAL.Models;
 using System;
@@ -31,6 +32,7 @@ namespace SampleAPI.API.Attributes
             {
                 using (var db = new SampleAPIContext())
                 {
+                    db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                     profile = db.APIProfile.FirstOrDefault(item => item.UserName.Equals(authentication.UserName) &&
                                                                    item.Password.Equals(authentication.Password));
 

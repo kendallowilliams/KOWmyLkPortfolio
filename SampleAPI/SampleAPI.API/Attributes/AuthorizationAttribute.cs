@@ -1,4 +1,5 @@
-﻿using SampleAPI.BLL.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SampleAPI.BLL.Models;
 using SampleAPI.BLL.Services.Interfaces;
 using SampleAPI.DAL.DbContexts;
 using SampleAPI.DAL.Models;
@@ -31,13 +32,29 @@ namespace SampleAPI.API.Attributes
 
             using (var db = new SampleAPIContext())
             {
-                link = db.APIProfileService.FirstOrDefault(item => item.APIService.Controller.Equals(controller) &&
-                                                                    item.APIService.Action.Equals(action) &&
-                                                                    item.APIProfileId == safeProfileId);
+                IQueryable<APIProfileService> query = db.APIProfileService.Include(item => item.APIService);
+
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                link = query.FirstOrDefault(item => item.APIService.Controller.Equals(controller) &&
+                                                    item.APIService.Action.Equals(action) &&
+                                                    item.APIProfileId == safeProfileId);
 
                 if (link == null)
                 {
                     actionContext.Response = request.CreateErrorResponse(HttpStatusCode.Unauthorized, "API profile not authorized to use this service");
+                }
+                else if (link.APIService.Disabled)
+                {
+                    APIService service = link.APIService;
+                    string savedCode = service.DisabledResponseCode.HasValue ? service.DisabledResponseCode.ToString() : string.Empty,
+                           statusMessage = !string.IsNullOrWhiteSpace(service.DisabledResponseMessage) ? service.DisabledResponseMessage : "API Service Unavailable";
+
+                    if (!Enum.TryParse(savedCode, out HttpStatusCode code))
+                    {
+                        code = HttpStatusCode.ServiceUnavailable;
+                    }
+                    
+                    actionContext.Response = request.CreateErrorResponse(code, statusMessage);
                 }
                 else
                 {
