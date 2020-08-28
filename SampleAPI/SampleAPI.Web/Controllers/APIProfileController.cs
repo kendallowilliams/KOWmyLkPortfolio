@@ -62,7 +62,11 @@ namespace SampleAPI.Web.Controllers
 
         public async Task<ActionResult> APIProfile(int id)
         {
-            APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == id);
+            APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == id, default, item => item.APIProfileService);
+            IEnumerable<int> activeServiceIds = profile.APIProfileService.Select(item => item.APIServiceId);
+
+            profile.HasAllServices = await dataService.Exists<APIService>(item => !activeServiceIds.Contains(item.Id))
+                                                      .ContinueWith(task => !task.Result);
 
             return PartialView("~/Views/APIProfile/APIProfile.cshtml", profile);
         }

@@ -21,9 +21,12 @@
                         <a class="nav-link" id="active-services-tab" data-toggle="tab" href="#active-services" role="tab">Active Services</a>
                     </li>
                 }
-                <li class="nav-item">
-                    <a class="nav-link" id="inactive-services-tab" data-toggle="tab" href="#inactive-services" role="tab">Inactive Services</a>
-                </li>
+                @if (!Model.HasAllServices)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" id="inactive-services-tab" data-toggle="tab" href="#inactive-services" role="tab">Inactive Services</a>
+                    </li>
+                }
                 <li class="nav-item">
                     <a class="nav-link" id="access-logs-tab" data-toggle="tab" href="#access-logs" role="tab">Access Logs</a>
                 </li>
