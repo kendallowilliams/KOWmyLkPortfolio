@@ -70,7 +70,7 @@
                 showLoading();
                 $.post('@Url.Action(nameof(APIProfileController.AddProfileService), "APIProfile")', { profileId: profileId, serviceId: serviceId }, () => {
                     hideLoading();
-                    loadServices(profileId);
+                    loadProfile(profileId);
                 });
             }
         }
@@ -80,7 +80,7 @@
                 showLoading();
                 $.post('@Url.Action(nameof(APIProfileController.RemoveProfileService), "APIProfile")', { profileServiceId: profileServiceId }, () => {
                     hideLoading();
-                    loadServices(profileId);
+                    loadProfile(profileId);
                 });
             }
         }

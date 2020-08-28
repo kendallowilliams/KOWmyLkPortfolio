@@ -15,18 +15,12 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab">Details</a>
                 </li>
-                @if (Model.APIProfileService.Any())
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" id="active-services-tab" data-toggle="tab" href="#active-services" role="tab">Active Services</a>
-                    </li>
-                }
-                @if (!Model.HasAllServices)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" id="inactive-services-tab" data-toggle="tab" href="#inactive-services" role="tab">Inactive Services</a>
-                    </li>
-                }
+                <li class="nav-item @(Model.APIProfileService.Any() ? string.Empty : "d-none")">
+                    <a class="nav-link" id="active-services-tab" data-toggle="tab" href="#active-services" role="tab">Active Services</a>
+                </li>
+                <li class="nav-item @(Model.HasAllServices ? "d-none" : string.Empty)">
+                    <a class="nav-link" id="inactive-services-tab" data-toggle="tab" href="#inactive-services" role="tab">Inactive Services</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" id="access-logs-tab" data-toggle="tab" href="#access-logs" role="tab">Access Logs</a>
                 </li>
