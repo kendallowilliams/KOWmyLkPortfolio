@@ -25,14 +25,16 @@
             const $btn = $(btn),
                 $ddl = $('#ddl@(nameof(APIProfileService))_AsyncTestProfile'),
                 values = $ddl.val().split(":"),
-                profileId = values[0],
-                numberOfTasks = values[1];
+                profileId = values.length === 2 ? values[0] : '',
+                numberOfTasks = values.length === 2 ? values[1] : '';
 
-            showLoading();
-            $.post('@Url.Action(nameof(APIDemoController.AsyncTest), "APIDemo")', { profileId: profileId }, data => {
-                $('#txtAsyncTestResults').text(data).prop('rows', numberOfTasks);
-                hideLoading();
-            });
+            if (profileId && numberOfTasks) {
+                showLoading();
+                $.post('@Url.Action(nameof(APIDemoController.AsyncTest), "APIDemo")', { profileId: profileId }, data => {
+                    $('#txtAsyncTestResults').text(data).prop('rows', numberOfTasks);
+                    hideLoading();
+                });
+            }
         }
     </script>    
 }
