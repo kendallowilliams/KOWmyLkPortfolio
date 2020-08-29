@@ -2,7 +2,7 @@
 
 @{
     var linkGroups = Model.APIProfileServices.GroupBy(item => item.APIService.Name);
-    var asyncTestLinks = linkGroups.FirstOrDefault(group => "AsyncTest".Equals(group.Key, StringComparison.OrdinalIgnoreCase))?
+    var asyncTestLinks = linkGroups.FirstOrDefault(group => "Async Test".Equals(group.Key, StringComparison.OrdinalIgnoreCase))?
                                    .Select(item => new
                                    {
                                        item.APIProfile.Name,
@@ -14,6 +14,7 @@
                                        Text = $"{item.Name} [Task Count: {item.NumberOfTasks}]",
                                        Value = $"{item.Id}:{item.NumberOfTasks}"
                                    }) ?? Enumerable.Empty<SelectListItem>();
+    APIService asyncTaskService = Model.APIServices.FirstOrDefault(item => "Async Test".Equals(item.Name, StringComparison.OrdinalIgnoreCase));
 }
 
 <div class="row h-100">
@@ -27,7 +28,10 @@
             <div class="tab-pane fade show active" role="tabpanel">
                 <div class="row">
                     <div class="col-4 border-right">
-                        <h6>Async Test</h6>
+                        <div class="d-flex flex-row">
+                            <h6 style="flex: 1 1 auto">Async Test</h6>
+                            <span data-toggle="tooltip" title="@(asyncTaskService?.Description)"><i class="fa fa-info-circle"></i></span>
+                        </div>
                         <hr />
                         <div class="input-group input-group-sm">
                             <div class="input-group-prepend">

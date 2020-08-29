@@ -36,6 +36,7 @@ namespace SampleAPI.Web.Controllers
                 default, 
                 item => item.APIProfile,
                 item => item.APIService);
+            apiDemoViewModel.APIServices = await dataService.GetList<APIService>();
 
             return View(apiDemoViewModel);
         }

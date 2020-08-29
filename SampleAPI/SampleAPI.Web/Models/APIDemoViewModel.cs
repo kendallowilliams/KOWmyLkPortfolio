@@ -15,8 +15,10 @@ namespace SampleAPI.Web.Models
         public APIDemoViewModel() : base(Pages.APIDemo)
         {
             APIProfileServices = Enumerable.Empty<APIProfileService>();
+            APIServices = Enumerable.Empty<APIService>();
         }
 
         public IEnumerable<APIProfileService> APIProfileServices { get; set; }
+        public IEnumerable<APIService> APIServices { get; set; }
     }
 }
