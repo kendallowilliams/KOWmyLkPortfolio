@@ -30,11 +30,8 @@ namespace SampleAPI.BLL.Services
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", b64Credentials);
                 message = await client.GetAsync(requestUri);
-
-                if (message.IsSuccessStatusCode)
-                {
-                    result = JsonConvert.DeserializeObject<T>(await message.Content.ReadAsStringAsync());
-                }
+                message.EnsureSuccessStatusCode();
+                result = JsonConvert.DeserializeObject<T>(await message.Content.ReadAsStringAsync());
             }
 
             return result;
@@ -52,11 +49,8 @@ namespace SampleAPI.BLL.Services
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", b64Credentials);
                 message = await client.PostAsync(requestUri, default);
-
-                if (message.IsSuccessStatusCode)
-                {
-                    result = JsonConvert.DeserializeObject<T>(await message.Content.ReadAsStringAsync());
-                }
+                message.EnsureSuccessStatusCode();
+                result = JsonConvert.DeserializeObject<T>(await message.Content.ReadAsStringAsync());
             }
 
             return result;

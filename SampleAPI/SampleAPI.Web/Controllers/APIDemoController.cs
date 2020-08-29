@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
@@ -41,12 +42,23 @@ namespace SampleAPI.Web.Controllers
 
         public async Task<string> AsyncTest(int profileId)
         {
-            APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == profileId);
-            Uri path = new Uri(apiUri, Url.Action("AsyncTest", "SampleAPI"));
-            IEnumerable<string> results = await httpClientService.Post<IEnumerable<string>>(path, profile.UserName, profile.Password) ?? 
-                                          Enumerable.Empty<string>();
+            string result = string.Empty;
 
-            return string.Join(Environment.NewLine, results);
+            try
+            {
+                APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == profileId);
+                Uri path = new Uri(apiUri, Url.Action("AsyncTest", "SampleAPI"));
+                IEnumerable<string> results = await httpClientService.Post<IEnumerable<string>>(path, profile.UserName, profile.Password) ??
+                                              Enumerable.Empty<string>();
+
+                result = string.Join(Environment.NewLine, results);
+            }
+            catch(HttpRequestException ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
         }
     }
 }
