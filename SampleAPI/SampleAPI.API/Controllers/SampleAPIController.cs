@@ -44,7 +44,7 @@ namespace SampleAPI.API.Controllers
             int.TryParse(profileServiceIds?.FirstOrDefault(), out int linkId);
             APIProfileService link = await dataService.Get<APIProfileService>(item => item.Id == linkId);
             IEnumerable<ServiceDefinedField> fields = link.GetServiceDefinedFields();
-            int? position = fields.GetField("Position")?.GetIntValue();
+            int? position = fields.GetField("SequenceIndex")?.GetIntValue();
             ulong result = 0;
 
             if (position.HasValue && position >= 0)
@@ -61,12 +61,12 @@ namespace SampleAPI.API.Controllers
             int.TryParse(profileServiceIds?.FirstOrDefault(), out int linkId);
             APIProfileService link = await dataService.Get<APIProfileService>(item => item.Id == linkId);
             IEnumerable<ServiceDefinedField> fields = link.GetServiceDefinedFields();
-            int? position = fields.GetField("SequenceQuantity")?.GetIntValue();
+            int? sequenceQuantity = fields.GetField("SequenceQuantity")?.GetIntValue();
             IEnumerable<ulong> results = Enumerable.Empty<ulong>();
 
-            if (position.HasValue && position >= 0)
+            if (sequenceQuantity.HasValue && sequenceQuantity >= 0)
             {
-                results = sampleAPIService.FibonacciSequence(position.Value);
+                results = sampleAPIService.FibonacciSequence(sequenceQuantity.Value);
             }
 
             return results;

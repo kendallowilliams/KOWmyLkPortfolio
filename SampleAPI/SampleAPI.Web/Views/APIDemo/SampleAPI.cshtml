@@ -19,11 +19,11 @@
                                    {
                                        item.APIProfile.Name,
                                        item.APIProfile.Id,
-                                       Position = item.GetServiceDefinedFields().GetField("Position").GetIntValue()
+                                       SequenceIndex = item.GetServiceDefinedFields().GetField("SequenceIndex").GetIntValue()
                                    })
                                    .Select(item => new SelectListItem()
                                    {
-                                       Text = $"{item.Name} [Position: {item.Position}]",
+                                       Text = $"{item.Name} [Sequence Index: {item.SequenceIndex}]",
                                        Value = item.Id.ToString()
                                    }) ?? Enumerable.Empty<SelectListItem>();
     var fibonacciSequenceLinks = linkGroups.FirstOrDefault(group => "Fibonacci Sequence".Equals(group.Key, StringComparison.OrdinalIgnoreCase))?
@@ -35,7 +35,7 @@
                                            })
                                            .Select(item => new SelectListItem()
                                            {
-                                               Text = $"{item.Name} [SequenceQuantity: {item.SequenceQuantity}]",
+                                               Text = $"{item.Name} [Sequence Quantity: {item.SequenceQuantity}]",
                                                Value = item.Id.ToString()
                                            }) ?? Enumerable.Empty<SelectListItem>();
     APIService asyncTestService = Model.APIServices.FirstOrDefault(item => "Async Test".Equals(item.Name, StringComparison.OrdinalIgnoreCase)),

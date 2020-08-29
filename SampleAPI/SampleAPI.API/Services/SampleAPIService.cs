@@ -38,29 +38,42 @@ namespace SampleAPI.API.Services
             return results;
         }
 
-        public ulong Fibonacci(int position)
+        public ulong Fibonacci(int sequenceIndex)
         {
-            return (position == 0 || position == 1) ? (ulong)position : Fibonacci(position - 1) + Fibonacci(position - 2);
-        }
-
-        public IEnumerable<ulong> FibonacciSequence(int position)
-        {
-            List<int> storage = new List<int>();
-            ulong[] sequence = new ulong[position];
-            int startPosition = 2;
+            ulong[] sequence = new ulong[sequenceIndex];
+            int startPosition = 2; // exclude 0 and 1
 
             sequence[0] = 0;
             sequence[1] = 1;
 
-            if (position > 1)
+            if (sequenceIndex > 2)
             {
-                for (int index = startPosition; index < position; index++)
+                for (int index = startPosition; index < sequenceIndex; index++)
                 {
                     sequence[index] = sequence[index - 1] + sequence[index - 2];
                 }
             }
 
-            return sequence.Take(position);
+            return sequence[sequenceIndex];
+        }
+
+        public IEnumerable<ulong> FibonacciSequence(int sequenceQuantity)
+        {
+            ulong[] sequence = new ulong[sequenceQuantity];
+            int startPosition = 2; // exclude 0 and 1
+
+            sequence[0] = 0;
+            sequence[1] = 1;
+
+            if (sequenceQuantity > 1)
+            {
+                for (int index = startPosition; index < sequenceQuantity; index++)
+                {
+                    sequence[index] = sequence[index - 1] + sequence[index - 2];
+                }
+            }
+
+            return sequence.Take(sequenceQuantity);
         }
     }
 }

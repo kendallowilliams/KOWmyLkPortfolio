@@ -9,7 +9,7 @@ namespace SampleAPI.API.Services.Interfaces
     public interface ISampleAPIService
     {
         Task<IEnumerable<string>> ExecuteDelayedTasks(int numberOfTasks);
-        ulong Fibonacci(int position);
-        IEnumerable<ulong> FibonacciSequence(int position);
+        ulong Fibonacci(int sequenceIndex);
+        IEnumerable<ulong> FibonacciSequence(int sequenceQuantity);
     }
 }
