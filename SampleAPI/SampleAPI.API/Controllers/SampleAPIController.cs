@@ -44,12 +44,12 @@ namespace SampleAPI.API.Controllers
             int.TryParse(profileServiceIds?.FirstOrDefault(), out int linkId);
             APIProfileService link = await dataService.Get<APIProfileService>(item => item.Id == linkId);
             IEnumerable<ServiceDefinedField> fields = link.GetServiceDefinedFields();
-            int? position = fields.GetField("SequenceIndex")?.GetIntValue();
+            int? sequenceIndex = fields.GetField("SequenceIndex")?.GetIntValue();
             ulong result = 0;
 
-            if (position.HasValue && position >= 0)
+            if (sequenceIndex.HasValue && sequenceIndex >= 0)
             {
-                result = sampleAPIService.Fibonacci(position.Value);
+                result = sampleAPIService.Fibonacci(sequenceIndex.Value);
             }
 
             return result;

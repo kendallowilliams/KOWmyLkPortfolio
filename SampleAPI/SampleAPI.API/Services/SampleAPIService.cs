@@ -40,15 +40,15 @@ namespace SampleAPI.API.Services
 
         public ulong Fibonacci(int sequenceIndex)
         {
-            ulong[] sequence = new ulong[sequenceIndex];
+            ulong[] sequence = new ulong[sequenceIndex + 1];
             int startPosition = 2; // exclude 0 and 1
 
             sequence[0] = 0;
-            sequence[1] = 1;
+            if (sequenceIndex > 0) /*then*/ sequence[1] = 1;
 
-            if (sequenceIndex > 2)
+            if (sequenceIndex > 1)
             {
-                for (int index = startPosition; index < sequenceIndex; index++)
+                for (int index = startPosition; index < sequence.Length; index++)
                 {
                     sequence[index] = sequence[index - 1] + sequence[index - 2];
                 }
