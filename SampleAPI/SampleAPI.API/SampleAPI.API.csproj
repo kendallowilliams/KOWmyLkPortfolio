@@ -203,6 +203,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Interfaces\ISampleAPIService.cs" />
+    <Compile Include="Services\SampleAPIService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

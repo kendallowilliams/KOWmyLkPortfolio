@@ -27,8 +27,8 @@
                             <div class="list-group list-group-flush py-0">
                                 @foreach (APIService service in group.OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
                                 {
-                                    <button type="button" class="list-group-item list-group-item-action py-0 @(service.Id == selectedId ? "active" : string.Empty)"
-                                            onclick="loadService(@(service.Id))">
+                                    <button type="button" class="list-group-item list-group-item-action py-0"
+                                            onclick="loadService(@(service.Id))" data-service-id="@(service.Id)">
                                         @(service.Name)
                                     </button>
                                 }
@@ -47,6 +47,7 @@
     <script type="text/javascript" defer="defer">
         function loadService(id) {
             showLoading();
+            $('button[data-service-id]').removeClass('active').filter('[data-service-id="' + id + '"]').addClass('active');
             $('#serviceContainer').html('');
             $("#serviceContainer").load('@Url.Action(nameof(APIServiceController.APIService), "APIService")?id=' + id, () => {
                 hideLoading();

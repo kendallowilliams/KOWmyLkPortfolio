@@ -79,7 +79,7 @@
                                     <div class="input-group-prepend">
                                         <label class="input-group-text" style="width: 200px">Disabled HTTP Code</label>
                                     </div>
-                                    @Html.DropDownListFor(x => x.DisabledResponseCode, APIServiceViewModel.HttpResponseCodes, new { @class = "form-control" })
+                                    @Html.DropDownListFor(x => x.DisabledResponseCode, APIServiceViewModel.HttpResponseCodes, "Select an HTTP code...", new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.UI;
 using SampleAPI.DAL.Extensions;
+using SampleAPI.API.Services.Interfaces;
 
 namespace SampleAPI.API.Controllers
 {
@@ -17,35 +18,46 @@ namespace SampleAPI.API.Controllers
     public class SampleAPIController : BaseController
     {
         private readonly IDataService dataService;
+        private readonly ISampleAPIService sampleAPIService;
 
         [ImportingConstructor]
-        public SampleAPIController(IDataService dataService) : base()
+        public SampleAPIController(IDataService dataService, ISampleAPIService sampleAPIService) : base()
         {
             this.dataService = dataService;
+            this.sampleAPIService = sampleAPIService;
         }
 
         public async Task<IEnumerable<string>> AsyncTest()
         {
-            IEnumerable<string> results = Enumerable.Empty<string>();
-            Random rand = new Random(DateTime.Now.Millisecond);
             Request.Headers.TryGetValues("APIProfileServiceId", out IEnumerable<string> profileServiceIds);
             int.TryParse(profileServiceIds?.FirstOrDefault(), out int linkId);
             APIProfileService link = await dataService.Get<APIProfileService>(item => item.Id == linkId);
             IEnumerable<ServiceDefinedField> fields = link.GetServiceDefinedFields();
-            int numberOfTasks = fields.GetField("NumberOfTasks")?.GetIntValue() ?? 0,
-                maxDelay = 5;
+            int numberOfTasks = fields.GetField("NumberOfTasks")?.GetIntValue() ?? 0;
 
-            var tasks = Enumerable.Range(0, numberOfTasks)
-                                  .Select(index => new { Index = index, Start = DateTime.Now, Delay = (rand.Next() % maxDelay) + 1 /* 1 to maxDelay */ })
-                                  .Select(item => Task.Delay(item.Delay * 1000).ContinueWith(_ => new
-                                  {
-                                    item.Index,
-                                    item.Start,
-                                    item.Delay,
-                                    End = DateTime.Now
-                                  }));
-            results = await Task.WhenAll(tasks)
-                                .ContinueWith(task => task.Result.Select(item => $"Task: {item.Index}, Delay: {item.Delay}, Start: {item.Start}, End: {item.End}"));
+            return await sampleAPIService.ExecuteDelayedTasks(numberOfTasks);
+        }
+
+        public int? Fibonacci(int position)
+        {
+            int? result = default;
+
+            if (position >= 0)
+            {
+                result = sampleAPIService.Fibonacci(position);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<int> FibonacciSequence(int position)
+        {
+            IEnumerable<int> results = Enumerable.Empty<int>();
+
+            if (position >= 0)
+            {
+                results = sampleAPIService.FibonacciSequence(position);
+            }
 
             return results;
         }

@@ -27,7 +27,7 @@
                             <div class="list-group list-group-flush py-0">
                                 @foreach (APIProfile profile in group.OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
                                 {
-                                    <button type="button" class="list-group-item list-group-item-action py-0 @(profile.Id == selectedId ? "active" : string.Empty)"
+                                    <button type="button" class="list-group-item list-group-item-action py-0" data-profile-id="@(profile.Id)"
                                             onclick="loadProfile(@(profile.Id))">
                                         @(profile.Name)
                                     </button>
@@ -47,6 +47,7 @@
     <script type="text/javascript" defer="defer">
         function loadProfile(id) {
             showLoading();
+            $('button[data-profile-id]').removeClass('active').filter('[data-profile-id="' + id + '"]').addClass('active');
             $('#profileContainer').html('');
             $("#profileContainer").load('@Url.Action(nameof(APIProfileController.APIProfile), "APIProfile")?id=' + id, () => {
                 hideLoading();
