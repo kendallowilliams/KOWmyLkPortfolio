@@ -14,23 +14,51 @@
                                        Text = $"{item.Name} [Task Count: {item.NumberOfTasks}]",
                                        Value = $"{item.Id}:{item.NumberOfTasks}"
                                    }) ?? Enumerable.Empty<SelectListItem>();
-    APIService asyncTaskService = Model.APIServices.FirstOrDefault(item => "Async Test".Equals(item.Name, StringComparison.OrdinalIgnoreCase));
+    var fibonacciLinks = linkGroups.FirstOrDefault(group => "Fibonacci".Equals(group.Key, StringComparison.OrdinalIgnoreCase))?
+                                   .Select(item => new
+                                   {
+                                       item.APIProfile.Name,
+                                       item.APIProfile.Id,
+                                       Position = item.GetServiceDefinedFields().GetField("Position").GetIntValue()
+                                   })
+                                   .Select(item => new SelectListItem()
+                                   {
+                                       Text = $"{item.Name} [Position: {item.Position}]",
+                                       Value = item.Id.ToString()
+                                   }) ?? Enumerable.Empty<SelectListItem>();
+    var fibonacciSequenceLinks = linkGroups.FirstOrDefault(group => "Fibonacci Sequence".Equals(group.Key, StringComparison.OrdinalIgnoreCase))?
+                                           .Select(item => new
+                                           {
+                                               item.APIProfile.Name,
+                                               item.APIProfile.Id,
+                                               SequenceQuantity = item.GetServiceDefinedFields().GetField("SequenceQuantity").GetIntValue()
+                                           })
+                                           .Select(item => new SelectListItem()
+                                           {
+                                               Text = $"{item.Name} [SequenceQuantity: {item.SequenceQuantity}]",
+                                               Value = item.Id.ToString()
+                                           }) ?? Enumerable.Empty<SelectListItem>();
+    APIService asyncTestService = Model.APIServices.FirstOrDefault(item => "Async Test".Equals(item.Name, StringComparison.OrdinalIgnoreCase)),
+       fibonacciService = Model.APIServices.FirstOrDefault(item => "Fibonacci".Equals(item.Name, StringComparison.OrdinalIgnoreCase)),
+       fibonacciSequenceService = Model.APIServices.FirstOrDefault(item => "Fibonacci Sequence".Equals(item.Name, StringComparison.OrdinalIgnoreCase));
 }
 
 <div class="row h-100">
     <div class="col-3 border-right">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
             <a class="nav-link active" id="v-pills-async-test-tab" data-toggle="pill" href="#v-pills-async-test" role="tab">Async Test</a>
+            <a class="nav-link" id="v-pills-fibonacci-tab" data-toggle="pill" href="#v-pills-fibonacci" role="tab">Fibonacci</a>
+            <a class="nav-link" id="v-pills-fibonacci-sequence-tab" data-toggle="pill" href="#v-pills-fibonacci-sequence" role="tab">Fibonacci Sequence</a>
         </div>
     </div>
     <div class="col-9">
-        <div class="tab-content" id="v-pills-async-test">
-            <div class="tab-pane fade show active" role="tabpanel">
+        <div class="tab-content" role="tablist">
+            <div class="tab-pane fade show active" role="tabpanel" id="v-pills-async-test">
                 <div class="row">
                     <div class="col-4 border-right">
                         <div class="d-flex flex-row">
                             <h6 style="flex: 1 1 auto">Async Test</h6>
-                            <span data-toggle="tooltip" title="@(asyncTaskService?.Description)"><i class="fa fa-info-circle"></i></span>
+                            <span data-toggle="tooltip" title="@(asyncTestService?.Description)"><i class="fa fa-info-circle"></i></span>
                         </div>
                         <hr />
                         <div class="input-group input-group-sm">
@@ -46,6 +74,56 @@
                     <div class="col-8">
                         <div class="input-group">
                             <textarea class="form-control" id="txtAsyncTestResults" readonly="readonly"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" role="tabpanel" id="v-pills-fibonacci">
+                <div class="row">
+                    <div class="col-4 border-right">
+                        <div class="d-flex flex-row">
+                            <h6 style="flex: 1 1 auto">Fibonacci</h6>
+                            <span data-toggle="tooltip" title="@(fibonacciService?.Description)"><i class="fa fa-info-circle"></i></span>
+                        </div>
+                        <hr />
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">API Profile</span>
+                            </div>
+                            @Html.DropDownList(nameof(APIProfileService), fibonacciLinks, "Select a profile...", new { @class = "form-control", id = $"ddl{nameof(APIProfileService)}_FibonacciProfile" })
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-secondary" onclick="runFibonacci(this)"><i class="fa fa-upload"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <textarea class="form-control" id="txtFibonacciResults" readonly="readonly"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" role="tabpanel" id="v-pills-fibonacci-sequence">
+                <div class="row">
+                    <div class="col-4 border-right">
+                        <div class="d-flex flex-row">
+                            <h6 style="flex: 1 1 auto">Fibonacci</h6>
+                            <span data-toggle="tooltip" title="@(fibonacciSequenceService?.Description)"><i class="fa fa-info-circle"></i></span>
+                        </div>
+                        <hr />
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">API Profile</span>
+                            </div>
+                            @Html.DropDownList(nameof(APIProfileService), fibonacciSequenceLinks, "Select a profile...", new { @class = "form-control", id = $"ddl{nameof(APIProfileService)}_FibonacciSequenceProfile" })
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-secondary" onclick="runFibonacciSequence(this)"><i class="fa fa-upload"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <textarea class="form-control" id="txtFibonacciSequenceResults" readonly="readonly"></textarea>
                         </div>
                     </div>
                 </div>

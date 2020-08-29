@@ -61,5 +61,43 @@ namespace SampleAPI.Web.Controllers
 
             return result;
         }
+
+        public async Task<string> Fibonacci(int profileId)
+        {
+            string result = string.Empty;
+
+            try
+            {
+                APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == profileId);
+                Uri path = new Uri(apiUri, Url.Action("Fibonacci", "SampleAPI"));
+                result = await httpClientService.Post<string>(path, profile.UserName, profile.Password);
+            }
+            catch (HttpRequestException ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
+
+        public async Task<string> FibonacciSequence(int profileId)
+        {
+            string result = string.Empty;
+
+            try
+            {
+                APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == profileId);
+                Uri path = new Uri(apiUri, Url.Action("FibonacciSequence", "SampleAPI"));
+                IEnumerable<ulong> sequence = await httpClientService.Post<IEnumerable<ulong>>(path, profile.UserName, profile.Password);
+
+                result = string.Join(", ", sequence);
+            }
+            catch (HttpRequestException ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
     }
 }

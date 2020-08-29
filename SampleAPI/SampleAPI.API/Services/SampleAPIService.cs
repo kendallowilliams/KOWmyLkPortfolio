@@ -38,22 +38,29 @@ namespace SampleAPI.API.Services
             return results;
         }
 
-        public int Fibonacci(int position, List<int> storage = null)
+        public ulong Fibonacci(int position)
         {
-            int result = (position == 0 || position == 1) ? position : Fibonacci(position - 1) + Fibonacci(position - 2);
-
-            if (storage != null) /*then*/ storage.Add(result);
-
-            return result;
+            return (position == 0 || position == 1) ? (ulong)position : Fibonacci(position - 1) + Fibonacci(position - 2);
         }
 
-        public IEnumerable<int> FibonacciSequence(int position)
+        public IEnumerable<ulong> FibonacciSequence(int position)
         {
             List<int> storage = new List<int>();
+            ulong[] sequence = new ulong[position];
+            int startPosition = 2;
 
-            Fibonacci(position, storage);
+            sequence[0] = 0;
+            sequence[1] = 1;
 
-            return storage;
+            if (position > 1)
+            {
+                for (int index = startPosition; index < position; index++)
+                {
+                    sequence[index] = sequence[index - 1] + sequence[index - 2];
+                }
+            }
+
+            return sequence.Take(position);
         }
     }
 }

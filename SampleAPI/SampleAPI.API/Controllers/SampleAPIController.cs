@@ -38,25 +38,35 @@ namespace SampleAPI.API.Controllers
             return await sampleAPIService.ExecuteDelayedTasks(numberOfTasks);
         }
 
-        public int? Fibonacci(int position)
+        public async Task<ulong> Fibonacci()
         {
-            int? result = default;
+            Request.Headers.TryGetValues("APIProfileServiceId", out IEnumerable<string> profileServiceIds);
+            int.TryParse(profileServiceIds?.FirstOrDefault(), out int linkId);
+            APIProfileService link = await dataService.Get<APIProfileService>(item => item.Id == linkId);
+            IEnumerable<ServiceDefinedField> fields = link.GetServiceDefinedFields();
+            int? position = fields.GetField("Position")?.GetIntValue();
+            ulong result = 0;
 
-            if (position >= 0)
+            if (position.HasValue && position >= 0)
             {
-                result = sampleAPIService.Fibonacci(position);
+                result = sampleAPIService.Fibonacci(position.Value);
             }
 
             return result;
         }
 
-        public IEnumerable<int> FibonacciSequence(int position)
+        public async Task<IEnumerable<ulong>> FibonacciSequence()
         {
-            IEnumerable<int> results = Enumerable.Empty<int>();
+            Request.Headers.TryGetValues("APIProfileServiceId", out IEnumerable<string> profileServiceIds);
+            int.TryParse(profileServiceIds?.FirstOrDefault(), out int linkId);
+            APIProfileService link = await dataService.Get<APIProfileService>(item => item.Id == linkId);
+            IEnumerable<ServiceDefinedField> fields = link.GetServiceDefinedFields();
+            int? position = fields.GetField("SequenceQuantity")?.GetIntValue();
+            IEnumerable<ulong> results = Enumerable.Empty<ulong>();
 
-            if (position >= 0)
+            if (position.HasValue && position >= 0)
             {
-                results = sampleAPIService.FibonacciSequence(position);
+                results = sampleAPIService.FibonacciSequence(position.Value);
             }
 
             return results;

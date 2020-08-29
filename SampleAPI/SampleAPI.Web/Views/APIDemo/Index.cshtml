@@ -36,5 +36,33 @@
                 });
             }
         }
+
+        function runFibonacci(btn) {
+            const $btn = $(btn),
+                $ddl = $('#ddl@(nameof(APIProfileService))_FibonacciProfile'),
+                profileId = $ddl.val();
+
+            if (profileId) {
+                showLoading();
+                $.post('@Url.Action(nameof(APIDemoController.Fibonacci), "APIDemo")', { profileId: profileId }, data => {
+                    $('#txtFibonacciResults').text(data);
+                    hideLoading();
+                });
+            }
+        }
+
+        function runFibonacciSequence(btn) {
+            const $btn = $(btn),
+                $ddl = $('#ddl@(nameof(APIProfileService))_FibonacciSequenceProfile'),
+                profileId = $ddl.val();
+
+            if (profileId) {
+                showLoading();
+                $.post('@Url.Action(nameof(APIDemoController.FibonacciSequence), "APIDemo")', { profileId: profileId }, data => {
+                    $('#txtFibonacciSequenceResults').text(data);
+                    hideLoading();
+                });
+            }
+        }
     </script>    
 }
