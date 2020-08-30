@@ -40,13 +40,13 @@ namespace SampleAPI.API.Services
 
         public ulong Fibonacci(int sequenceIndex)
         {
-            ulong[] sequence = new ulong[sequenceIndex + 1];
             int startPosition = 2; // exclude 0 and 1
+            ulong[] sequence = sequenceIndex >= startPosition ? new ulong[sequenceIndex + 1] : new ulong[startPosition]; // default to 0 and 1 only
 
             sequence[0] = 0;
-            if (sequenceIndex > 0) /*then*/ sequence[1] = 1;
+            sequence[1] = 1;
 
-            if (sequenceIndex > 1)
+            if (sequenceIndex >= startPosition)
             {
                 for (int index = startPosition; index < sequence.Length; index++)
                 {
@@ -54,18 +54,18 @@ namespace SampleAPI.API.Services
                 }
             }
 
-            return sequence[sequenceIndex];
+            return sequenceIndex >= 0 ? sequence[sequenceIndex] : 0;
         }
 
         public IEnumerable<ulong> FibonacciSequence(int sequenceQuantity)
         {
-            ulong[] sequence = new ulong[sequenceQuantity];
             int startPosition = 2; // exclude 0 and 1
+            ulong[] sequence = sequenceQuantity > startPosition ? new ulong[sequenceQuantity] : new ulong[startPosition]; // default to 0 and 1 only
 
             sequence[0] = 0;
             sequence[1] = 1;
 
-            if (sequenceQuantity > 1)
+            if (sequenceQuantity > startPosition)
             {
                 for (int index = startPosition; index < sequenceQuantity; index++)
                 {
@@ -73,7 +73,7 @@ namespace SampleAPI.API.Services
                 }
             }
 
-            return sequence.Take(sequenceQuantity);
+            return sequence.Take(sequenceQuantity).OrderBy(item => item);
         }
     }
 }
