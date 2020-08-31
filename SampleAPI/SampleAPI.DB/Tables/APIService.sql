@@ -9,6 +9,7 @@
     [DisabledResponseCode] INT NULL,
     [DisabledResponseMessage] VARCHAR(1024) NULL,
     [ServiceDefinedFields] VARCHAR(MAX) NULL,
+    [ConnectionInfo] VARCHAR(MAX) NULL,
     [CreatedBy] VARCHAR(128) NOT NULL, 
     [CreatedOn] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP, 
     [ModifiedBy] VARCHAR(128) NOT NULL, 
