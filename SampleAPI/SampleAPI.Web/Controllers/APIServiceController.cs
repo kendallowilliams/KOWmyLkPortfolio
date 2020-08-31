@@ -11,6 +11,8 @@ using SampleAPI.DAL.Services.Interfaces;
 using System.Reflection;
 using Newtonsoft.Json;
 using SampleAPI.DAL.Models;
+using System.Text;
+using System.IO;
 
 namespace SampleAPI.Web.Controllers
 {
@@ -27,7 +29,7 @@ namespace SampleAPI.Web.Controllers
             this.dataService = dataService;
         }
 
-        public async Task<ActionResult> Index(int? id)
+        public async Task<ActionResult> Index(int? id = null)
         {
             apiServiceViewModel.APIServices = await dataService.GetList<APIService>();
             apiServiceViewModel.SelectedServiceId = id;
@@ -85,6 +87,17 @@ namespace SampleAPI.Web.Controllers
             service.ServiceDefinedFields = JsonConvert.SerializeObject(fields);
             service.ModifiedBy = Request.UserHostAddress;
             await dataService.Update(service);
+        }
+
+        public async Task<ActionResult> GetConnectionInfo(int serviceId)
+        {
+            APIService service = await dataService.Get<APIService>(item => item.Id == serviceId);
+            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss"),
+                   fileName = $"{service.Name}_{timestamp}.txt";
+
+            foreach (char ch in Path.GetInvalidFileNameChars()) /*then*/ fileName.Replace(ch, '_');
+
+            return File(Encoding.UTF8.GetBytes(service.ConnectionInfo), "text/plain", fileName);
         }
     }
 }

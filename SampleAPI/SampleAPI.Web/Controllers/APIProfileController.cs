@@ -27,7 +27,7 @@ namespace SampleAPI.Web.Controllers
             this.dataService = dataService;
         }
 
-        public async Task<ActionResult> Index(int? id)
+        public async Task<ActionResult> Index(int? id = null)
         {
             apiProfileViewModel.APIProfiles = await dataService.GetList<APIProfile>();
             apiProfileViewModel.SelectedProfileId = id;

@@ -14,6 +14,12 @@
                 <label class="input-group-text">@(link.APIService.Name)</label>
             </div>
             <div class="input-group-append">
+                @if (!string.IsNullOrWhiteSpace(link.APIService.ConnectionInfo))
+                {
+                    <a class="btn btn-outline-info" href="@Url.Action(nameof(APIServiceController.GetConnectionInfo), "APIService", new { serviceId = link.APIService.Id })">
+                        <i class="fa fa-share-alt"></i>
+                    </a>
+                }
                 @if (fields.Any())
                 {
                     <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#serviceDefinedFieldsModal" data-item-id="@(link.Id)"><i class="fa fa-cog"></i></button>

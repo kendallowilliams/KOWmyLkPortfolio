@@ -13,6 +13,12 @@
                 <label class="input-group-text">@(service.Name)</label>
             </div>
             <div class="input-group-append">
+                @if (!string.IsNullOrWhiteSpace(service.ConnectionInfo))
+                {
+                    <a class="btn btn-outline-secondary" href="@Url.Action(nameof(APIServiceController.GetConnectionInfo), "APIService", new { serviceId = service.Id })">
+                        <i class="fa fa-share-alt"></i>
+                    </a>
+                }
                 <button type="button" class="btn btn-outline-primary" onclick="addProfileService(@(Model.ProfileId), @(service.Id))"><i class="fa fa-plus"></i></button>
             </div>
         </div>

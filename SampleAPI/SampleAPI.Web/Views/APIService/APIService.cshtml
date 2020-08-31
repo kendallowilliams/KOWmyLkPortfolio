@@ -26,7 +26,8 @@
                 <hr />
                 <div class="tab-pane fade show active" id="details" role="tabpanel">
                     <form action="@Url.Action(nameof(APIServiceController.UpdateAPIService), "APIService")" method="post">
-                        @Html.HiddenFor(x => x.Id, new { id = $"txtId{unique}"})
+                        @Html.HiddenFor(x => x.Id, new { id = $"txtId{unique}" })
+                        @Html.HiddenFor(x => x.ServiceDefinedFields, new { id = $"txtServiceDefinedFields{unique}" })
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="input-group input-group-sm">
@@ -90,6 +91,16 @@
                                         <label class="input-group-text" style="width: 200px">Disabled HTTP Message</label>
                                     </div>
                                     @Html.TextAreaFor(x => x.DisabledResponseMessage, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" style="width: 200px">Connection Info</label>
+                                    </div>
+                                    @Html.TextAreaFor(x => x.ConnectionInfo, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
