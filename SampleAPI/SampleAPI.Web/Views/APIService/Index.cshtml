@@ -109,8 +109,10 @@
                 $field = $(btn.parentNode.parentNode),
                 $container = $('[data-container="@(nameof(ServiceDefinedField))"]');
 
-            $field.remove();
-            updateServiceDefinedFields(serviceId);
+            if (window.confirm('Please confirm you want to delete this field...')) {
+                $field.remove();
+                updateServiceDefinedFields(serviceId);
+            }
         }
 
         function updateServiceDefinedFields(serviceId) {

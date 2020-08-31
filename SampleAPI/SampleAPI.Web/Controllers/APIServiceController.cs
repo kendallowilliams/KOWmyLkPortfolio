@@ -70,8 +70,12 @@ namespace SampleAPI.Web.Controllers
 
         public async Task<ActionResult> UpdateAPIService(APIService service)
         {
-            if (service != null)
-            {
+            int? serviceId = service?.Id;
+            APIService existingService = await dataService.Get<APIService>(item => item.Id == serviceId);
+
+            if (service != null && existingService != null)
+            {   // prevent service defined fields from being overwritten
+                service.ServiceDefinedFields = existingService.ServiceDefinedFields;
                 service.ModifiedBy = Request.UserHostAddress;
                 await dataService.Update(service);
             }
