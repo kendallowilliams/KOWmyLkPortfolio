@@ -19,6 +19,7 @@ namespace SampleAPI.DAL.Models
         public int? DisabledResponseCode { get; set; }
         public string DisabledResponseMessage { get; set; }
         public string ServiceDefinedFields { get; set; }
+        public string ConnectionInfo { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public string ModifiedBy { get; set; }

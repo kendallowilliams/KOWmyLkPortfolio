@@ -56,7 +56,6 @@ namespace SampleAPI.DAL.DbContexts
                 entity.HasOne(d => d.APIProfileService)
                     .WithMany(p => p.APIAccessLog)
                     .HasForeignKey(d => d.APIProfileServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_APIAccessLog_APIProfileService");
             });
 
@@ -121,13 +120,11 @@ namespace SampleAPI.DAL.DbContexts
                 entity.HasOne(d => d.APIProfile)
                     .WithMany(p => p.APIProfileService)
                     .HasForeignKey(d => d.APIProfileId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_APIProfileService_APIProfile");
 
                 entity.HasOne(d => d.APIService)
                     .WithMany(p => p.APIProfileService)
                     .HasForeignKey(d => d.APIServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_APIProfileService_APIService");
             });
 
@@ -137,6 +134,8 @@ namespace SampleAPI.DAL.DbContexts
                     .IsRequired()
                     .HasMaxLength(128)
                     .IsUnicode(false);
+
+                entity.Property(e => e.ConnectionInfo).IsUnicode(false);
 
                 entity.Property(e => e.Controller)
                     .IsRequired()
