@@ -73,8 +73,12 @@ namespace SampleAPI.Web.Controllers
 
         public async Task<ActionResult> UpdateAPIProfile(APIProfile profile)
         {
-            if (profile != null)
-            {
+            int? profileId = profile?.Id;
+            APIProfile existingProfile = await dataService.Get<APIProfile>(item => item.Id == profileId);
+
+            if (profile != null && existingProfile != null)
+            {   // prevent name from being overwritten
+                profile.Name = existingProfile.Name;
                 profile.ModifiedBy = Request.UserHostAddress;
                 await dataService.Update(profile);
             }
