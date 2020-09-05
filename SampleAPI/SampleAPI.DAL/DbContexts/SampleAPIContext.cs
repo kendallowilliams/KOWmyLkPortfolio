@@ -1,180 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using SampleAPI.DAL.Models;
 
 namespace SampleAPI.DAL.DbContexts
 {
-    public partial class SampleAPIContext : DbContext
+    public class SampleAPIContext : SampleAPIContextBase
     {
+        public static IEnumerable<string> Tables = Enumerable.Empty<string>();
+
         public SampleAPIContext()
         {
         }
 
-        public SampleAPIContext(DbContextOptions<SampleAPIContext> options)
-            : base(options)
+        public SampleAPIContext(DbContextOptions<SampleAPIContextBase> options) : base(options)
         {
         }
 
-        public virtual DbSet<APIAccessLog> APIAccessLog { get; set; }
-        public virtual DbSet<APIProfile> APIProfile { get; set; }
-        public virtual DbSet<APIProfileService> APIProfileService { get; set; }
-        public virtual DbSet<APIService> APIService { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=kserver;Initial Catalog=SampleAPI;Persist Security Info=True;User ID=kserver_sql_dev;Password=kserver_sql_dev;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False");
-            }
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<APIAccessLog>(entity =>
+            IEnumerable<Type> ignoredEntities = Enumerable.Empty<Type>();
+
+            if (Tables == null) /*then*/ Tables = Enumerable.Empty<string>();
+            base.OnModelCreating(modelBuilder);
+            if (Tables.Any())
             {
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
+                ignoredEntities = modelBuilder.Model.GetEntityTypes()
+                                                    .Where(item => !Tables.Contains(item.Name, StringComparer.OrdinalIgnoreCase))
+                                                    .Select(item => item.ClrType);
+            }
 
-                entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.IPAddress)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
-
-                entity.HasOne(d => d.APIProfileService)
-                    .WithMany(p => p.APIAccessLog)
-                    .HasForeignKey(d => d.APIProfileServiceId)
-                    .HasConstraintName("FK_APIAccessLog_APIProfileService");
-            });
-
-            modelBuilder.Entity<APIProfile>(entity =>
-            {
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(1024)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Email)
-                    .HasMaxLength(256)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<APIProfileService>(entity =>
-            {
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.ServiceDefinedFields).IsUnicode(false);
-
-                entity.HasOne(d => d.APIProfile)
-                    .WithMany(p => p.APIProfileService)
-                    .HasForeignKey(d => d.APIProfileId)
-                    .HasConstraintName("FK_APIProfileService_APIProfile");
-
-                entity.HasOne(d => d.APIService)
-                    .WithMany(p => p.APIProfileService)
-                    .HasForeignKey(d => d.APIServiceId)
-                    .HasConstraintName("FK_APIProfileService_APIService");
-            });
-
-            modelBuilder.Entity<APIService>(entity =>
-            {
-                entity.Property(e => e.Action)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ConnectionInfo).IsUnicode(false);
-
-                entity.Property(e => e.Controller)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(1024)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.DisabledResponseMessage)
-                    .HasMaxLength(1024)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ServiceDefinedFields).IsUnicode(false);
-            });
-
-            OnModelCreatingPartial(modelBuilder);
+            foreach(Type entity in ignoredEntities) { modelBuilder.Ignore(entity); }
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

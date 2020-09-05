@@ -10,15 +10,10 @@ namespace SampleAPI.DAL.DbContexts
         {
         }
 
-        public SampleAPIContextGeneric(DbContextOptions<SampleAPIContext> options) : base(options)
+        public SampleAPIContextGeneric(DbContextOptions<SampleAPIContextBase> options) : base(options)
         {
         }
 
         public DbSet<T> Entities { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
     }
 }
