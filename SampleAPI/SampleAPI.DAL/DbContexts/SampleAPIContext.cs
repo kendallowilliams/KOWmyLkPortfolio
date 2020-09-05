@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using SampleAPI.DAL.DbContextConfigs;
 using SampleAPI.DAL.Models;
 
 namespace SampleAPI.DAL.DbContexts
 {
     public class SampleAPIContext : SampleAPIContextBase
     {
-        public static IEnumerable<string> Tables = Enumerable.Empty<string>();
-
         public SampleAPIContext()
         {
         }
@@ -28,13 +27,14 @@ namespace SampleAPI.DAL.DbContexts
         {
             IEnumerable<Type> ignoredEntities = Enumerable.Empty<Type>();
 
-            if (Tables == null) /*then*/ Tables = Enumerable.Empty<string>();
+            if (SampleAPIContextConfig.Entities == null) /*then*/ SampleAPIContextConfig.Entities = Enumerable.Empty<Type>();
             base.OnModelCreating(modelBuilder);
-            if (Tables.Any())
+            if (SampleAPIContextConfig.Entities.Any())
             {
                 ignoredEntities = modelBuilder.Model.GetEntityTypes()
-                                                    .Where(item => !Tables.Contains(item.Name, StringComparer.OrdinalIgnoreCase))
-                                                    .Select(item => item.ClrType);
+                                                    .Where(item => !SampleAPIContextConfig.Entities.Contains(item.ClrType))
+                                                    .Select(item => item.ClrType)
+                                                    .ToList();
             }
 
             foreach(Type entity in ignoredEntities) { modelBuilder.Ignore(entity); }
