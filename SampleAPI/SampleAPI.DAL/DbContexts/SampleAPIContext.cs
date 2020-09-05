@@ -7,7 +7,7 @@ namespace SampleAPI.DAL.DbContexts
 {
     public class SampleAPIContext : SampleAPIContextBase
     {
-        public SampleAPIContext()
+        public SampleAPIContext() : base()
         {
         }
 
