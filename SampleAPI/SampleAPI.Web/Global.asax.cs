@@ -18,7 +18,6 @@ namespace SampleAPI.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             MefConfig.RegisterMEF(ControllerBuilder.Current);
-            DALConfig.RegisterDAL();
         }
     }
 }
