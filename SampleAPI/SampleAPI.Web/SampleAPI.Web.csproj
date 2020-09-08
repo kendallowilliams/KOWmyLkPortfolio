@@ -497,6 +497,7 @@
     <Content Include="Views\APIDemo\SampleAPI.cshtml" />
     <Content Include="Views\APIProfile\Modals\AddAPIProfileModal.cshtml" />
     <Content Include="Views\APIService\Modals\AddAPIServiceModal.cshtml" />
+    <None Include="Properties\PublishProfiles\KSERVER.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SampleAPI.BLL\SampleAPI.BLL.csproj">
