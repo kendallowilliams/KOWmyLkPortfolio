@@ -48,7 +48,7 @@ namespace SampleAPI.Web.Controllers
             try
             {
                 APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == profileId);
-                Uri path = new Uri(apiUri, Url.Action("AsyncTest", "SampleAPI"));
+                Uri path = new Uri(apiUri, "SampleAPI/AsyncTest");
                 IEnumerable<string> results = await httpClientService.Post<IEnumerable<string>>(path, profile.UserName, profile.Password) ??
                                               Enumerable.Empty<string>();
 
@@ -69,7 +69,7 @@ namespace SampleAPI.Web.Controllers
             try
             {
                 APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == profileId);
-                Uri path = new Uri(apiUri, Url.Action("Fibonacci", "SampleAPI"));
+                Uri path = new Uri(apiUri, "SampleAPI/Fibonacci");
                 result = await httpClientService.Post<string>(path, profile.UserName, profile.Password);
             }
             catch (HttpRequestException ex)
@@ -87,7 +87,7 @@ namespace SampleAPI.Web.Controllers
             try
             {
                 APIProfile profile = await dataService.Get<APIProfile>(item => item.Id == profileId);
-                Uri path = new Uri(apiUri, Url.Action("FibonacciSequence", "SampleAPI"));
+                Uri path = new Uri(apiUri, "SampleAPI/FibonacciSequence");
                 IEnumerable<ulong> sequence = await httpClientService.Post<IEnumerable<ulong>>(path, profile.UserName, profile.Password);
 
                 result = string.Join(", ", sequence);
