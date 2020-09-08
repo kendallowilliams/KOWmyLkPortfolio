@@ -253,6 +253,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -480,6 +481,7 @@
     <Content Include="lib\font-awesome\webfonts\fa-solid-900.ttf" />
     <Content Include="lib\font-awesome\webfonts\fa-solid-900.woff" />
     <Content Include="lib\font-awesome\webfonts\fa-solid-900.woff2" />
+    <Content Include="Content\logo_kowmylk.design" />
     <None Include="packages.config" />
     <Content Include="Views\APIDemo\Index.cshtml" />
     <Content Include="Views\APIProfile\Index.cshtml" />
