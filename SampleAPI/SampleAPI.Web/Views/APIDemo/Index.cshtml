@@ -64,5 +64,21 @@
                 });
             }
         }
+
+        function runDisabledService(btn) {
+            const $btn = $(btn),
+                $ddl = $('#ddl@(nameof(APIProfileService))_DisabledServiceProfile'),
+                values = $ddl.val().split(":"),
+                profileId = values.length === 2 ? values[0] : '',
+                serviceId = values.length === 2 ? values[1] : '';
+
+            if (profileId && serviceId) {
+                showLoading();
+                $.post('@Url.Action(nameof(APIDemoController.DisabledService), "APIDemo")', { profileId: profileId, serviceId: serviceId }, data => {
+                    $('#txtDisabledServiceResults').text(data);
+                    hideLoading();
+                });
+            }
+        }
     </script>    
 }

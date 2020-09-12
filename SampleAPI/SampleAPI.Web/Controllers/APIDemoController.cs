@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using static SampleAPI.Web.Enums;
@@ -32,8 +34,8 @@ namespace SampleAPI.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
-            apiDemoViewModel.APIProfileServices = await dataService.GetList<APIProfileService>(default, 
-                default, 
+            apiDemoViewModel.APIProfileServices = await dataService.GetList<APIProfileService>(default,
+                default,
                 item => item.APIProfile,
                 item => item.APIService);
             apiDemoViewModel.APIServices = await dataService.GetList<APIService>();
@@ -54,7 +56,7 @@ namespace SampleAPI.Web.Controllers
 
                 result = string.Join(Environment.NewLine, results);
             }
-            catch(HttpRequestException ex)
+            catch (HttpRequestException ex)
             {
                 result = ex.Message;
             }
@@ -93,6 +95,39 @@ namespace SampleAPI.Web.Controllers
                 result = string.Join(", ", sequence);
             }
             catch (HttpRequestException ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
+
+        public async Task<string> DisabledService(int profileId, int serviceId)
+        {
+            string result = string.Empty;
+
+            try
+            {
+                APIProfileService link = await dataService.Get<APIProfileService>(item => item.APIProfileId == profileId &&
+                                                                                          item.APIServiceId == serviceId &&
+                                                                                          item.APIService.Disabled,
+                                                                                  default,
+                                                                                  item => item.APIService,
+                                                                                  item => item.APIProfile);
+                Uri path = new Uri(apiUri, $"{link.APIService.Controller}/{link.APIService.Action}");
+
+                using (var client = new HttpClient())
+                {
+                    HttpResponseMessage message = default;
+                    byte[] credentials = Encoding.UTF8.GetBytes($"{link.APIProfile.UserName}:{link.APIProfile.Password}");
+                    string b64Credentials = Convert.ToBase64String(credentials);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", b64Credentials);
+                    message = await client.PostAsync(path, default);
+                    result = $"HTTP Code: {(int)message.StatusCode}{Environment.NewLine}{await message.Content.ReadAsStringAsync()}";
+                }
+            }
+            catch (Exception ex)
             {
                 result = ex.Message;
             }

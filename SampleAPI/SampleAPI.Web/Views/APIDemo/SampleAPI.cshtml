@@ -2,7 +2,12 @@
 
 @{
     var linkGroups = Model.APIProfileServices.Where(item => !item.APIService.Disabled).GroupBy(item => item.APIService.Name);
-    var disabledLinkGroups = Model.APIProfileServices.Where(item => item.APIService.Disabled);
+    var disabledLinkGroups = Model.APIProfileServices.Where(item => item.APIService.Disabled &&
+                                                                    !Model.APIProfileServices.Any(link => link.APIService.Action.Equals(item.APIService.Action, StringComparison.OrdinalIgnoreCase) &&
+                                                                                                          link.APIService.Controller.Equals(item.APIService.Controller, StringComparison.OrdinalIgnoreCase) &&
+                                                                                                          link.APIProfileId == item.APIProfileId &&
+                                                                                                          !link.APIService.Disabled))
+                                                     .GroupBy(item => item.APIService.Name);
     var asyncTestLinks = linkGroups.FirstOrDefault(group => "Async Test".Equals(group.Key, StringComparison.OrdinalIgnoreCase))?
                            .Select(item => new
                            {
@@ -39,6 +44,13 @@
                                                Text = $"{item.Name} [Sequence Quantity: {item.SequenceQuantity}]",
                                                Value = item.Id.ToString()
                                            }) ?? Enumerable.Empty<SelectListItem>();
+    var disabledServiceLinks = disabledLinkGroups.Select(item => new { Group = new SelectListGroup() { Name = item.Key }, Items = item })
+                                                 .SelectMany(item => item.Items.Select(_item => new SelectListItem()
+                                                                               {
+                                                                                    Text = _item.APIProfile.Name,
+                                                                                    Value = $"{_item.APIProfile.Id}:{_item.APIService.Id}",
+                                                                                    Group = item.Group
+                                                                               }));
     APIService asyncTestService = Model.APIServices.FirstOrDefault(item => "Async Test".Equals(item.Name, StringComparison.OrdinalIgnoreCase)),
        fibonacciService = Model.APIServices.FirstOrDefault(item => "Fibonacci".Equals(item.Name, StringComparison.OrdinalIgnoreCase)),
        fibonacciSequenceService = Model.APIServices.FirstOrDefault(item => "Fibonacci Sequence".Equals(item.Name, StringComparison.OrdinalIgnoreCase));
@@ -50,6 +62,7 @@
             <a class="nav-link active" id="v-pills-async-test-tab" data-toggle="pill" href="#v-pills-async-test" role="tab">Async Test</a>
             <a class="nav-link" id="v-pills-fibonacci-tab" data-toggle="pill" href="#v-pills-fibonacci" role="tab">Fibonacci</a>
             <a class="nav-link" id="v-pills-fibonacci-sequence-tab" data-toggle="pill" href="#v-pills-fibonacci-sequence" role="tab">Fibonacci Sequence</a>
+            <a class="nav-link" id="v-pills-disabled-services-tab" data-toggle="pill" href="#v-pills-disabled-services" role="tab">Disabled Services</a>
         </div>
     </div>
     <div class="col-9">
@@ -125,6 +138,31 @@
                     <div class="col-8">
                         <div class="input-group">
                             <textarea class="form-control" id="txtFibonacciSequenceResults" readonly="readonly"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" role="tabpanel" id="v-pills-disabled-services">
+                <div class="row">
+                    <div class="col-4 border-right">
+                        <div class="d-flex flex-row">
+                            <h6 style="flex: 1 1 auto">Disabled Services</h6>
+                            <span data-toggle="tooltip" title="Returns API Service's disabled code and message"><i class="fa fa-info-circle"></i></span>
+                        </div>
+                        <hr />
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">API Profile</span>
+                            </div>
+                            @Html.DropDownList(nameof(APIProfileService), disabledServiceLinks, "Select a profile...", new { @class = "form-control", id = $"ddl{nameof(APIProfileService)}_DisabledServiceProfile" })
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-secondary" onclick="runDisabledService(this)"><i class="fa fa-upload"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <textarea class="form-control" id="txtDisabledServiceResults" readonly="readonly"></textarea>
                         </div>
                     </div>
                 </div>
