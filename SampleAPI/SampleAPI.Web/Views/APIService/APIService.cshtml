@@ -25,7 +25,7 @@
             <div class="tab-content p-1">
                 <hr />
                 <div class="tab-pane fade show active" id="details" role="tabpanel">
-                    <form action="@Url.Action(nameof(APIServiceController.UpdateAPIService), "APIService")" method="post">
+                    <form action="@Url.Action(nameof(APIServiceController.UpdateAPIService), "APIService")" method="post" disabled="disabled">
                         @Html.HiddenFor(x => x.Id, new { id = $"txtId{unique}" })
                         @Html.HiddenFor(x => x.ServiceDefinedFields, new { id = $"txtServiceDefinedFields{unique}" })
                         <div class="row mb-3">
@@ -69,7 +69,7 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="form-check">
-                                    @Html.CheckBoxFor(x => x.Disabled, new { @class = "form-check-input", type = "checkbox" })
+                                    @Html.CheckBoxFor(x => x.Disabled, new { @class = "form-check-input", type = "checkbox", data_demo_disabled = string.Empty })
                                     @Html.LabelFor(x => x.Disabled, new { @class = "form-check-label" })
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                     <div class="input-group-prepend">
                                         <label class="input-group-text" style="width: 200px">Disabled HTTP Code</label>
                                     </div>
-                                    @Html.DropDownListFor(x => x.DisabledResponseCode, APIServiceViewModel.HttpResponseCodes, "Select an HTTP code...", new { @class = "form-control" })
+                                    @Html.DropDownListFor(x => x.DisabledResponseCode, APIServiceViewModel.HttpResponseCodes, "Select an HTTP code...", new { @class = "form-control", data_demo_disabled = string.Empty })
                                 </div>
                             </div>
                         </div>
@@ -140,8 +140,12 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa fa-save"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteAPIService(@(Model.Id))"><i class="fa fa-trash"></i></button>
+                        <button type="submit" class="btn btn-sm btn-outline-primary" data-demo-disabled>
+                            <i class="fa fa-save"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteAPIService(@(Model.Id))" data-demo-disabled>
+                            <i class="fa fa-trash"></i>
+                        </button>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="api-service-defined-fields" role="tabpanel">

@@ -41,8 +41,7 @@ namespace SampleAPI.Web.Controllers
         {
             APIService existingService = await dataService.Get<APIService>(item => item.Name.Equals(service.Name) ||
                                                                                    item.Id == service.Id);
-
-            if (existingService == null)
+            if (existingService == null && !IsDemo())
             {
                 service.CreatedBy = service.ModifiedBy = Request.UserHostAddress;
                 await dataService.Insert(service);
@@ -55,7 +54,7 @@ namespace SampleAPI.Web.Controllers
         {
             APIService service = await dataService.Get<APIService>(item => item.Id == serviceId);
 
-            if (service != null)
+            if (service != null && !IsDemo())
             {
                 await dataService.Delete<APIService>(service.Id);
             }
@@ -73,7 +72,7 @@ namespace SampleAPI.Web.Controllers
             int? serviceId = service?.Id;
             APIService existingService = await dataService.Get<APIService>(item => item.Id == serviceId);
 
-            if (service != null && existingService != null)
+            if (service != null && existingService != null && !IsDemo())
             {   // prevent service defined fields from being overwritten
                 service.ServiceDefinedFields = existingService.ServiceDefinedFields;
                 service.ModifiedBy = Request.UserHostAddress;
@@ -87,10 +86,13 @@ namespace SampleAPI.Web.Controllers
         {
             APIService service = await dataService.Get<APIService>(item => item.Id == serviceId);
 
-            if (fields == null) /*then*/ fields = Enumerable.Empty<ServiceDefinedField>();
-            service.ServiceDefinedFields = JsonConvert.SerializeObject(fields);
-            service.ModifiedBy = Request.UserHostAddress;
-            await dataService.Update(service);
+            if (!IsDemo())
+            {
+                if (fields == null) /*then*/ fields = Enumerable.Empty<ServiceDefinedField>();
+                service.ServiceDefinedFields = JsonConvert.SerializeObject(fields);
+                service.ModifiedBy = Request.UserHostAddress;
+                await dataService.Update(service);
+            }
         }
 
         public async Task<ActionResult> GetConnectionInfo(int serviceId)
