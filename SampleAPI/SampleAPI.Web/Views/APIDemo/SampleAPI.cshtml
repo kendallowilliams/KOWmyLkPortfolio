@@ -1,25 +1,26 @@
 ﻿@model APIDemoViewModel
 
 @{
-    var linkGroups = Model.APIProfileServices.GroupBy(item => item.APIService.Name);
+    var linkGroups = Model.APIProfileServices.Where(item => !item.APIService.Disabled).GroupBy(item => item.APIService.Name);
+    var disabledLinkGroups = Model.APIProfileServices.Where(item => item.APIService.Disabled);
     var asyncTestLinks = linkGroups.FirstOrDefault(group => "Async Test".Equals(group.Key, StringComparison.OrdinalIgnoreCase))?
-                                   .Select(item => new
-                                   {
-                                       item.APIProfile.Name,
-                                       item.APIProfile.Id,
-                                       NumberOfTasks = item.GetServiceDefinedFields().GetField("NumberOfTasks").GetIntValue()
-                                   })
-                                   .Select(item => new SelectListItem()
-                                   {
-                                       Text = $"{item.Name} [Task Count: {item.NumberOfTasks}]",
-                                       Value = $"{item.Id}:{item.NumberOfTasks}"
-                                   }) ?? Enumerable.Empty<SelectListItem>();
+                           .Select(item => new
+                           {
+                               item.APIProfile.Name,
+                               item.APIProfile.Id,
+                               NumberOfTasks = item.GetServiceDefinedFields().GetField("NumberOfTasks")?.GetIntValue() ?? 0
+                           })
+                           .Select(item => new SelectListItem()
+                           {
+                               Text = $"{item.Name} [Task Count: {item.NumberOfTasks}]",
+                               Value = $"{item.Id}:{item.NumberOfTasks}"
+                           }) ?? Enumerable.Empty<SelectListItem>();
     var fibonacciLinks = linkGroups.FirstOrDefault(group => "Fibonacci".Equals(group.Key, StringComparison.OrdinalIgnoreCase))?
                                    .Select(item => new
                                    {
                                        item.APIProfile.Name,
                                        item.APIProfile.Id,
-                                       SequenceIndex = item.GetServiceDefinedFields().GetField("SequenceIndex").GetIntValue()
+                                       SequenceIndex = item.GetServiceDefinedFields().GetField("SequenceIndex")?.GetIntValue() ?? 0
                                    })
                                    .Select(item => new SelectListItem()
                                    {
@@ -31,7 +32,7 @@
                                            {
                                                item.APIProfile.Name,
                                                item.APIProfile.Id,
-                                               SequenceQuantity = item.GetServiceDefinedFields().GetField("SequenceQuantity").GetIntValue()
+                                               SequenceQuantity = item.GetServiceDefinedFields().GetField("SequenceQuantity")?.GetIntValue() ?? 0
                                            })
                                            .Select(item => new SelectListItem()
                                            {

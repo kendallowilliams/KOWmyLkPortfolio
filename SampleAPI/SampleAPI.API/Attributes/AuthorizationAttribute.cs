@@ -24,6 +24,7 @@ namespace SampleAPI.API.Attributes
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             APIProfileService link = default;
+            IEnumerable<APIProfileService> links = Enumerable.Empty<APIProfileService>();
             HttpRequestMessage request = actionContext.Request;
             string profileId = request.Headers.TryGetValues(nameof(APIProfileService.APIProfileId), out IEnumerable<string> ids) ? ids.FirstOrDefault() : string.Empty,
                    controller = actionContext.ControllerContext.ControllerDescriptor.ControllerName,
@@ -35,17 +36,19 @@ namespace SampleAPI.API.Attributes
                 IQueryable<APIProfileService> query = db.APIProfileService.Include(item => item.APIService);
 
                 db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-                link = query.FirstOrDefault(item => item.APIService.Controller.Equals(controller) &&
-                                                    item.APIService.Action.Equals(action) &&
-                                                    item.APIProfileId == safeProfileId);
+                links = query.Where(item => item.APIService.Controller.Equals(controller) &&
+                                            item.APIService.Action.Equals(action) &&
+                                            item.APIProfileId == safeProfileId)
+                             .ToList();
+                link = links.FirstOrDefault(item => !item.APIService.Disabled);
 
-                if (link == null)
+                if (!links.Any())
                 {
                     actionContext.Response = request.CreateErrorResponse(HttpStatusCode.Unauthorized, "API profile not authorized to use this service");
                 }
-                else if (link.APIService.Disabled)
+                else if (links.All(item => item.APIService.Disabled))
                 {
-                    APIService service = link.APIService;
+                    APIService service = links.FirstOrDefault().APIService;
                     string savedCode = service.DisabledResponseCode.HasValue ? service.DisabledResponseCode.ToString() : string.Empty,
                            statusMessage = !string.IsNullOrWhiteSpace(service.DisabledResponseMessage) ? service.DisabledResponseMessage : "API Service Unavailable";
 
