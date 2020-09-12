@@ -19,5 +19,14 @@ namespace SampleAPI.Web.Controllers
         }
 
         public string APIAddress { get; private set; }
+
+        public static bool IsDemo()
+        {
+#if DEMO
+            return true;
+#else
+            return false;
+#endif
+        }
     }
 }

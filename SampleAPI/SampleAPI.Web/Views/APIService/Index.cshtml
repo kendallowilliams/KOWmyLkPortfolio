@@ -12,7 +12,9 @@
     <div class="col-3 border-right">
         <div class="d-flex flex-row">
             <h5 style="flex: 1 1 auto">API Services</h5>
-            <button type="button" class="btn btn-outline-primary btn-sm" data-target="#addAPIServiceModal" data-toggle="modal"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-target="#addAPIServiceModal" data-toggle="modal" data-demo-disabled>
+                <i class="fa fa-plus"></i>
+            </button>
         </div>
         <hr />
         <div id="accordion">
@@ -50,6 +52,10 @@
             $('button[data-service-id]').removeClass('active').filter('[data-service-id="' + id + '"]').addClass('active');
             $('#serviceContainer').html('');
             $("#serviceContainer").load('@Url.Action(nameof(APIServiceController.APIService), "APIService")?id=' + id, () => {
+                if (@(BaseController.IsDemo().ToString().ToLower())) {
+                    $('[data-demo-disabled]').prop('disabled', 'disabled');
+                    $('#details').find('input, textarea, select').prop('readonly', 'readonly');
+                }
                 hideLoading();
             });
         }

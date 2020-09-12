@@ -27,7 +27,9 @@
                                                                               data_trigger = "manual",
                                                                               data_content = "Data type is required" })
             <div class="input-group-append">
-                <button type="button" class="btn btn-outline-primary" onclick="addServiceDefinedField(this, @(Model.Id))"><i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-outline-primary" onclick="addServiceDefinedField(this, @(Model.Id))" data-demo-disabled>
+                    <i class="fa fa-plus"></i>
+                </button>
             </div>
         </div>
         <hr />
@@ -39,7 +41,9 @@
                 @Html.Hidden(nameof(ServiceDefinedField.Name), string.Empty)
                 @Html.Hidden(nameof(ServiceDefinedField.Type), string.Empty)
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-danger" onclick="removeServiceDefinedField(this, @(Model.Id))"><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-outline-danger" onclick="removeServiceDefinedField(this, @(Model.Id))" data-demo-disabled>
+                        <i class="fa fa-trash"></i>
+                    </button>
                 </div>
             </div>
             @foreach (var field in serviceDefinedFields.OrderBy(item => item.Name))
@@ -51,7 +55,9 @@
                     @Html.Hidden(nameof(ServiceDefinedField.Name), field.Name)
                     @Html.Hidden(nameof(ServiceDefinedField.Type), JsonConvert.SerializeObject(field.Type))
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-danger" onclick="removeServiceDefinedField(this, @(Model.Id))"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-outline-danger" onclick="removeServiceDefinedField(this, @(Model.Id))" data-demo-disabled>
+                            <i class="fa fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             }
