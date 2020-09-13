@@ -155,9 +155,11 @@ namespace SampleAPI.Web.Controllers
         public async Task<ActionResult> APIAccessLogs(int profileId, int days)
         {
             DateTime pastDate = DateTime.Now.Date.AddDays(-days);
-            IEnumerable<APIAccessLog> logs = await dataService.GetList<APIAccessLog>(item => item.APIProfileService.APIProfileId == profileId && item.CreatedOn >= pastDate);
+            IEnumerable<APIAccessLog> logs = await dataService.GetList<APIAccessLog>(item => item.APIProfileService.APIProfileId == profileId && item.CreatedOn >= pastDate,
+                                                                                     default,
+                                                                                     item => item.APIProfileService.APIService);
 
-            return PartialView("~/Views/APIProfile/APIAccessLogs.cshtml", (profileId, logs));
+            return PartialView("~/Views/APIProfile/APIAccessLogs.cshtml", (profileId, logs, days));
         }
     }
 }
