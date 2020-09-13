@@ -500,6 +500,9 @@
     <Content Include="Views\APIProfile\Modals\AddAPIProfileModal.cshtml" />
     <Content Include="Views\APIService\Modals\AddAPIServiceModal.cshtml" />
     <None Include="Properties\PublishProfiles\KSERVER.pubxml" />
+    <None Include="Web.Demo.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SampleAPI.BLL\SampleAPI.BLL.csproj">
