@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SampleAPI.API.Services
 {
-    [Export(typeof(ISampleAPIService))]
+    [Export(typeof(ISampleAPIService)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class SampleAPIService : ISampleAPIService
     {
         [ImportingConstructor]
