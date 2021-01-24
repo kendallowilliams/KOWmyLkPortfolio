@@ -1,4 +1,5 @@
 ﻿using SampleAPI.API.Services.Interfaces;
+using SampleAPI.BLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -11,10 +12,12 @@ namespace SampleAPI.API.Services
     [Export(typeof(ISampleAPIService)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class SampleAPIService : ISampleAPIService
     {
-        [ImportingConstructor]
-        public SampleAPIService()
-        {
+        private readonly ITPLService tplService;
 
+        [ImportingConstructor]
+        public SampleAPIService(ITPLService tplService)
+        {
+            this.tplService = tplService;
         }
 
         public async Task<IEnumerable<string>> ExecuteDelayedTasks(int numberOfTasks)
@@ -23,17 +26,13 @@ namespace SampleAPI.API.Services
             Random rand = new Random(DateTime.Now.Millisecond);
             int maxDelay = 5;
 
-            var tasks = Enumerable.Range(0, numberOfTasks)
-                                  .Select(index => new { Index = index, Start = DateTime.Now, Delay = (rand.Next() % maxDelay) + 1 /* 1 to maxDelay */ })
-                                  .Select(item => Task.Delay(item.Delay * 1000).ContinueWith(_ => new
-                                  {
-                                      item.Index,
-                                      item.Start,
-                                      item.Delay,
-                                      End = DateTime.Now
-                                  }));
-            results = await Task.WhenAll(tasks)
-                                .ContinueWith(task => task.Result.Select(item => $"Task: {item.Index}, Delay: {item.Delay}, Start: {item.Start}, End: {item.End}"));
+            var data = Enumerable.Range(0, numberOfTasks)
+                                 .Select(index => new { Index = index, Start = DateTime.Now, Delay = (rand.Next() % maxDelay) + 1 /* 1 to maxDelay */ });
+
+            results = await tplService.ConcurrentAsync(async item => await Task.Delay(item.Delay * 1000)
+                                                                               .ContinueWith(_ => $"Task: {item.Index}, Delay: {item.Delay}, Start: {item.Start}, End: {DateTime.Now}"),
+                                                                               data,
+                                                                               numberOfTasks);
 
             return results;
         }
