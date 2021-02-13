@@ -13,7 +13,6 @@ namespace DevTools.BLL.Models
         {
             ScaffoldDbContextConfig = new ScaffoldDbContextConfig();
             Id = Guid.NewGuid();
-            Name = $"My Profile Name - {Id}";
         }
 
         public Guid Id { get; set; }
