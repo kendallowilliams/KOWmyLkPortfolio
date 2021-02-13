@@ -35,16 +35,11 @@ namespace DevTools.DAL.Services.Interfaces
             where TDbContext : DbContext, new()
             where TEntity : class;
 
-        Task<IEnumerable<TEntity>> ExecuteStoredProcedure<TDbContext, TEntity>(string sql,
-                                                                               CancellationToken token = default(CancellationToken),
-                                                                               params object[] parameters)
-            where TDbContext : DbContext, new()
-            where TEntity : class, new();
+        Task ExecuteSqlRaw<TDbContext>(string sql, CancellationToken token = default(CancellationToken), params object[] parameters)
+            where TDbContext : DbContext, new();
 
-        Task<IEnumerable<TEntity>> SqlQuery<TDbContext, TEntity>(string sql,
-                                                                 CancellationToken token = default(CancellationToken),
-                                                                 params object[] parameters)
+        Task<IEnumerable<TEntity>> FromSqlRaw<TDbContext, TEntity>(string sql, CancellationToken token = default(CancellationToken), params object[] parameters)
             where TDbContext : DbContext, new()
-            where TEntity : class, new();
+            where TEntity : class;
     }
 }

@@ -34,6 +34,7 @@ namespace DevTools.DAL.Services
             {
                 DbSet<TEntity> set = db.Set<TEntity>();
 
+                db.Database.SetCommandTimeout(timeout);
                 set.Add(entity);
                 await db.SaveChangesAsync(token);
             }
@@ -47,6 +48,7 @@ namespace DevTools.DAL.Services
             {
                 DbSet<TEntity> set = db.Set<TEntity>();
 
+                db.Database.SetCommandTimeout(timeout);
                 set.AddRange(entities);
                 await db.SaveChangesAsync(token);
             }
@@ -79,6 +81,7 @@ namespace DevTools.DAL.Services
         {
             using (var db = new TDbContext())
             {
+                db.Database.SetCommandTimeout(timeout);
                 db.Entry(entity).State = EntityState.Modified;
                 await db.SaveChangesAsync(token);
             }
@@ -92,6 +95,8 @@ namespace DevTools.DAL.Services
 
             using (var db = new TDbContext())
             {
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                db.Database.SetCommandTimeout(timeout);
                 result = await (expression != null ? db.Set<TEntity>().Where(expression) : db.Set<TEntity>()).FirstOrDefaultAsync(token);
             }
 
@@ -106,37 +111,35 @@ namespace DevTools.DAL.Services
 
             using (var db = new TDbContext())
             {
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                db.Database.SetCommandTimeout(timeout);
                 results = await (expression != null ? db.Set<TEntity>().Where(expression) : db.Set<TEntity>()).ToListAsync(token);
             }
 
             return results;
         }
 
-        public async Task<IEnumerable<TEntity>> ExecuteStoredProcedure<TDbContext, TEntity>(string sql,
-                                                                                   CancellationToken token = default(CancellationToken),
-                                                                                   params object[] parameters)
+        public async Task ExecuteSqlRaw<TDbContext>(string sql, CancellationToken token = default(CancellationToken), params object[] parameters)
             where TDbContext : DbContext, new()
-            where TEntity : class, new()
         {
-            IEnumerable<TEntity> entities = Enumerable.Empty<TEntity>();
-
             using (var db = new TDbContext())
             {
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                db.Database.SetCommandTimeout(timeout);
+                await db.Database.ExecuteSqlRawAsync(sql, parameters, token);
             }
-
-            return entities;
         }
 
-        public async Task<IEnumerable<TEntity>> SqlQuery<TDbContext, TEntity>(string sql,
-                                                                              CancellationToken token = default(CancellationToken),
-                                                                              params object[] parameters)
+        public async Task<IEnumerable<TEntity>> FromSqlRaw<TDbContext, TEntity>(string sql, CancellationToken token = default(CancellationToken), params object[] parameters)
             where TDbContext : DbContext, new()
-            where TEntity : class, new()
+            where TEntity : class
         {
             IEnumerable<TEntity> entities = Enumerable.Empty<TEntity>();
 
             using (var db = new TDbContext())
             {
+                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                entities = await db.Set<TEntity>().FromSqlRaw(sql, parameters).ToListAsync(token);
             }
 
             return entities;

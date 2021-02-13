@@ -8,6 +8,6 @@ namespace DevTools.DAL
 {
     public static class Enums
     {
-        public enum ConfigurationProfileType { ScaffoldDbContext, Unknown }
+        public enum DevToolsObjectType { ScaffoldDbContextProfile, Unknown }
     }
 }
