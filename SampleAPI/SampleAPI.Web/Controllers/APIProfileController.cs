@@ -43,6 +43,8 @@ namespace SampleAPI.Web.Controllers
 
             if (!profiles.Any())
             {
+                // limit description to 1 MB
+                if (!string.IsNullOrWhiteSpace(profile.Description) && profile.Description.Length > 1024 && IsDemo()) /*then*/ profile.Description = profile.Description.Substring(0, 1024);
                 profile.CreatedBy = profile.ModifiedBy = Request.UserHostAddress;
                 await dataService.Insert(profile);
             }
@@ -79,6 +81,8 @@ namespace SampleAPI.Web.Controllers
             if (profile != null && existingProfile != null)
             {   // prevent name from being overwritten
                 profile.Name = existingProfile.Name;
+                // limit description to 1 MB
+                if (!string.IsNullOrWhiteSpace(profile.Description) && profile.Description.Length > 1024 && IsDemo()) /*then*/ profile.Description = profile.Description.Substring(0, 1024);
                 profile.ModifiedBy = Request.UserHostAddress;
                 await dataService.Update(profile);
             }
@@ -151,9 +155,11 @@ namespace SampleAPI.Web.Controllers
         public async Task<ActionResult> APIAccessLogs(int profileId, int days)
         {
             DateTime pastDate = DateTime.Now.Date.AddDays(-days);
-            IEnumerable<APIAccessLog> logs = await dataService.GetList<APIAccessLog>(item => item.APIProfileService.APIProfileId == profileId && item.CreatedOn >= pastDate);
+            IEnumerable<APIAccessLog> logs = await dataService.GetList<APIAccessLog>(item => item.APIProfileService.APIProfileId == profileId && item.CreatedOn >= pastDate,
+                                                                                     default,
+                                                                                     item => item.APIProfileService.APIService);
 
-            return PartialView("~/Views/APIProfile/APIAccessLogs.cshtml", (profileId, logs));
+            return PartialView("~/Views/APIProfile/APIAccessLogs.cshtml", (profileId, logs, days));
         }
     }
 }

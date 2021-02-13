@@ -13,7 +13,7 @@ using SampleAPI.DAL.Models.Interfaces;
 
 namespace SampleAPI.DAL.Services
 {
-    [Export(typeof(IDataService))]
+    [Export(typeof(IDataService)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class DataService : IDataService
     {
         private int timeout;
