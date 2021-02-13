@@ -347,7 +347,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Services\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="libman.json" />
