@@ -9,15 +9,15 @@ using static DevTools.DAL.Enums;
 
 namespace DevTools.DAL.DbContexts
 {
-    public partial class ConfigurationProfile
+    public partial class DevToolsProfile
     {
-        public ConfigurationProfile()
+        public DevToolsProfile()
         {
         }
 
         public T GetProfile<T>()
         {
-            PropertyInfo typeProperty = typeof(ConfigurationProfile).GetProperty(nameof(Newtonsoft.Json));
+            PropertyInfo typeProperty = typeof(DevToolsProfile).GetProperty(nameof(Newtonsoft.Json));
             string json = typeProperty.GetValue(this) as string;
 
             return GetConfigurationProfileType() == ConfigurationProfileType.ScaffoldDbContext && !string.IsNullOrWhiteSpace(json) ? 
@@ -27,7 +27,7 @@ namespace DevTools.DAL.DbContexts
 
         public ConfigurationProfileType GetConfigurationProfileType()
         {
-            PropertyInfo typeProperty = typeof(ConfigurationProfile).GetProperty(nameof(Type));
+            PropertyInfo typeProperty = typeof(DevToolsProfile).GetProperty(nameof(Type));
             string type = typeProperty.GetValue(this) as string;
 
             return Enum.TryParse(type, out ConfigurationProfileType configType) ? configType : ConfigurationProfileType.Unknown;
