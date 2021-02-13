@@ -3,31 +3,35 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using static DevTools.DAL.Enums;
 
 namespace DevTools.DAL.DbContexts
 {
-    public partial class ConfigurationProfile : IConfigurationProfile
+    public partial class ConfigurationProfile
     {
         public ConfigurationProfile()
         {
         }
 
-        public virtual string Type { get; set; }
-        public virtual string Json { get; set; }
-
         public T GetProfile<T>()
         {
-            return GetConfigurationProfileType() == ConfigurationProfileType.ScaffoldDbContext && !string.IsNullOrWhiteSpace(Json) ? 
-                JsonConvert.DeserializeObject<T>(Json) : 
+            PropertyInfo typeProperty = typeof(ConfigurationProfile).GetProperty(nameof(Newtonsoft.Json));
+            string json = typeProperty.GetValue(this) as string;
+
+            return GetConfigurationProfileType() == ConfigurationProfileType.ScaffoldDbContext && !string.IsNullOrWhiteSpace(json) ? 
+                JsonConvert.DeserializeObject<T>(json) : 
                 default(T);
         }
 
         public ConfigurationProfileType GetConfigurationProfileType()
         {
-            return Enum.TryParse(Type, out ConfigurationProfileType type) ? type : ConfigurationProfileType.Unknown;
+            PropertyInfo typeProperty = typeof(ConfigurationProfile).GetProperty(nameof(Type));
+            string type = typeProperty.GetValue(this) as string;
+
+            return Enum.TryParse(type, out ConfigurationProfileType configType) ? configType : ConfigurationProfileType.Unknown;
         }
     }
 }
