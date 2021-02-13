@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DevTools.WebUI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly HomeViewModel homeViewModel;
 
-        public HomeController()
+        public HomeController() : base(null)
         {
         }
 

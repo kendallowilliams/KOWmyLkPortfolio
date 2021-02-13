@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DevTools.WebUI.Models.Interfaces
 {
-    interface IViewModel
+    public interface IViewModel
     {
     }
 }

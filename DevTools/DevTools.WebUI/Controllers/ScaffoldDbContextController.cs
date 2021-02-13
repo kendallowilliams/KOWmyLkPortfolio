@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace DevTools.WebUI.Controllers
 {
-    public class ScaffoldDbContextController : Controller
+    public class ScaffoldDbContextController : BaseController
     {
         private readonly ScaffoldDbContextViewModel scaffoldDbContextViewModel;
 
-        public ScaffoldDbContextController()
+        public ScaffoldDbContextController() : base(null)
         {
         }
 
