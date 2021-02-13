@@ -10,6 +10,12 @@ namespace DevTools.WebUI.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly HomeViewModel homeViewModel;
+
+        public HomeController()
+        {
+        }
+
         public IActionResult Index()
         {
             return View();
