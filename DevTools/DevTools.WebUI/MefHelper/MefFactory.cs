@@ -20,6 +20,11 @@ namespace DevTools.WebUI.MefHelper
             container = new CompositionContainer(catalog);
         }
 
+        public void Dispose()
+        {
+            container?.Dispose();
+        }
+
         public T GetExportedValue<T>()
         {
             return container.GetExportedValue<T>();

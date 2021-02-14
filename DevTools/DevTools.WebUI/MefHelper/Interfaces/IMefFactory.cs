@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DevTools.WebUI.MefHelper.Interfaces
 {
-    public interface IMefFactory
+    public interface IMefFactory : IDisposable
     {
         T GetExportedValue<T>();
     }
