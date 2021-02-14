@@ -52,7 +52,7 @@ namespace DevTools.BLL.Models
             args = args.Append($"build \"{ProjectLocation}\"");
             args = args.Append($"--output \"{outputPath}\"");
             args = args.Append($"--configuration {BuildConfiguration}");
-            if (Verbose) /*then*/ args = args.Append($"--verbose");
+            if (Verbose) /*then*/ args = args.Append($"--verbosity normal");
 
             return string.Join(" ", args);
         }
@@ -64,7 +64,7 @@ namespace DevTools.BLL.Models
             args = args.Append($"build \"{StartupProjectLocation}\"");
             args = args.Append($"--output \"{outputPath}\"");
             args = args.Append($"--configuration {BuildConfiguration}");
-            if (Verbose) /*then*/ args = args.Append($"--verbose");
+            if (Verbose) /*then*/ args = args.Append($"--verbosity normal");
 
             return string.Join(" ", args);
         }
@@ -75,7 +75,7 @@ namespace DevTools.BLL.Models
 
             args = args.Append($"clean \"{ProjectLocation}\"");
             args = args.Append($"--configuration {BuildConfiguration}");
-            if (Verbose) /*then*/ args = args.Append($"--verbosity detailed");
+            if (Verbose) /*then*/ args = args.Append($"--verbosity normal");
 
             return string.Join(" ", args);
         }
@@ -86,7 +86,7 @@ namespace DevTools.BLL.Models
 
             args = args.Append($"clean \"{StartupProjectLocation}\"");
             args = args.Append($"--configuration {BuildConfiguration}");
-            if (Verbose) /*then*/ args = args.Append($"--verbosity detailed");
+            if (Verbose) /*then*/ args = args.Append($"--verbosity normal");
 
             return string.Join(" ", args);
         }
