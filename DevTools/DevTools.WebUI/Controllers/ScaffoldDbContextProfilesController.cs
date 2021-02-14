@@ -111,7 +111,7 @@ namespace DevTools.WebUI.Controllers
             if (profile != null) /*then*/ await dataService.Delete<DevToolsEntities, DevToolsObject>(profile.Id);
         }
 
-        public async Task<string> Process(Guid id)
+        public async Task<IActionResult> Process(Guid id)
         {
             ScaffoldDbContextProfile profile = await dataService.Get<DevToolsEntities, DevToolsObject>(item => item.ObjectId == id &&
                                                                                                                item.ObjectType == nameof(DevToolsObjectType.ScaffoldDbContextProfile))
@@ -130,6 +130,7 @@ namespace DevTools.WebUI.Controllers
             builder.AppendLine(consoleService.Execute("dotnet", $"ef dbcontext scaffold {profile.ScaffoldDbContextConfig.BuildArgumentList()}"));
             builder.AppendLine();
             builder.AppendLine(consoleService.Execute("dotnet", $"build \"{profile.ScaffoldDbContextConfig.Project}\" --output \"{outputPath}\""));
+            System.IO.File.WriteAllText(Path.Combine(outputPath, "log.txt"), builder.ToString());
 
             using (var memoryStream = new MemoryStream())
             {
@@ -144,7 +145,7 @@ namespace DevTools.WebUI.Controllers
                 System.IO.File.WriteAllBytes(outputFile, memoryStream.ToArray());
             }
 
-            return builder.ToString();
+            return PhysicalFile(outputFile, "application/zip", Path.GetFileName(outputFile));
         }
     }
 }

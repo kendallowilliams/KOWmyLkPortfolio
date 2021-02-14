@@ -96,13 +96,6 @@
             $form.find('[data-saved="false"]').remove();
         }
 
-        function process(id) {
-            showLoading();
-            $.post('@Url.Action(nameof(ScaffoldDbContextProfilesController.Process), "ScaffoldDbContextProfiles")', { id: id }, function (data) {
-                hideLoading();
-            });
-        }
-
         function addProfile(name) {
             showLoading();
             $.post('@Url.Action(nameof(ScaffoldDbContextProfilesController.AddScaffoldDbContextProfile), "ScaffoldDbContextProfiles")', { name: name }, function (data) {
