@@ -37,5 +37,31 @@ namespace DevTools.BLL.Models
         public string Project { get; set; }
         public string StartupProject { get; set; }
         public bool Verbose { get; set; }
+
+        public string BuildArgumentList()
+        {
+            List<string> argumentLists = new List<string>();
+            string tableNames = string.Join(" ", (Tables ?? Enumerable.Empty<string>()).Select(table => $"-t {table}")),
+                   arguments = string.Empty;
+
+            argumentLists.Add($"--project \"{Project}\"");
+            argumentLists.Add($"--startup-project \"{StartupProject}\"");
+            if (DataAnnotations) /*then*/ argumentLists.Add("--data-annotations");
+            argumentLists.Add($"--context {Context}");
+            argumentLists.Add($"--context-dir \"{ContextDir}\"");
+            if (!string.IsNullOrWhiteSpace(ContextNameSpace)) /*then*/argumentLists.Add($"--context-namespace {ContextNameSpace}");
+            if (Force) /*then*/ argumentLists.Add("--force");
+            argumentLists.Add($"--output-dir \"{OutputDir}\"");
+            if (!string.IsNullOrWhiteSpace(NameSpace)) /*then*/argumentLists.Add($"--namespace {NameSpace}");
+            if (!string.IsNullOrWhiteSpace(Schema)) /*then*/ argumentLists.Add($"--schema {Schema}");
+            argumentLists.Add(tableNames);
+            if (UseDatabaseNames) /*then*/ argumentLists.Add("--use-database-names");
+            if (NoOnConfiguring) /*then*/ argumentLists.Add("--no-onconfiguring");
+            if (NoPluralize) /*then*/ argumentLists.Add("--no-pluralize");
+            if (Verbose) /*then*/ argumentLists.Add("--verbose");
+            arguments = string.Join(" ", argumentLists);
+
+            return arguments;
+        }
     }
 }

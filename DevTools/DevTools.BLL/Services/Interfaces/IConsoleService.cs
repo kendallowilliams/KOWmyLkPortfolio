@@ -7,8 +7,6 @@ namespace DevTools.BLL.Services.Interfaces
 {
     public interface IConsoleService
     {
-        string Process(IScaffoldDbContextProfile profile);
-        string Build(IScaffoldDbContextProfile profile, string outputPath);
-        string ScaffoldDbContext(IScaffoldDbContextConfig config);
+        string Execute(string executablePath, string args);
     }
 }

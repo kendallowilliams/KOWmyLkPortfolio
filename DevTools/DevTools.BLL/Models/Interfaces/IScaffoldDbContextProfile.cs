@@ -15,5 +15,7 @@ namespace DevTools.BLL.Models.Interfaces
         string StartupProjectLocation { get; set; }
 
         ScaffoldDbContextConfig ScaffoldDbContextConfig { get; set; }
+
+        bool IsValid(out IEnumerable<string> errors);
     }
 }

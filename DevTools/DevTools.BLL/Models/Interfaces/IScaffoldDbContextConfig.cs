@@ -23,5 +23,7 @@ namespace DevTools.BLL.Models.Interfaces
         string Project { get; set; }
         string StartupProject { get; set; }
         bool Verbose { get; set; }
+
+        string BuildArgumentList();
     }
 }
