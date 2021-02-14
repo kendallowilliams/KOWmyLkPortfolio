@@ -167,7 +167,7 @@
                 <button type="button" class="btn btn-sm btn-outline-primary" title="Undo" data-toggle="tooltip" onclick="resetProfile()"><i class="fa fa-undo"></i></button>
                 <button type="button" class="btn btn-sm btn-outline-danger mr-4" onclick="deleteProfile('@Model.Id')" title="Delete" data-toggle="tooltip"><i class="fa fa-trash"></i></button>
                 <a class="btn btn-sm btn-outline-primary" href="@Url.Action(nameof(ScaffoldDbContextProfilesController.Process), "ScaffoldDbContextProfiles", new { id = Model.Id })" 
-                   title="Run" data-toggle="tooltip" @(Model.IsValid(out IEnumerable<string> errors) ? string.Empty : "disabled='disabled'")><i class="fa fa-hdd"></i></a>
+                   title="Run" data-toggle="tooltip" @(Model.IsValid(out IEnumerable<string> errors) ? string.Empty : "disabled='disabled'") target="_blank"><i class="fa fa-hdd"></i></a>
             </div>
         </div>
     </form>
