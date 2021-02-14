@@ -66,8 +66,8 @@ namespace DevTools.WebUI.Controllers
                         ObjectId = profile.Id,
                         ObjectType = nameof(DevToolsObjectType.ScaffoldDbContextProfile),
                         ObjectJson = JsonConvert.SerializeObject(profile),
-                        CreatedBy = "",
-                        ModifiedBy = ""
+                        CreatedBy = HttpContext.Connection.RemoteIpAddress.ToString(),
+                        ModifiedBy = HttpContext.Connection.RemoteIpAddress.ToString()
                     };
 
                     await dataService.Insert<DevToolsEntities, DevToolsObject>(dbProfile);
@@ -94,7 +94,7 @@ namespace DevTools.WebUI.Controllers
                 scaffoldDbContextProfile.ScaffoldDbContextConfig.Project = projectFile;
                 scaffoldDbContextProfile.ScaffoldDbContextConfig.StartupProject = startupProfileFile;
                 profile.ObjectJson = JsonConvert.SerializeObject(scaffoldDbContextProfile);
-                profile.ModifiedBy = "";
+                profile.ModifiedBy = HttpContext.Connection.RemoteIpAddress.ToString();
                 profile.ModifiedOn = DateTime.Now;
                 await dataService.Update<DevToolsEntities, DevToolsObject>(profile);
                 ModelState.Clear();
