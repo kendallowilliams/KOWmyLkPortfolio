@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static DevTools.DAL.Enums;
 
-namespace DevTools.DAL.DbContexts
+namespace DevTools.DAL.Models
 {
     public partial class DevToolsObject
     {

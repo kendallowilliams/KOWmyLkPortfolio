@@ -1,0 +1,174 @@
+﻿@model IScaffoldDbContextProfile
+
+<div class="flex-fill d-flex flex-column" style="overflow-y: auto">
+    @if (Model != null)
+    {
+    <form class="flex-fill d-flex flex-column" data-form="ScaffoldDbContextProfile" style="overflow-y: auto">
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <div class="d-flex flex-column flex-fill mb-3" style="overflow-y: auto">
+            @Html.HiddenFor(x => x.Id)
+            <div class="row m-0 mb-3">
+                <div class="col-3 border-right"><h6>Profile</h6></div>
+                <div class="col-9">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span class="input-group-text" style="width: 75px">Name</span></div>
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-0 mb-3">
+                <div class="col-3 border-right"><h6>TFS</h6></div>
+                <div class="col-9">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Project</span></div>
+                        @Html.TextBoxFor(x => x.ProjectLocation, new { @class = "form-control" })
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Startup Project</span></div>
+                        @Html.TextBoxFor(x => x.StartupProjectLocation, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row m-0 mb-3">
+                <div class="col-3 border-right"><h6>Scaffold DbContext Config</h6></div>
+                <div class="col-9">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Connection String</span></div>
+                        @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.ConnectionString, new { @class = "form-control" })
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Provider</span></div>
+                        @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.Provider, new { @class = "form-control" })
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Context</span></div>
+                                @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.Context, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Context Directory</span></div>
+                                @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.ContextDir, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Output Directory</span></div>
+                                @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.OutputDir, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Schema</span></div>
+                                @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.Schema, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span class="input-group-text" style="width: 225px">NameSpace (EF Core 5.0)</span></div>
+                                @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.NameSpace, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span class="input-group-text" style="width: 225px">Context NameSpace (EF Core 5.0)</span></div>
+                                @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.ContextNameSpace, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Project</span></div>
+                        @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.Project, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Startup Project</span></div>
+                        @Html.TextBoxFor(x => x.ScaffoldDbContextConfig.StartupProject, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3 border-right">
+                            <h6>Tables</h6>
+                            <hr />
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span class="input-group-text">Table</span></div>
+                                <input type="text" class="form-control" id="txtTableName" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-primary" onclick="addTable()"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            @Html.ListBoxFor(x => x.ScaffoldDbContextConfig.Tables, new SelectList(Model.ScaffoldDbContextConfig.Tables), new { @class = "d-none", id = "lstTables" })
+                            <div class="d-flex flex-wrap flex-row" data-container="TablesContainer">
+                                <div class="input-group input-group-sm m-1 w-auto d-none" data-template="TableTemplate">
+                                    <div class="input-group-prepend"><span class="input-group-text"></span></div>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-outline-danger" onclick="deleteTable(this.parentNode.parentNode)"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                @foreach (string table in Model.ScaffoldDbContextConfig.Tables)
+                                {
+                                    <div class="input-group input-group-sm m-1 w-auto">
+                                        <div class="input-group-prepend"><span class="input-group-text">@table</span></div>
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-outline-danger" onclick="deleteTable(this.parentNode.parentNode)"><i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap">
+                        <div class="form-check form-check-inline mb-3">
+                            @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.DataAnnotations, new { @class = "form-check-input" })
+                            @Html.LabelFor(x => x.ScaffoldDbContextConfig.DataAnnotations, "Data Annotations", new { @class = "form-check-label" })
+                        </div>
+                        <div class="form-check form-check-inline mb-3">
+                            @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.Force, new { @class = "form-check-input" })
+                            @Html.LabelFor(x => x.ScaffoldDbContextConfig.Force, "Force", new { @class = "form-check-label" })
+                        </div>
+                        <div class="form-check form-check-inline mb-3">
+                            @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.UseDatabaseNames, new { @class = "form-check-input" })
+                            @Html.LabelFor(x => x.ScaffoldDbContextConfig.UseDatabaseNames, "Use Database Names", new { @class = "form-check-label" })
+                        </div>
+                        <div class="form-check form-check-inline mb-3">
+                            @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.NoOnConfiguring, new { @class = "form-check-input" })
+                            @Html.LabelFor(x => x.ScaffoldDbContextConfig.NoOnConfiguring, "No OnConfiguring (EF Core 5.0)", new { @class = "form-check-label" })
+                        </div>
+                        <div class="form-check form-check-inline mb-3">
+                            @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.NoPluralize, new { @class = "form-check-input" })
+                            @Html.LabelFor(x => x.ScaffoldDbContextConfig.NoPluralize, "No Pluralize (EF Core 5.0)", new { @class = "form-check-label" })
+                        </div>
+                        <div class="form-check form-check-inline mb-3">
+                            @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.Verbose, new { @class = "form-check-input" })
+                            @Html.LabelFor(x => x.ScaffoldDbContextConfig.Verbose, "Verbose", new { @class = "form-check-label" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-0">
+            <div class="col-3"></div>
+            <div class="col-9 text-right p-1">
+                <button type="button" class="btn btn-sm btn-outline-primary" title="Save" data-toggle="tooltip" onclick="saveProfile()"><i class="fa fa-save"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-primary" title="Undo" data-toggle="tooltip" onclick="resetProfile()"><i class="fa fa-undo"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger mr-4" onclick="deleteProfile('@Model.Id')" title="Delete" data-toggle="tooltip"><i class="fa fa-trash"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="process('@Model.Id')" title="Run" data-toggle="tooltip"><i class="fa fa-hdd"></i></button>
+            </div>
+        </div>
+    </form>
+    }
+    else
+    {
+        <div>No profile selected.</div>
+    }
+</div>
