@@ -27,9 +27,13 @@
                         <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Project</span></div>
                         @Html.TextBoxFor(x => x.ProjectLocation, new { @class = "form-control" })
                     </div>
-                    <div class="input-group input-group-sm">
+                    <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Startup Project</span></div>
                         @Html.TextBoxFor(x => x.StartupProjectLocation, new { @class = "form-control" })
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Build Configuration</span></div>
+                        @Html.TextBoxFor(x => x.BuildConfiguration, new { @class = "form-control" })
                     </div>
                 </div>
             </div>

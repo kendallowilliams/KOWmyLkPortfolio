@@ -44,6 +44,8 @@ namespace DevTools.BLL.Models
             string tableNames = string.Join(" ", (Tables ?? Enumerable.Empty<string>()).Select(table => $"-t {table}")),
                    arguments = string.Empty;
 
+            argumentLists.Add($"\"{ConnectionString}\"");
+            argumentLists.Add(Provider);
             argumentLists.Add($"--project \"{Project}\"");
             argumentLists.Add($"--startup-project \"{StartupProject}\"");
             if (DataAnnotations) /*then*/ argumentLists.Add("--data-annotations");

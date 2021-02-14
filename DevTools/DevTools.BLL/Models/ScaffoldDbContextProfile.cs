@@ -27,6 +27,9 @@ namespace DevTools.BLL.Models
         [Required]
         public string StartupProjectLocation { get; set; }
 
+        [Required]
+        public string BuildConfiguration { get; set; }
+
         public ScaffoldDbContextConfig ScaffoldDbContextConfig { get; set; }
 
         public bool IsValid(out IEnumerable<string> errors)

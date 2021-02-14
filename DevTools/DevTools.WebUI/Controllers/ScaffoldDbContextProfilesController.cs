@@ -127,9 +127,11 @@ namespace DevTools.WebUI.Controllers
             Directory.CreateDirectory(localPath);
             profile.ScaffoldDbContextConfig.Project = Path.Combine(localPath, profile.ScaffoldDbContextConfig.Project);
             profile.ScaffoldDbContextConfig.StartupProject = Path.Combine(localPath, profile.ScaffoldDbContextConfig.StartupProject);
-            builder.AppendLine(consoleService.Execute("dotnet", $"ef dbcontext scaffold {profile.ScaffoldDbContextConfig.BuildArgumentList()}"));
+            builder.AppendLine(consoleService.Execute("dotnet", $"clean \"{profile.ScaffoldDbContextConfig.Project}\" --configuration {profile.BuildConfiguration}"));
+            builder.AppendLine(consoleService.Execute("dotnet", $"clean \"{profile.ScaffoldDbContextConfig.StartupProject}\" --configuration {profile.BuildConfiguration}"));
+            builder.AppendLine(consoleService.Execute("dotnet", $"ef dbcontext scaffold {profile.ScaffoldDbContextConfig.BuildArgumentList()} --configuration {profile.BuildConfiguration}"));
             builder.AppendLine();
-            builder.AppendLine(consoleService.Execute("dotnet", $"build \"{profile.ScaffoldDbContextConfig.Project}\" --output \"{outputPath}\""));
+            builder.AppendLine(consoleService.Execute("dotnet", $"build \"{profile.ScaffoldDbContextConfig.Project}\" --output \"{outputPath}\" --configuration {profile.BuildConfiguration}"));
             System.IO.File.WriteAllText(Path.Combine(outputPath, "log.txt"), builder.ToString());
 
             using (var memoryStream = new MemoryStream())
