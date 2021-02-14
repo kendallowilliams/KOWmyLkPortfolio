@@ -47,6 +47,9 @@ namespace DevTools.BLL.Services
             process.BeginErrorReadLine();
             process.WaitForExit();
 
+            builder.AppendLine($"Exit Code: {process.ExitCode}");
+            if (process.ExitCode != 0) /*then*/ throw new Exception(builder.ToString());
+
             return builder.ToString();
         }
     }
