@@ -12,8 +12,9 @@ namespace DevTools.WebUI.Controllers
     {
         private readonly HomeViewModel homeViewModel;
 
-        public HomeController() : base(null)
+        public HomeController(HomeViewModel homeViewModel) : base(homeViewModel)
         {
+            this.homeViewModel = homeViewModel;
         }
 
         public IActionResult Index()

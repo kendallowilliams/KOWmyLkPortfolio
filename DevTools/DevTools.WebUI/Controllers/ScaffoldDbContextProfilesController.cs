@@ -21,8 +21,12 @@ namespace DevTools.WebUI.Controllers
         private readonly IDataService dataService;
         private readonly IConsoleService consoleService;
 
-        public ScaffoldDbContextProfilesController() : base(null)
+        public ScaffoldDbContextProfilesController(ScaffoldDbContextProfilesViewModel scaffoldDbContextProfilesViewModel, IDataService dataService,
+                                                   IConsoleService consoleService) : base(scaffoldDbContextProfilesViewModel)
         {
+            this.scaffoldDbContextProfilesViewModel = scaffoldDbContextProfilesViewModel;
+            this.consoleService = consoleService;
+            this.dataService = dataService;
         }
 
         public async Task<IActionResult> Index(Guid? id)
