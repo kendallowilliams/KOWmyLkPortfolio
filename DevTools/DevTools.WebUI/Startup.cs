@@ -1,7 +1,4 @@
-﻿using DevTools.BLL.Services;
-using DevTools.BLL.Services.Interfaces;
-using DevTools.DAL.Services;
-using DevTools.DAL.Services.Interfaces;
+﻿using DevTools.WebUI.MefHelper.Interfaces;
 using DevTools.WebUI.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DevTools.WebUI.MefHelper;
+using System.IO;
 
 namespace DevTools.WebUI
 {
@@ -30,10 +29,11 @@ namespace DevTools.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string rootPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+
             services.AddSingleton<HomeViewModel>();
             services.AddSingleton<ScaffoldDbContextProfilesViewModel>();
-            services.AddTransient(typeof(IConsoleService), typeof(ConsoleService));
-            services.AddTransient(typeof(IDataService), typeof(DataService));
+            services.AddSingleton(typeof(IMefFactory), new MefFactory(rootPath));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 
