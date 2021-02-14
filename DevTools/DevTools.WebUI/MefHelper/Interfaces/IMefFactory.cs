@@ -7,6 +7,8 @@ namespace DevTools.WebUI.MefHelper.Interfaces
 {
     public interface IMefFactory : IDisposable
     {
+        Lazy<T> GetExport<T>();
+
         T GetExportedValue<T>();
     }
 }

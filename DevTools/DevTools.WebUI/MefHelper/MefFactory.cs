@@ -25,6 +25,11 @@ namespace DevTools.WebUI.MefHelper
             container?.Dispose();
         }
 
+        public Lazy<T> GetExport<T>()
+        {
+            return container.GetExport<T>();
+        }
+
         public T GetExportedValue<T>()
         {
             return container.GetExportedValue<T>();
