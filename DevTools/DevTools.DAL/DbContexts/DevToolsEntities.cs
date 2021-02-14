@@ -35,30 +35,17 @@ namespace DevTools.DAL.DbContexts
 
             modelBuilder.Entity<DevToolsObject>(entity =>
             {
-                entity.ToTable("DevToolsObject");
-
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
+                entity.Property(e => e.CreatedBy).IsUnicode(false);
 
                 entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
+                entity.Property(e => e.ModifiedBy).IsUnicode(false);
 
                 entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ObjectJson)
-                    .IsRequired()
-                    .IsUnicode(false);
+                entity.Property(e => e.ObjectJson).IsUnicode(false);
 
-                entity.Property(e => e.ObjectType)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
+                entity.Property(e => e.ObjectType).IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

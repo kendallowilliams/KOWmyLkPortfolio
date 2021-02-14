@@ -36,9 +36,8 @@ namespace DevTools.BLL.Models
         public bool NoPluralize { get; set; }
         public string Project { get; set; }
         public string StartupProject { get; set; }
-        public bool Verbose { get; set; }
 
-        public string BuildArgumentList()
+        public string BuildArgumentList(string configuration, bool verbose)
         {
             List<string> argumentLists = new List<string>();
             string tableNames = string.Join(" ", (Tables ?? Enumerable.Empty<string>()).Select(table => $"-t {table}")),
@@ -60,7 +59,8 @@ namespace DevTools.BLL.Models
             if (UseDatabaseNames) /*then*/ argumentLists.Add("--use-database-names");
             if (NoOnConfiguring) /*then*/ argumentLists.Add("--no-onconfiguring");
             if (NoPluralize) /*then*/ argumentLists.Add("--no-pluralize");
-            if (Verbose) /*then*/ argumentLists.Add("--verbose");
+            if (verbose) /*then*/ argumentLists.Add("--verbose");
+            argumentLists.Add($"--configuration {configuration}");
             arguments = string.Join(" ", argumentLists);
 
             return arguments;

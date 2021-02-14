@@ -27,6 +27,8 @@ namespace DevTools.BLL.Models
         [Required]
         public string StartupProjectLocation { get; set; }
 
+        public bool Verbose { get; set; }
+
         [Required]
         public string BuildConfiguration { get; set; }
 
@@ -41,6 +43,52 @@ namespace DevTools.BLL.Models
             errors = results.Select(error => error.ErrorMessage);
 
             return isValid;
+        }
+
+        public string GetProjectBuildArguments(string outputPath)
+        {
+            IEnumerable<string> args = Enumerable.Empty<string>();
+
+            args = args.Append($"build \"{ProjectLocation}\"");
+            args = args.Append($"--output \"{outputPath}\"");
+            args = args.Append($"--configuration {BuildConfiguration}");
+            if (Verbose) /*then*/ args = args.Append($"--verbose");
+
+            return string.Join(" ", args);
+        }
+
+        public string GetStartupProjectBuildArguments(string outputPath)
+        {
+            IEnumerable<string> args = Enumerable.Empty<string>();
+
+            args = args.Append($"build \"{StartupProjectLocation}\"");
+            args = args.Append($"--output \"{outputPath}\"");
+            args = args.Append($"--configuration {BuildConfiguration}");
+            if (Verbose) /*then*/ args = args.Append($"--verbose");
+
+            return string.Join(" ", args);
+        }
+
+        public string GetProjectCleanArguments()
+        {
+            IEnumerable<string> args = Enumerable.Empty<string>();
+
+            args = args.Append($"clean \"{ProjectLocation}\"");
+            args = args.Append($"--configuration {BuildConfiguration}");
+            if (Verbose) /*then*/ args = args.Append($"--verbosity detailed");
+
+            return string.Join(" ", args);
+        }
+
+        public string GetStartupProjectCleanArguments()
+        {
+            IEnumerable<string> args = Enumerable.Empty<string>();
+
+            args = args.Append($"clean \"{StartupProjectLocation}\"");
+            args = args.Append($"--configuration {BuildConfiguration}");
+            if (Verbose) /*then*/ args = args.Append($"--verbosity detailed");
+
+            return string.Join(" ", args);
         }
     }
 }
