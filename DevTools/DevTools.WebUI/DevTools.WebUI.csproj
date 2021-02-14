@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DevTools.BLL\DevTools.BLL.csproj" />
-    <ProjectReference Include="..\DevTools.DAL\DevTools.DAL\DevTools.DAL.csproj" />
+    <ProjectReference Include="..\DevTools.DAL\DevTools.DAL.csproj" />
   </ItemGroup>
 
 </Project>

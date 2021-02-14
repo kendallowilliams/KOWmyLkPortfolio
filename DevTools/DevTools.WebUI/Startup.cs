@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DevTools.BLL.Services;
+using DevTools.BLL.Services.Interfaces;
+using DevTools.DAL.Services;
+using DevTools.DAL.Services.Interfaces;
+using DevTools.WebUI.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +30,11 @@ namespace DevTools.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<ScaffoldDbContextProfilesViewModel>();
+            services.AddTransient(typeof(IConsoleService), typeof(ConsoleService));
+            services.AddTransient(typeof(IDataService), typeof(DataService));
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

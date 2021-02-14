@@ -26,6 +26,6 @@ namespace DevTools.BLL.Models
         [Required]
         public string StartupProjectLocation { get; set; }
 
-        public IScaffoldDbContextConfig ScaffoldDbContextConfig { get; set; }
+        public ScaffoldDbContextConfig ScaffoldDbContextConfig { get; set; }
     }
 }

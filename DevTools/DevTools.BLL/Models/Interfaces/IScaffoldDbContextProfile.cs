@@ -14,6 +14,6 @@ namespace DevTools.BLL.Models.Interfaces
 
         string StartupProjectLocation { get; set; }
 
-        IScaffoldDbContextConfig ScaffoldDbContextConfig { get; set; }
+        ScaffoldDbContextConfig ScaffoldDbContextConfig { get; set; }
     }
 }
