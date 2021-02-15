@@ -3,7 +3,7 @@ using DevTools.BLL.Services.Interfaces;
 using DevTools.DAL.DbContexts;
 using DevTools.DAL.Models;
 using DevTools.DAL.Services.Interfaces;
-using DevTools.WebUI.MefHelper.Interfaces;
+using DevTools.DLL.Services.Interfaces;
 using DevTools.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -24,11 +24,11 @@ namespace DevTools.WebUI.Controllers
         private readonly IDataService dataService;
         private readonly IConsoleService consoleService;
 
-        public ScaffoldDbContextProfilesController(ScaffoldDbContextProfilesViewModel scaffoldDbContextProfilesViewModel, IMefFactory mefFactory) : base(scaffoldDbContextProfilesViewModel)
+        public ScaffoldDbContextProfilesController(ScaffoldDbContextProfilesViewModel scaffoldDbContextProfilesViewModel, IMefService mefService) : base(scaffoldDbContextProfilesViewModel)
         {
             this.scaffoldDbContextProfilesViewModel = scaffoldDbContextProfilesViewModel;
-            consoleService = mefFactory.GetExportedValue<IConsoleService>();
-            dataService = mefFactory.GetExportedValue<IDataService>();
+            consoleService = mefService.GetExportedValue<IConsoleService>();
+            dataService = mefService.GetExportedValue<IDataService>();
         }
 
         public async Task<IActionResult> Index(Guid? id)

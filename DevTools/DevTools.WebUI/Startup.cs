@@ -1,4 +1,4 @@
-﻿using DevTools.WebUI.MefHelper.Interfaces;
+﻿using DevTools.DLL.Services.Interfaces;
 using DevTools.WebUI.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DevTools.WebUI.MefHelper;
+using DevTools.DLL.Services;
 using System.IO;
 
 namespace DevTools.WebUI
@@ -31,9 +31,9 @@ namespace DevTools.WebUI
         {
             string rootPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
-            services.AddSingleton<HomeViewModel>();
-            services.AddSingleton<ScaffoldDbContextProfilesViewModel>();
-            services.AddSingleton(typeof(IMefFactory), new MefFactory(rootPath));
+            services.AddTransient<HomeViewModel>();
+            services.AddTransient<ScaffoldDbContextProfilesViewModel>();
+            services.AddSingleton(typeof(IMefService), new MefService(rootPath));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 
