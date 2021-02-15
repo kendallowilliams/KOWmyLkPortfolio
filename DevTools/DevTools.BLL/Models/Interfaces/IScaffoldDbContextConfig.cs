@@ -22,7 +22,8 @@ namespace DevTools.BLL.Models.Interfaces
         bool NoPluralize { get; set; }
         string Project { get; set; }
         string StartupProject { get; set; }
+        bool Verbose { get; set; }
 
-        string BuildArgumentList(string configuration, bool verbose);
+        string BuildArgumentList(string configuration);
     }
 }

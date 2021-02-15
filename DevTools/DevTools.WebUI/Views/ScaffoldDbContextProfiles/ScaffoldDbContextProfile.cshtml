@@ -35,10 +35,6 @@
                         <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Build Configuration</span></div>
                         @Html.TextBoxFor(x => x.BuildConfiguration, new { @class = "form-control" })
                     </div>
-                    <div class="form-check form-check-inline">
-                        @Html.CheckBoxFor(x => x.Verbose, new { @class = "form-check-input" })
-                        @Html.LabelFor(x => x.Verbose, "Verbose", new { @class = "form-check-label" })
-                    </div>
                 </div>
             </div>
             <div class="row m-0 mb-3">
@@ -136,25 +132,29 @@
                         </div>
                     </div>
                     <div class="d-flex flex-wrap">
-                        <div class="form-check form-check-inline mb-3">
+                        <div class="form-check form-check-inline">
                             @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.DataAnnotations, new { @class = "form-check-input" })
                             @Html.LabelFor(x => x.ScaffoldDbContextConfig.DataAnnotations, "Data Annotations", new { @class = "form-check-label" })
                         </div>
-                        <div class="form-check form-check-inline mb-3">
+                        <div class="form-check form-check-inline">
                             @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.Force, new { @class = "form-check-input" })
                             @Html.LabelFor(x => x.ScaffoldDbContextConfig.Force, "Force", new { @class = "form-check-label" })
                         </div>
-                        <div class="form-check form-check-inline mb-3">
+                        <div class="form-check form-check-inline">
                             @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.UseDatabaseNames, new { @class = "form-check-input" })
                             @Html.LabelFor(x => x.ScaffoldDbContextConfig.UseDatabaseNames, "Use Database Names", new { @class = "form-check-label" })
                         </div>
-                        <div class="form-check form-check-inline mb-3">
+                        <div class="form-check form-check-inline">
                             @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.NoOnConfiguring, new { @class = "form-check-input" })
                             @Html.LabelFor(x => x.ScaffoldDbContextConfig.NoOnConfiguring, "No OnConfiguring (EF Core 5.0)", new { @class = "form-check-label" })
                         </div>
-                        <div class="form-check form-check-inline mb-3">
+                        <div class="form-check form-check-inline">
                             @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.NoPluralize, new { @class = "form-check-input" })
                             @Html.LabelFor(x => x.ScaffoldDbContextConfig.NoPluralize, "No Pluralize (EF Core 5.0)", new { @class = "form-check-label" })
+                        </div>
+                        <div class="form-check form-check-inline">
+                            @Html.CheckBoxFor(x => x.ScaffoldDbContextConfig.Verbose, new { @class = "form-check-input" })
+                            @Html.LabelFor(x => x.ScaffoldDbContextConfig.Verbose, "Verbose", new { @class = "form-check-label" })
                         </div>
                     </div>
                 </div>

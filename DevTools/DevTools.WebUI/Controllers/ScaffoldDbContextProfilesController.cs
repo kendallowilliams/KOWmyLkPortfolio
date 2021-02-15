@@ -129,7 +129,7 @@ namespace DevTools.WebUI.Controllers
             profile.ScaffoldDbContextConfig.StartupProject = Path.Combine(localPath, profile.ScaffoldDbContextConfig.StartupProject);
             builder.AppendLine(consoleService.Execute("dotnet", profile.GetProjectCleanArguments()));
             builder.AppendLine(consoleService.Execute("dotnet", profile.GetStartupProjectCleanArguments()));
-            builder.AppendLine(consoleService.Execute("dotnet", $"ef dbcontext scaffold {profile.ScaffoldDbContextConfig.BuildArgumentList(profile.BuildConfiguration, profile.Verbose)}"));
+            builder.AppendLine(consoleService.Execute("dotnet", $"ef dbcontext scaffold {profile.ScaffoldDbContextConfig.BuildArgumentList(profile.BuildConfiguration)}"));
             builder.AppendLine();
             builder.AppendLine(consoleService.Execute("dotnet", profile.GetProjectBuildArguments(outputPath)));
             System.IO.File.WriteAllText(Path.Combine(outputPath, "log.txt"), builder.ToString());
