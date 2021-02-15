@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DevTools.WebUI.MefHelper.Interfaces
+namespace DevTools.DLL.Services.Interfaces
 {
-    public interface IMefFactory : IDisposable
+    public interface IMefService : IDisposable
     {
         Lazy<T> GetExport<T>();
 

@@ -1,19 +1,19 @@
-﻿using DevTools.WebUI.MefHelper.Interfaces;
+﻿using DevTools.DLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DevTools.WebUI.MefHelper
+namespace DevTools.DLL.Services
 {
-    public class MefFactory : IMefFactory
+    public class MefService : IMefService
     {
         private CompositionContainer container;
         private string pluginPath;
         private DirectoryCatalog catalog;
 
-        public MefFactory(string pluginPath)
+        public MefService(string pluginPath)
         {
             this.pluginPath = pluginPath;
             catalog = new DirectoryCatalog(pluginPath);
