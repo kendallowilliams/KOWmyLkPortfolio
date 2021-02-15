@@ -35,6 +35,10 @@
                         <div class="input-group-prepend"><span class="input-group-text" style="width: 150px">Build Configuration</span></div>
                         @Html.TextBoxFor(x => x.BuildConfiguration, new { @class = "form-control" })
                     </div>
+                    <div class="form-check form-check-inline">
+                        @Html.CheckBoxFor(x => x.Verbose, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.Verbose, "Verbose", new { @class = "form-check-label" })
+                    </div>
                 </div>
             </div>
             <div class="row m-0 mb-3">
