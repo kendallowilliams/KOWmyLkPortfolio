@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DevTools.DLL.Services.Interfaces
+namespace DevTools.BLL.Services.Interfaces
 {
     public interface IMefService : IDisposable
     {

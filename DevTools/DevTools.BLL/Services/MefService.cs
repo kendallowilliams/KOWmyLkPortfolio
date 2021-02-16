@@ -1,11 +1,11 @@
-﻿using DevTools.DLL.Services.Interfaces;
+﻿using DevTools.BLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DevTools.DLL.Services
+namespace DevTools.BLL.Services
 {
     public class MefService : IMefService
     {

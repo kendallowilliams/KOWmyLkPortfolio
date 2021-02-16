@@ -3,7 +3,6 @@ using DevTools.BLL.Services.Interfaces;
 using DevTools.DAL.DbContexts;
 using DevTools.DAL.Models;
 using DevTools.DAL.Services.Interfaces;
-using DevTools.DLL.Services.Interfaces;
 using DevTools.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -111,43 +110,9 @@ namespace DevTools.WebUI.Controllers
             if (profile != null) /*then*/ await dataService.Delete<DevToolsEntities, DevToolsObject>(profile.Id);
         }
 
-        public async Task<IActionResult> Process(Guid id)
+        public void Process(Guid id)
         {
-            ScaffoldDbContextProfile profile = await dataService.Get<DevToolsEntities, DevToolsObject>(item => item.ObjectId == id &&
-                                                                                                               item.ObjectType == nameof(DevToolsObjectType.ScaffoldDbContextProfile))
-                                                                .ContinueWith(task => task.Result?.GetObject<ScaffoldDbContextProfile>());
-            string tempFolder = Path.GetTempPath(),
-                    localPath = Path.Combine(tempFolder, Guid.NewGuid().ToString("N")),
-                    outputPath = Path.Combine(localPath, "Output"),
-                    safeProfileName = new string(profile.Name.Select(ch => Path.GetInvalidFileNameChars().Contains(ch) ? '_' : ch).ToArray()),
-                    dateTimeFormat = "yyyyMMdd_HHmmss",
-                    outputFile = Path.Combine(outputPath, $"{safeProfileName}_{DateTime.Now.ToString(dateTimeFormat)}.zip");
-            StringBuilder builder = new StringBuilder();
 
-            Directory.CreateDirectory(localPath);
-            profile.ScaffoldDbContextConfig.Project = Path.Combine(localPath, profile.ScaffoldDbContextConfig.Project);
-            profile.ScaffoldDbContextConfig.StartupProject = Path.Combine(localPath, profile.ScaffoldDbContextConfig.StartupProject);
-            builder.AppendLine(consoleService.Execute("dotnet", profile.GetProjectCleanArguments()));
-            builder.AppendLine(consoleService.Execute("dotnet", profile.GetStartupProjectCleanArguments()));
-            builder.AppendLine(consoleService.Execute("dotnet", $"ef dbcontext scaffold {profile.ScaffoldDbContextConfig.BuildArgumentList(profile.BuildConfiguration)}"));
-            builder.AppendLine();
-            builder.AppendLine(consoleService.Execute("dotnet", profile.GetProjectBuildArguments(outputPath)));
-            System.IO.File.WriteAllText(Path.Combine(outputPath, "log.txt"), builder.ToString());
-
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var ziparchive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
-                {
-                    foreach (string file in Directory.EnumerateFiles(outputPath))
-                    {
-                        ziparchive.CreateEntryFromFile(file, Path.GetFileName(file));
-                    }
-                }
-
-                System.IO.File.WriteAllBytes(outputFile, memoryStream.ToArray());
-            }
-
-            return PhysicalFile(outputFile, "application/zip", Path.GetFileName(outputFile));
         }
     }
 }
