@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DevTools.DAL\DevTools.DAL.csproj" />
+    <ProjectReference Include="..\DevTools.Shared\DevTools.Shared.csproj" />
   </ItemGroup>
 
 </Project>

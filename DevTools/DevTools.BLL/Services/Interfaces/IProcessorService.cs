@@ -7,8 +7,8 @@ namespace DevTools.BLL.Services.Interfaces
 {
     public interface IProcessorService
     {
-        Task ProcessScaffoldDbContexts();
+        Task ProcessScaffoldDbContextItems();
 
-        Task ProcessScaffoldDbContextItem(Guid id);
+        void CleanDirectory(string directory);
     }
 }

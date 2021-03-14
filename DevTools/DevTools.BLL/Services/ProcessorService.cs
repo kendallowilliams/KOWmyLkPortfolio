@@ -11,7 +11,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static DevTools.DAL.Enums;
+using static DevTools.Shared.Enums;
 
 namespace DevTools.BLL.Services
 {
@@ -20,25 +20,28 @@ namespace DevTools.BLL.Services
     {
         private readonly IDataService dataService;
         private readonly IConsoleService consoleService;
+        private readonly string localPath;
 
         [ImportingConstructor]
         public ProcessorService(IDataService dataService, IConsoleService consoleService)
         {
             this.dataService = dataService;
             this.consoleService = consoleService;
+            localPath = WorkingDirectory;
         }
 
-        public async Task ProcessScaffoldDbContextItem(Guid id)
+        public static string WorkingDirectory { get => Path.Combine(Path.GetTempPath(), "DevTools"); }
+
+        public async Task ProcessScaffoldDbContextItem(DevToolsProcessorItem item)
         {
-            ScaffoldDbContextProfile profile = await dataService.Get<DevToolsEntities, DevToolsObject>(item => item.ObjectId == id &&
+            Guid profileId = item.GetRequest<Guid>();
+            ScaffoldDbContextProfile profile = await dataService.Get<DevToolsEntities, DevToolsObject>(item => item.ObjectId == profileId &&
                                                                                                                item.ObjectType == nameof(DevToolsObjectType.ScaffoldDbContextProfile))
                                                                 .ContinueWith(task => task.Result?.GetObject<ScaffoldDbContextProfile>());
-            string tempFolder = Path.GetTempPath(),
-                    localPath = Path.Combine(tempFolder, Guid.NewGuid().ToString("N")),
-                    outputPath = Path.Combine(localPath, "Output"),
-                    safeProfileName = new string(profile.Name.Select(ch => Path.GetInvalidFileNameChars().Contains(ch) ? '_' : ch).ToArray()),
-                    dateTimeFormat = "yyyyMMdd_HHmmss",
-                    outputFile = Path.Combine(outputPath, $"{safeProfileName}_{DateTime.Now.ToString(dateTimeFormat)}.zip");
+            string outputPath = Path.Combine(localPath, "Output"),
+                   safeProfileName = new string(profile.Name.Select(ch => Path.GetInvalidFileNameChars().Contains(ch) ? '_' : ch).ToArray()),
+                   dateTimeFormat = "yyyyMMdd_HHmmss",
+                   outputFile = Path.Combine(outputPath, $"{safeProfileName}_{DateTime.Now.ToString(dateTimeFormat)}.zip");
             StringBuilder builder = new StringBuilder();
 
             Directory.CreateDirectory(localPath);
@@ -65,8 +68,44 @@ namespace DevTools.BLL.Services
             }
         }
 
-        public async Task ProcessScaffoldDbContexts()
+        public async Task ProcessScaffoldDbContextItems()
         {
+            IEnumerable<DevToolsProcessorItem> items = await dataService.GetList<DevToolsEntities, DevToolsProcessorItem>(item => item.Status == nameof(Status.Created) && 
+                                                                                                                                  item.RequestType == nameof(ProcessorItemType.ScaffoldDbContextProfile));
+            foreach(var item in items)
+            {
+                try
+                {
+                    await ProcessScaffoldDbContextItem(item);
+                }
+                catch (Exception ex)
+                {
+                    item.ModifiedBy = "SYSTEM";
+                    item.EndedOn = item.ModifiedOn = DateTime.Now;
+                    item.IsError = true;
+                    item.Message = ex.Message;
+                    await dataService.Update<DevToolsEntities, DevToolsProcessorItem>(item);
+                }
+            }
+        }
+
+        public void CleanDirectory(string directory)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(directory);
+
+            if (dirInfo.Exists)
+            {
+                foreach(var fileInfo in dirInfo.GetFiles())
+                {
+                    fileInfo.Delete();
+                }
+
+                foreach (var subDirInfo in dirInfo.GetDirectories())
+                {
+                    CleanDirectory(directory);
+                    subDirInfo.Delete(true);
+                }
+            }
         }
     }
 }

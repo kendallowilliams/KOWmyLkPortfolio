@@ -6,16 +6,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
+    <base href="@Url.Content("~")" />
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <script src="~/lib/require.js/require.js"></script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <script src="~/lib/require.js/require.min.js"></script>
     </environment>
 </head>
 <body>
@@ -31,6 +34,9 @@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="ScaffoldDbContextProfiles" asp-action="Index" class="nav-link">Scaffold DbContexts Profiles</a>
                         </li>
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Settings" asp-action="Index" class="nav-link">Settings</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -45,25 +51,14 @@
         </footer>
     </div>
     <environment include="Development">
-        <script src="~/lib/jquery/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-        <script src="~/lib/font-awesome/js/all.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="~/lib/jquery/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/lib/font-awesome/js/all.min.js"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
-    <script type="text/javascript">
-        function showLoading() { $('#loadingModal').modal('show'); }
-        function hideLoading() { $('#loadingModal').modal('hide'); }
-    </script>
-
     <!-- Modal -->
-    <div class="modal" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal" id="loading-modal" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-body text-center">
                 <div class="spinner-border text-primary m-5" role="status">
@@ -75,5 +70,20 @@
     <!-- END LOADING MODAL -->
 
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript" defer="defer">
+        requirejs.config({
+            baseUrl: '@(Url.Content("~/lib/app"))',
+            paths: {
+                jquery: '../jquery/jquery.min',
+                bootstrap: '../bootstrap/dist/js/bootstrap.bundle.min'
+            },
+            deps: ['jquery', 'bootstrap']
+        });
+
+        requirejs(['jquery', 'bootstrap', 'app'], function (jquery, bootstrap, App) {
+            const app = new App.default();
+        });
+    </script>
 </body>
 </html>

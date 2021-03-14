@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevTools.Console", "DevTool
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevTools.DAL", "DevTools\DevTools.DAL\DevTools.DAL.csproj", "{97C81516-6C54-47E0-98A3-160A71B68EAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTools.Shared", "DevTools\DevTools.Shared\DevTools.Shared.csproj", "{CC08FA8A-CCC0-4C6A-8FEC-541209448085}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,12 @@ Global
 		{97C81516-6C54-47E0-98A3-160A71B68EAA}.Demo|Any CPU.Build.0 = Debug|Any CPU
 		{97C81516-6C54-47E0-98A3-160A71B68EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97C81516-6C54-47E0-98A3-160A71B68EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC08FA8A-CCC0-4C6A-8FEC-541209448085}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC08FA8A-CCC0-4C6A-8FEC-541209448085}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC08FA8A-CCC0-4C6A-8FEC-541209448085}.Demo|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC08FA8A-CCC0-4C6A-8FEC-541209448085}.Demo|Any CPU.Build.0 = Debug|Any CPU
+		{CC08FA8A-CCC0-4C6A-8FEC-541209448085}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC08FA8A-CCC0-4C6A-8FEC-541209448085}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +126,7 @@ Global
 		{4817BE1B-7E00-4EB7-B947-49E46DF0FB2C} = {5238688D-B9EA-408B-A08E-075683689647}
 		{39699453-C8DC-44FE-9C09-EA599C375DA4} = {5238688D-B9EA-408B-A08E-075683689647}
 		{97C81516-6C54-47E0-98A3-160A71B68EAA} = {5238688D-B9EA-408B-A08E-075683689647}
+		{CC08FA8A-CCC0-4C6A-8FEC-541209448085} = {5238688D-B9EA-408B-A08E-075683689647}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7A9F0CCC-CAA6-46B5-8752-56AFB49C4FF0}

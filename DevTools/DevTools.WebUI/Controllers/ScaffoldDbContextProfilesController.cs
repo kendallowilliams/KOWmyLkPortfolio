@@ -13,7 +13,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static DevTools.DAL.Enums;
+using static DevTools.Shared.Enums;
 
 namespace DevTools.WebUI.Controllers
 {
@@ -110,9 +110,21 @@ namespace DevTools.WebUI.Controllers
             if (profile != null) /*then*/ await dataService.Delete<DevToolsEntities, DevToolsObject>(profile.Id);
         }
 
-        public void Process(Guid id)
+        public async Task Process(Guid id)
         {
+            DateTime timestamp = DateTime.Now;
+            DevToolsProcessorItem item = new DevToolsProcessorItem()
+            {
+                RequestType = nameof(ProcessorItemType.ScaffoldDbContextProfile),
+                RequestJson = JsonConvert.SerializeObject(id),
+                Status = nameof(Status.Created),
+                CreatedBy = HttpContext.Connection.RemoteIpAddress.ToString(),
+                ModifiedBy = HttpContext.Connection.RemoteIpAddress.ToString(),
+                CreatedOn = timestamp,
+                ModifiedOn = timestamp
+            };
 
+            await dataService.Insert<DevToolsEntities, DevToolsProcessorItem>(item);
         }
     }
 }

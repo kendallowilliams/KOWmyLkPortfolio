@@ -61,6 +61,11 @@
         "sprites/regular.svg",
         "sprites/solid.svg"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "require.js@2.3.6",
+      "destination": "wwwroot/lib/require.js/"
     }
   ]
 }

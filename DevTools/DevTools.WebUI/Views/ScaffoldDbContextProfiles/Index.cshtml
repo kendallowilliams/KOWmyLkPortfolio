@@ -11,129 +11,22 @@
                 <h5>Scaffold DbContext Profiles</h5>
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#newScaffoldDbContextProfileModal"><i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#add-scaffold-db-context-profile-modal"><i class="fa fa-plus"></i></button>
             </div>
         </div>
         <hr />
         <div class="list-group">
             @foreach (var profile in Model.ScaffoldDbContextProfiles.OrderBy(item => item.Name))
             {
-                <button type="button" class="list-group-item list-group-item-action text-truncate m-0 p-1" data-profile-id="@(profile.Id)"
-                        onclick="loadProfile('@profile.Id')" title="@profile.Name" data-toggle="tooltip">
-                    @profile.Name
-                    </button>
+                <button type="button" class="list-group-item list-group-item-action text-truncate m-0 p-1 @(profile.Id == Model.SelectedProfileId ? "active" : string.Empty)" 
+                        data-profile-id="@(profile.Id)" title="@profile.Name" data-toggle="tooltip">@profile.Name</button>
                 }
         </div>
     </div>
-    <div class="col-9 d-flex flex-column h-100" style="overflow-y: auto" data-container="ProfileContainer"></div>
+    <div class="col-9 d-flex flex-column h-100" style="overflow-y: auto" data-container="ScaffoldDbContextProfilesContainer"></div>
 </div>
 
 <partial name="~/Views/ScaffoldDbContextProfiles/Modals/AddScaffoldDbContextProfileModal.cshtml" />
 
 @section scripts {
-    <script type="text/javascript" defer="defer">
-        $(function () {
-            const $selectedProfile = $('[data-profile-id="@Model.SelectedProfileId"]'),
-                $firstProfile = $('[data-profile-id]').first();
-
-            if ($selectedProfile.length > 0) /*then*/ $selectedProfile.trigger('click');
-            else $firstProfile.trigger('click');
-
-            $('#newScaffoldDbContextProfileModal').find('[data-button="Add"]').on('click', function (e) {
-                const profileName = $('#newScaffoldDbContextProfileModal').find('input').val();
-
-                $('#newScaffoldDbContextProfileModal').modal('hide');
-                addProfile(profileName); 
-            });
-            $('#newScaffoldDbContextProfileModal').on('show.bs.modal', function (e) {
-                const $modal = $(e.currentTarget);
-
-                $modal.find('input').val('');
-            });
-        });
-
-        function loadProfile(id) {
-            showLoading();
-            $('[data-container="ProfileContainer"]').load('@Url.Action(nameof(ScaffoldDbContextProfilesController.ScaffoldDbContextProfile), "ScaffoldDbContextProfiles")?id=' + id, function () {
-                $('[data-toggle="tooltip"]').tooltip('dispose');
-                $('[data-profile-id]').removeClass('active');
-                $('[data-profile-id="' + id + '"]').addClass('active');
-                $('[data-toggle="tooltip"]').tooltip();
-                hideLoading();
-            });
-        }
-
-        function addTable() {
-            const $table = $('#txtTableName'),
-                table = $table.val(),
-                $list = $('#lstTables'),
-                $newTable = $('[data-template="TableTemplate"]').clone();
-
-            if (table) {
-                $list.append('<option selected="selected" data-saved="false">' + table + '</option>');
-                $newTable.removeClass('d-none').removeAttr('data-template').attr('data-saved', 'false').find('.input-group-text').text(table);
-                $('[data-container="TablesContainer"]').append($newTable);
-                $table.val('');
-            }
-        }
-
-        function deleteTable(row) {
-            const $row = $(row),
-                $list = $('#lstTables'),
-                table = $row.find('.input-group-text').text();
-
-            $row.remove();
-            $list.find('option:contains("' + table + '")').remove();
-        }
-
-        function resetProfile() {
-            const $form = $('[data-form="ScaffoldDbContextProfile"]');
-            
-            $form.each(function (index, element) {
-                element.reset();
-            });
-
-            $form.find('[data-saved="false"]').remove();
-        }
-
-        function addProfile(name) {
-            showLoading();
-            $.post('@Url.Action(nameof(ScaffoldDbContextProfilesController.AddScaffoldDbContextProfile), "ScaffoldDbContextProfiles")', { name: name }, function (data) {
-                window.location = '@Url.Action(nameof(ScaffoldDbContextProfilesController.Index), "ScaffoldDbContextProfiles")?id=' + data;
-            });
-        }
-
-        function deleteProfile(id) {
-            if (window.confirm('Please confirm that you want to delete this profile...')) {
-                showLoading();
-                $.post('@Url.Action(nameof(ScaffoldDbContextProfilesController.DeleteScaffoldDbContextProfile), "ScaffoldDbContextProfiles")', { id: id }, function (data) {
-                    window.location = '@Url.Action(nameof(ScaffoldDbContextProfilesController.Index), "ScaffoldDbContextProfiles")';
-                });
-            }
-        }
-
-        function saveProfile() {
-            const $form = $('[data-form="ScaffoldDbContextProfile"]'),
-                formData = new FormData($form.get(0)),
-                success = (data, status, xhr) => {
-                    $('[data-container="ProfileContainer"]').html(data);
-                    hideLoading();
-                },
-                error = (xhr, status, error) => {
-                    hideLoading();
-                    alert(status);
-                };
-            
-            showLoading();
-            $.ajax({
-                url: '@Url.Action(nameof(ScaffoldDbContextProfilesController.UpdateScaffoldDbContextProfile), "ScaffoldDbContextProfiles")',
-                data: formData,
-                processData: false,
-                contentType: false,
-                type: 'POST',
-                success: success,
-                error: error
-            });
-        }
-    </script>
 }

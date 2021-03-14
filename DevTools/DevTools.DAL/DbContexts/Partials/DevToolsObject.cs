@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using static DevTools.DAL.Enums;
+using static DevTools.Shared.Enums;
 
 namespace DevTools.DAL.Models
 {

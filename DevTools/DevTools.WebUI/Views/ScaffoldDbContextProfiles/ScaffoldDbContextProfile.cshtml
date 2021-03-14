@@ -108,19 +108,19 @@
                             <hr />
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend"><span class="input-group-text">Table</span></div>
-                                <input type="text" class="form-control" id="txtTableName" />
+                                <input type="text" class="form-control" id="txt-scaffold-db-context-table" />
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-primary" onclick="addTable()"><i class="fa fa-plus"></i></button>
+                                    <button type="button" class="btn btn-outline-primary" id="btn-add-scaffold-db-context-table"><i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-9">
                             @Html.ListBoxFor(x => x.ScaffoldDbContextConfig.Tables, new SelectList(Model.ScaffoldDbContextConfig.Tables), new { @class = "d-none", id = "lstTables" })
-                            <div class="d-flex flex-wrap flex-row" data-container="TablesContainer">
-                                <div class="input-group input-group-sm m-1 w-auto d-none" data-template="TableTemplate">
+                            <div class="d-flex flex-wrap flex-row" data-container="ScaffoldDbContextTableContainer">
+                                <div class="input-group input-group-sm m-1 w-auto d-none" data-template="ScaffoldDbContextTableTemplate">
                                     <div class="input-group-prepend"><span class="input-group-text"></span></div>
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-outline-danger" onclick="deleteTable(this.parentNode.parentNode)"><i class="fa fa-trash"></i></button>
+                                        <button type="button" class="btn btn-outline-danger" data-btn-delete="ScaffoldDbContextTable"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </div>
                                 @foreach (string table in Model.ScaffoldDbContextConfig.Tables)
@@ -128,7 +128,7 @@
                                     <div class="input-group input-group-sm m-1 w-auto">
                                         <div class="input-group-prepend"><span class="input-group-text">@table</span></div>
                                         <div class="input-group-append">
-                                            <button type="button" class="btn btn-outline-danger" onclick="deleteTable(this.parentNode.parentNode)"><i class="fa fa-trash"></i></button>
+                                            <button type="button" class="btn btn-outline-danger" data-btn-delete="ScaffoldDbContextTable"><i class="fa fa-trash"></i></button>
                                         </div>
                                     </div>
                                 }
@@ -167,11 +167,12 @@
         <div class="row m-0">
             <div class="col-3"></div>
             <div class="col-9 text-right p-1">
-                <button type="button" class="btn btn-sm btn-outline-primary" title="Save" data-toggle="tooltip" onclick="saveProfile()"><i class="fa fa-save"></i></button>
-                <button type="button" class="btn btn-sm btn-outline-primary" title="Undo" data-toggle="tooltip" onclick="resetProfile()"><i class="fa fa-undo"></i></button>
-                <button type="button" class="btn btn-sm btn-outline-danger mr-4" onclick="deleteProfile('@Model.Id')" title="Delete" data-toggle="tooltip"><i class="fa fa-trash"></i></button>
-                <a class="btn btn-sm btn-outline-primary" href="@Url.Action(nameof(ScaffoldDbContextProfilesController.Process), "ScaffoldDbContextProfiles", new { id = Model.Id })" 
-                   title="Run" data-toggle="tooltip" @(Model.IsValid(out IEnumerable<string> errors) ? string.Empty : "disabled='disabled'") target="_blank"><i class="fa fa-hdd"></i></a>
+                <button type="button" class="btn btn-sm btn-outline-primary" title="Save" data-toggle="tooltip" id="btn-save-scaffold-dbcontext-profile"><i class="fa fa-save"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-primary" title="Undo" data-toggle="tooltip" id="btn-undo-scaffold-dbcontext-profile"><i class="fa fa-undo"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger mr-4" title="Delete" data-toggle="tooltip" id="btn-delete-scaffold-dbcontext-profile"
+                        data-item-id="@Model.Id"><i class="fa fa-trash"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-primary" title="Run" data-toggle="tooltip" id="btn-run-scaffold-dbcontext-profile" 
+                        data-item-id="@Model.Id"><i class="fa fa-hdd"></i></button>
             </div>
         </div>
     </form>
