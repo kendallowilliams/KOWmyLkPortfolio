@@ -20,7 +20,7 @@ namespace DevTools.Console
             {
                 IProcessorService processorService = mefService.GetExportedValue<IProcessorService>();
 
-                await processorService.ProcessScaffoldDbContexts();
+                await processorService.ProcessScaffoldDbContextItems();
             }
         }
     }

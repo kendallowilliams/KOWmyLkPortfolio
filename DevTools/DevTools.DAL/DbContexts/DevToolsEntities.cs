@@ -19,6 +19,7 @@ namespace DevTools.DAL.DbContexts
         }
 
         public virtual DbSet<DevToolsObject> DevToolsObjects { get; set; }
+        public virtual DbSet<DevToolsProcessorItem> DevToolsProcessorItems { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -56,6 +57,39 @@ namespace DevTools.DAL.DbContexts
                     .IsUnicode(false);
 
                 entity.Property(e => e.ObjectType)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<DevToolsProcessorItem>(entity =>
+            {
+                entity.ToTable("DevToolsProcessorItem");
+
+                entity.Property(e => e.CreatedBy)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedOn).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Message).IsUnicode(false);
+
+                entity.Property(e => e.ModifiedBy)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ModifiedOn).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.RequestJson).IsUnicode(false);
+
+                entity.Property(e => e.RequestType)
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
                     .IsRequired()
                     .HasMaxLength(128)
                     .IsUnicode(false);
