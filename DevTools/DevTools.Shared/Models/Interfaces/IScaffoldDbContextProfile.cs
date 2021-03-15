@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DevTools.BLL.Models.Interfaces
+namespace DevTools.Shared.Models.Interfaces
 {
     public interface IScaffoldDbContextProfile
     {

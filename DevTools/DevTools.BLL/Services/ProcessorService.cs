@@ -1,4 +1,4 @@
-﻿using DevTools.BLL.Models;
+﻿using DevTools.Shared.Models;
 using DevTools.BLL.Services.Interfaces;
 using DevTools.DAL.DbContexts;
 using DevTools.DAL.Models;
@@ -38,20 +38,21 @@ namespace DevTools.BLL.Services
             ScaffoldDbContextProfile profile = await dataService.Get<DevToolsEntities, DevToolsObject>(item => item.ObjectId == profileId &&
                                                                                                                item.ObjectType == nameof(DevToolsObjectType.ScaffoldDbContextProfile))
                                                                 .ContinueWith(task => task.Result?.GetObject<ScaffoldDbContextProfile>());
+            DevToolsSettings settings = await dataService.Get<DevToolsEntities, DevToolsObject>(item => item.ObjectType == nameof(DevToolsObjectType))
+                                                         .ContinueWith(task => task.Result?.GetObject<DevToolsSettings>() ?? new DevToolsSettings());
             string outputPath = Path.Combine(localPath, "Output"),
                    safeProfileName = new string(profile.Name.Select(ch => Path.GetInvalidFileNameChars().Contains(ch) ? '_' : ch).ToArray()),
                    dateTimeFormat = "yyyyMMdd_HHmmss",
                    outputFile = Path.Combine(outputPath, $"{safeProfileName}_{DateTime.Now.ToString(dateTimeFormat)}.zip");
             StringBuilder builder = new StringBuilder();
 
-            Directory.CreateDirectory(localPath);
             profile.ScaffoldDbContextConfig.Project = Path.Combine(localPath, profile.ScaffoldDbContextConfig.Project);
             profile.ScaffoldDbContextConfig.StartupProject = Path.Combine(localPath, profile.ScaffoldDbContextConfig.StartupProject);
-            builder.AppendLine(consoleService.Execute("dotnet", profile.GetProjectCleanArguments()));
-            builder.AppendLine(consoleService.Execute("dotnet", profile.GetStartupProjectCleanArguments()));
-            builder.AppendLine(consoleService.Execute("dotnet", $"ef dbcontext scaffold {profile.ScaffoldDbContextConfig.BuildArgumentList(profile.BuildConfiguration)}"));
+            builder.AppendLine(consoleService.Execute(settings.DotNetExe, profile.GetProjectCleanArguments()));
+            builder.AppendLine(consoleService.Execute(settings.DotNetExe, profile.GetStartupProjectCleanArguments()));
+            builder.AppendLine(consoleService.Execute(settings.DotNetExe, $"ef dbcontext scaffold {profile.ScaffoldDbContextConfig.BuildArgumentList(profile.BuildConfiguration)}"));
             builder.AppendLine();
-            builder.AppendLine(consoleService.Execute("dotnet", profile.GetProjectBuildArguments(outputPath)));
+            builder.AppendLine(consoleService.Execute(settings.DotNetExe, profile.GetProjectBuildArguments(outputPath)));
             System.IO.File.WriteAllText(Path.Combine(outputPath, "log.txt"), builder.ToString());
 
             using (var memoryStream = new MemoryStream())

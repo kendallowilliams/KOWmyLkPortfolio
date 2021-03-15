@@ -1,4 +1,4 @@
-﻿using DevTools.BLL.Models;
+﻿using DevTools.Shared.Models;
 using DevTools.WebUI.Models.Interfaces;
 using System;
 using System.Collections.Generic;

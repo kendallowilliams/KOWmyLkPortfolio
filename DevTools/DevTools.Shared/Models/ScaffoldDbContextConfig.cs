@@ -1,11 +1,11 @@
-﻿using DevTools.BLL.Models.Interfaces;
+﻿using DevTools.Shared.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace DevTools.BLL.Models
+namespace DevTools.Shared.Models
 {
     public class ScaffoldDbContextConfig : IScaffoldDbContextConfig
     {

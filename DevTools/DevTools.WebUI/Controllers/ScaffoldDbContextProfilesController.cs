@@ -1,4 +1,4 @@
-﻿using DevTools.BLL.Models;
+﻿using DevTools.Shared.Models;
 using DevTools.BLL.Services.Interfaces;
 using DevTools.DAL.DbContexts;
 using DevTools.DAL.Models;

@@ -1,10 +1,7 @@
-define("assets/models/base-class", ["require", "exports", "jquery"], function (require, exports, jQuery) {
+define("assets/models/base-class", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class BaseClass {
-        constructor() {
-            this.$ = jQuery;
-        }
     }
     exports.default = BaseClass;
 });
