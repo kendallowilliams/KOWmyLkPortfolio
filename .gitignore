@@ -338,3 +338,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/DevTools/DevTools.WebUI/wwwroot/lib/app/app.js
