@@ -33,6 +33,7 @@ namespace DevTools.WebUI
 
             services.AddTransient<HomeViewModel>();
             services.AddTransient<ScaffoldDbContextProfilesViewModel>();
+            services.AddTransient<SettingsViewModel>();
             services.AddSingleton(typeof(IMefService), new MefService(rootPath));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
         }

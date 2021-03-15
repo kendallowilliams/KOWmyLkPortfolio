@@ -3,3 +3,25 @@
 @{
     ViewData["Title"] = "Settings";
 }
+
+<div class="h-100">
+    <h5>Settings</h5>
+    <hr />
+    <div class="row">
+        <div class="col-2 border-right">DotNet</div>
+        <div class="col-10">
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">dotnet</div>
+                </div>
+                @Html.TextBoxFor(x => x.DevToolsSettings.DotNetExe, new { @class = "form-control" })
+            </div>
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">dotnet-ef</div>
+                </div>
+                @Html.TextBoxFor(x => x.DevToolsSettings.DotNetEfExe, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>

@@ -84,11 +84,12 @@ export default class ScaffoldDbContextProfiles extends BaseClass {
             $table = $(inputs.TxtScaffoldDbContextTable),
             table = $table.val() as string,
             $list = $('#lstTables'),
-            $newTable = $(templates.ScaffoldDbContextTableTemplate).clone();
+            $newTable = $(templates.ScaffoldDbContextTableTemplate).clone(true);
 
         if (table) {
             $list.append('<option selected="selected" data-saved="false">' + table + '</option>');
-            $newTable.removeClass('d-none').removeAttr('data-template').attr('data-saved', 'false').find('.input-group-text').text(table);
+            $newTable.removeClass('d-none').removeAttr('data-template').attr('data-saved', 'false');
+            $newTable.find('.input-group-text').text(table);
             $(containers.ScaffoldDbContextsTableContainer).append($newTable);
             $table.val('');
         }
